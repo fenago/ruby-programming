@@ -18,31 +18,31 @@ Labs Overview
 Labs for this course are available at endpoints shared below. Update `<host-ip>` with the lab environment DNS.
 
 1. ##### Ruby under the microscope
-		* http://<host-ip>/lab/workspaces/
+		* http://<host-ip>/lab/workspaces/lab1_Ruby
 2. ##### Testing Ruby
-		* http://<host-ip>:<port>/lab/workspaces/
+		* http://<host-ip>/lab/workspaces/lab2_Testing
 3. ##### Scripting with Ruby
-		* http://<host-ip>:<port>/lab/workspaces/
+		* http://<host-ip>/lab/workspaces/lab3_Scripting
 4. ##### Ruby on Rails techniques
-		* http://<host-ip>:<port>/lab/workspaces/
-5. ##### WEB SERVICES READ IN LIVEcourse
-		* http://<host-ip>:<port>/lab/workspaces/
-6. ##### AUTOMATING COMMUNICATION
-		* http://<host-ip>:<port>/lab/workspaces/
+		* http://<host-ip>/lab/workspaces/lab4_Rails
+5. ##### Web Services Read In Livecourse
+		* http://<host-ip>/lab/workspaces/lab5_Services
+6. ##### Automating Communication
+		* http://<host-ip>/lab/workspaces/lab6_Communication
 7. #####  Asynchronous messaging
-		* http://<host-ip>:<port>/lab/workspaces/
+		* http://<host-ip>/lab/workspaces/lab7_messaging
 8. ##### Deployment
-		* http://<host-ip>:<port>/lab/workspaces/
+		* http://<host-ip>/lab/workspaces/lab8_Deployment
 9. ##### Database facilities and techniques
-		* http://<host-ip>:<port>/lab/workspaces/
+		* http://<host-ip>/lab/workspaces/lab9_Database
 10. ##### Structured documents
-		* http://<host-ip>:<port>/lab/workspaces/
+		* http://<host-ip>/lab/workspaces/lab10_documents
 11. ##### IDENTITY AND AUTHENTICATION
-		* http://<host-ip>:<port>/lab/workspaces/
+		* http://<host-ip>/lab/workspaces/lab11_IDENTITY
 12. ##### Searching and indexing
-		* http://<host-ip>:<port>/lab/workspaces/
-13. ##### Document processing and reporting
-		* http://<host-ip>:<port>/lab/workspaces/
+		* http://<host-ip>/lab/workspaces/lab12_Searching
+13. ##### Document processing and reporting2
+		* http://<host-ip>/lab/workspaces/lab13_Document
 
 
 ### About
