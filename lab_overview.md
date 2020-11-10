@@ -37,8 +37,8 @@ Labs for this course are available at endpoints shared below. Update `<host-ip>`
 		* http://<host-ip>/lab/workspaces/lab9_Database
 10. ##### Structured documents
 		* http://<host-ip>/lab/workspaces/lab10_documents
-11. ##### IDENTITY AND AUTHENTICATION
-		* http://<host-ip>/lab/workspaces/lab11_IDENTITY
+11. ##### Identity And Authentication
+		* http://<host-ip>/lab/workspaces/lab11_Authentication
 12. ##### Searching and indexing
 		* http://<host-ip>/lab/workspaces/lab12_Searching
 13. ##### Document processing and reporting2

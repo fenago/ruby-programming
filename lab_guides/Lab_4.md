@@ -1,32 +1,42 @@
+<img align="right" src="../logo.png">
 
 
-Chapter 4. Ruby on Rails techniques {#ch04}
+Lab 4. Ruby on Rails techniques
 ===================================
 
-### This chapter covers {.intro-header}
+### This lab covers
 
 -   Using third-party libraries with helpers
 -   Keeping code DRY using metaprogramming
 -   Sharing code using plugins and gems
 -   Benchmarking and profiling Rails applications
 
-“Another Ruby book that teaches Rails?” No, we’re not going that far!
-This chapter is not an introduction or tutorial on Rails; rather, it is
+“Another Ruby course that teaches Rails?” No, we’re not going that far!
+This lab is not an introduction or tutorial on Rails; rather, it is
 a discussion of techniques related to Ruby on Rails. There’s a
 middle-documentation problem that’s arisen in the Rails community, and
-this chapter is meant to fill a few of the gaps that many other books
+This lab is meant to fill a few of the gaps that many other courses
 and documentation sources leave open. We’ll cover extending the Rails
 framework, through library code, plugins, and more, and we’ll finish by
 talking about profiling your Rails code. Let’s start by looking at
 Rails’ helper mechanism.
 
-### 4.1. Extending Rails {#ch04lev1sec1}
+#### Pre-reqs:
+- Google Chrome (Recommended)
+
+#### Lab Environment
+Al labs are ready to run. All packages have been installed. There is no requirement for any setup.
+
+All exercises are present in `~/work/ruby-programming/` folder.
+
+
+### 4.1. Extending Rails
 
 A lot of Rails developers see the magic going on in Rails and wonder how
 to capture that same simplicity in their own helpers or other Ruby
 scripts. As we’ve found out, using metaprogramming (remember that from
-[chapter
-1](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01)?)
+[lab
+1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 along with a few of Rails’ built-in mechanisms will give you maximum
 syntactic sugar while also making it easy to develop.
 
@@ -38,7 +48,7 @@ of your overall application, but separate from its models, views, and
 controllers. Plugins are essentially libraries that are in a
 redistributable format.
 
-#### 4.1.1. Using helpers to expose Ruby libraries {#ch04lev2sec1}
+#### 4.1.1. Using helpers to expose Ruby libraries
 
 Surprisingly, many new Rails developers misunderstand the relationship
 between Ruby and Rails. Rails is written in Ruby, and as such can take
@@ -50,12 +60,12 @@ using convention over configuration, keeping code simple and DRY, and so
 forth. In this section, we’ll take one such general-purpose library and
 make it more Rails-friendly using helpers.
 
-##### Problem {#ch04lev3sec1}
+##### Problem
 
 You have an existing Ruby library that you would like to expose to a
 Rails application in a natural way.
 
-##### Solution {#ch04lev3sec2}
+##### Solution
 
 There are three main types of libraries or components we can create for
 Rails: a helper that lives in app/helpers, a library that lives in lib/,
@@ -109,7 +119,7 @@ something like the following:
 
 * * * * *
 
-##### Using Gems With Rails 2.1 or later {#ch04sb01}
+##### Using Gems With Rails 2.1 or later
 
 Rails 2.1 adds support for using Ruby gems as plugins and libraries. If
 you upgraded to Rails 2.1 or later, or you are starting a new project,
@@ -222,7 +232,7 @@ happen only once, so the performance hit is negligible.
 
 * * * * *
 
-##### Tip {#ch04note01}
+##### Tip
 
 If you develop this code into a full plugin, you can use the plugin’s
 install.rb file to copy over the CSS files during installation.
@@ -243,16 +253,16 @@ making our lives easier, we’ll create a custom method:
 Now, if we add that to the \<head\> of our view, the code in the view
 should be properly highlighted, and look something like what you see in
 [figure
-4.1](https://livebook.manning.com/book/ruby-in-practice/chapter-4/ch04fig01).
+4.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_4.md).
 
-##### Figure 4.1. The output from our syntax highlighting library {#ch04fig01}
+##### Figure 4.1. The output from our syntax highlighting library
 
-![](./1_files/04fig01.jpg)
+![](./images/04fig01.jpg)
 
 The final version of our syntax highlighting helper is shown in [listing
-4.1](https://livebook.manning.com/book/ruby-in-practice/chapter-4/ch04ex01).
+4.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_4.md).
 
-##### Listing 4.1. The whole Ultraviolet helper {#ch04ex01}
+##### Listing 4.1. The whole Ultraviolet helper
 
 ``` {.code-area}
 1require 'uv' module UvHelper  def code(code, format='xhtml', syntax='ruby',        line_numbers=false, theme='amy')   unless File.exist?("#{RAILS_ROOT}/public/stylesheets/syntax")    copy_files   end   Uv.parse(code, format, syntax, line_numbers, theme)  end private  def copy_files   Uv.copy_files 'xhtml', "#{RAILS_ROOT}/public/stylesheets"   File.rename "#{RAILS_ROOT}/public/stylesheets/css/",           "#{RAILS_ROOT}/public/stylesheets/syntax/"  end  def theme_stylesheet(theme='amy')   stylesheet_link_tag "syntax/#{theme}"  end end
@@ -263,7 +273,7 @@ The final version of our syntax highlighting helper is shown in [listing
 Our helper should be complete and ready to use in our application. No
 syntax is safe from our highlighting now!
 
-##### Discussion {#ch04lev3sec3}
+##### Discussion
 
 Helpers are a great way to expose third-party functionality to your
 application or to abstract your own logic to avoid duplication or a lot
@@ -291,7 +301,7 @@ your application? This is where other options, such as library code that
 lives in lib/ and plugins come in. These mechanisms can help deal with
 duplication in a number of other places in your application.
 
-#### 4.1.2. Metaprogramming away duplication {#ch04lev2sec2}
+#### 4.1.2. Metaprogramming away duplication
 
 A big part of the Rails design philosophy is DRY—Don’t Repeat
 Yourself—but it’s very easy to repeat yourself in a Rails application:
@@ -301,12 +311,12 @@ controllers. It takes a keen eye to see when to extract pieces of code
 into reusable elements, but once you see what needs to be extracted, you
 need to know what to do with it.
 
-##### Problem {#ch04lev3sec4}
+##### Problem
 
 You have a lot of code that is very similar in structure and function
 that you would like to consolidate as much as possible.
 
-##### Solution {#ch04lev3sec5}
+##### Solution
 
 When you are building more complex models, validations and other related
 calls can become quite large. One of Jeremy’s recent projects sported
@@ -334,23 +344,23 @@ unnecessary work.
 
 The better way is to metaprogram a little library to help you clean them
 up. [Listing
-4.2](https://livebook.manning.com/book/ruby-in-practice/chapter-4/ch04ex02)
+4.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_4.md)
 shows one such library. Place the code in a file (ours is named
 validates\_url.rb) in the lib/ folder.
 
-##### Listing 4.2. A URL validation library {#ch04ex02}
+##### Listing 4.2. A URL validation library
 
-![](./1_files/083fig01_alt.jpg)
+![](./images/083fig01_alt.jpg)
 
 Basically, what we’ve done in [listing
-4.2](https://livebook.manning.com/book/ruby-in-practice/chapter-4/ch04ex02)
+4.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_4.md)
 is to wrap the validations in a method, so we can simplify our code and
-call validates\_url on each attribute ![](./1_files/circle-1.jpg) we
+call validates\_url on each attribute ![](./images/circle-1.jpg) we
 want to validate. And since most often we’ll want to validate an
 attribute called url, we made that the default attribute name.
 
 Finally, we extend ActiveRecord::Base with our method so it’s available
-to all of our models ![](./1_files/circle-2.jpg). We extended the class,
+to all of our models ![](./images/circle-2.jpg). We extended the class,
 adding a new method we can call on the class itself. Specifying
 validation rules in Rails is done by calling methods on the class during
 its definition.
@@ -363,9 +373,9 @@ that as well, but we would use include instead of extend.
 So, the validates\_url method is now available to our models. Of course,
 we’ll remove the older validations so they don’t look like the model in
 [listing
-4.3](https://livebook.manning.com/book/ruby-in-practice/chapter-4/ch04ex03).
+4.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_4.md).
 
-##### Listing 4.3. Our model, pre-metaprogramming {#ch04ex03}
+##### Listing 4.3. Our model, pre-metaprogramming
 
 ``` {.code-area}
 1class Blog < ActiveRecord::Base  validates_presence_of :url  validates_length_of :url, :minimum => 12  validates_format_of :url, :with => /^((http|https):  (([A-Za-z0-9$_.+!*(),;\/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9]  [a-zA-Z0-9$_.+!*(),;\/?:@&~=%-]*))?([A-Za-z0-9$_+!*();\/?:~-]))/,    :message => "isn't a valid URL."   validates_presence_of :feed_url   validates_length_of :feed_url, :minimum => 12   validates_format_of :feed_url, :with => /^((http|https):  (([A-Za-z0-9$_.+!*(),;\/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9]  [a-zA-Z0-9$_.+!*(),;\/?:@&~=%-]*))?([A-Za-z0-9$_+!*();\/?:~-]))/,    :message => "isn't a valid URL." end
@@ -375,9 +385,9 @@ we’ll remove the older validations so they don’t look like the model in
 
 Instead, they’re cleaner and read much better, as you can see in
 [listing
-4.4](https://livebook.manning.com/book/ruby-in-practice/chapter-4/ch04ex04).
+4.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_4.md).
 
-##### Listing 4.4. Our metaprogrammed model {#ch04ex04}
+##### Listing 4.4. Our metaprogrammed model
 
 ``` {.code-area}
 1class Post < ActiveRecord::Base  validates_url  validates_url :feed_url end
@@ -388,30 +398,30 @@ Instead, they’re cleaner and read much better, as you can see in
 Using this sort of metaprogramming can shear off tons of code cruft
 that’s floating around in your applications.
 
-##### Discussion {#ch04lev3sec6}
+##### Discussion
 
 Metaprogramming in Ruby is a powerful concept, and it’s metaprogramming
 that gives Rails its real power. Methods like acts\_as\_list,
 ActiveRecord’s attribute mapping, and nearly every model-related plugin,
 depend on metaprogramming to function. In this example, we’ve only shown
 one side of metaprogramming. There are many more techniques we can use,
-some of which we’ll show later in this book.
+some of which we’ll show later in this course.
 
 Now let’s look at taking this sort of code and making it reusable.
 
-#### 4.1.3. Turning your code into reusable components {#ch04lev2sec3}
+#### 4.1.3. Turning your code into reusable components
 
 After a while, you will build a considerable toolkit of helpers and
 libraries, but what if you want to share those with your friends,
 family, fleeting acquaintances, and business colleagues? The easiest way
 to do that is to extract the code into a plugin.
 
-##### Problem {#ch04lev3sec7}
+##### Problem
 
 You’d like to share your recently metaprogrammed code with others as a
 plugin.
 
-##### Solution {#ch04lev3sec8}
+##### Solution
 
 In this section, we’ll extract the URL validation library into a plugin
 that we can distribute.
@@ -439,12 +449,12 @@ first Rails plugin!
 
 * * * * *
 
-##### Using gems to distribute Rails plugins {#ch04sb02}
+##### Using gems to distribute Rails plugins
 
 You can also use gems to distribute Rails plugins ([Rails 2.1 or
-later](https://livebook.manning.com/book/ruby-in-practice/chapter-4/ch04sb01)).
-We’ll discuss gem packaging and distribution in [chapter
-8](https://livebook.manning.com/book/ruby-in-practice/chapter-8/ch08),
+later](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_4.md).
+We’ll discuss gem packaging and distribution in [lab
+8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_8.md),
 but let’s look at the difference between gems and non-gem plugins.
 
 You can install gems system-wide and use them across all your
@@ -471,7 +481,7 @@ production.
 
 * * * * *
 
-##### Discussion {#ch04lev3sec9}
+##### Discussion
 
 As you can probably tell, Rails plugins are basically libraries and
 helpers that have explicit places for code hooks, an install/uninstall
@@ -501,7 +511,7 @@ accessible to developers using your plugin.
 
 Now let’s turn our attention to Rails performance.
 
-### 4.2. Rails performance {#ch04lev1sec2}
+### 4.2. Rails performance
 
 One of the sticking points for some developers, when it comes to Rails,
 is the performance. Of course, performance is a rather relative term
@@ -527,7 +537,7 @@ workings of your code. Rails provides a benchmarking helper just for
 this purpose, which is a really handy tool for simple analysis of pain
 points in your code.
 
-#### 4.2.1. Benchmarking a Rails application {#ch04lev2sec4}
+#### 4.2.1. Benchmarking a Rails application
 
 Benchmarking is a really easy way of getting a lot of data about the
 performance of your Rails applications. Rails offers two ways of getting
@@ -558,11 +568,11 @@ larger numbers. This is great for testing things outside the context of
 your application, but Rails also offers a simple helper for benchmarking
 inside your application.
 
-##### Problem {#ch04lev3sec10}
+##### Problem
 
 You need to benchmark your Rails inside your application.
 
-##### Solution {#ch04lev3sec11}
+##### Solution
 
 Rails offers a single method named benchmark that allows us to benchmark
 blocks of code throughout an application. Let’s say we have a model
@@ -597,7 +607,7 @@ something like the following snippet:
 The time measurements are in parentheses and are usually quite telling.
 In this case, associating a member takes a lot longer!
 
-##### Discussion {#ch04lev3sec12}
+##### Discussion
 
 Benchmarking models is great, but if you find yourself seeing high
 render times in your logs, you can benchmark blocks of code in views in
@@ -615,7 +625,7 @@ content and can’t seem to nail down the performance problem. If you find
 you need more data than either of these provides, perhaps you need to
 look into profiling.
 
-#### 4.2.2. Profiling a Rails application {#ch04lev2sec5}
+#### 4.2.2. Profiling a Rails application
 
 Profiling offers runtime analysis of your Rails applications, breaking
 down each method call and showing its share of the execution time.
@@ -623,19 +633,19 @@ Profiling is a very useful way to get in-depth information on your Ruby
 code in general, but it’s usually a little less friendly than the way
 Rails provides.
 
-##### Problem {#ch04lev3sec13}
+##### Problem
 
 You are having performance issues with a Rails application and would
 like to find your application’s trouble spots.
 
-##### Solution {#ch04lev3sec14}
+##### Solution
 
 Rails offers a script that lives in performance/ named profiler, which
 will use the Ruby profiler to profile your Rails application. You invoke
 it in basically the same manner as you invoke the benchmarker.
 
 For example, let’s say you wanted to profile the confirmation of
-reservations in your hotel-booking application. The following line would
+reservations in your hotel-courseing application. The following line would
 invoke the profiler with your confirm! method:
 
 ``` {.code-area}
@@ -664,7 +674,7 @@ spread across 188 calls; on the other hand, the done! method on our
 model eats up 5 percent in *one* call. That’s where a performance
 problem lies.
 
-##### Discussion {#ch04lev3sec15}
+##### Discussion
 
 If you’d like to get more information and fancier reporting on your
 Rails application, a library called ruby-prof can help you out. It’s
@@ -683,12 +693,12 @@ The ruby-prof library is available as a Ruby gem and you can check out
 its RDoc at
 [http://ruby-prof.rubyforge.org/](http://ruby-prof.rubyforge.org/).
 
-### 4.3. Summary {#ch04lev1sec3}
+### 4.3. Summary
 
-In this chapter, we looked at a number of techniques that Rails
+In This lab, we looked at a number of techniques that Rails
 developers should be employing. First, we looked at adding your own
 extensions to Rails and building reusable components from your own code.
 We then looked at gauging the performance of your Rails application, and
 suggested a few practical tools and tips to get you started. In the next
-chapter, we’ll take a deeper look at Ruby and web services, including an
+lab, we’ll take a deeper look at Ruby and web services, including an
 in-depth look at REST and REST clients.

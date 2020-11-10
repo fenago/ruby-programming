@@ -1,9 +1,10 @@
+<img align="right" src="../logo.png">
 
 
-Chapter 5. Web services {#ch05}
+Lab 5. Web services
 =======================
 
-### This chapter covers {.intro-header}
+### This lab covers
 
 -   Using HTTP from Ruby
 -   Building REST services with Rails
@@ -14,7 +15,7 @@ Throughout this book, we show you ways of integrating Ruby with
 different applications and services. Some scenarios depend on a
 particular protocol or architecture, such as using Lightweight Directory
 Access Protocol (LDAP), sharing data through a relational database, or
-moving messages around with WebSphere MQ (WMQ). In this chapter, we’ll
+moving messages around with WebSphere MQ (WMQ). In This lab, we’ll
 explore the web architecture and look at how we can use web services
 across language, platform, and application boundaries.
 
@@ -22,7 +23,7 @@ To this end, we’ll focus on Service Oriented Architecture (SOA) with
 Ruby. SOA is not a particular product, technology, or protocol—it’s an
 architecture for building services with the intent to reuse them in
 different contexts and combine them into larger applications. In this
-chapter, we’re going to choose common protocols and message formats and
+lab, we’re going to choose common protocols and message formats and
 discuss three common styles for building web services: plain HTTP, REST,
 and SOAP.
 
@@ -33,17 +34,26 @@ Finally, we’ll talk about SOAP and using SOAP4R as a means for
 integrating with services developed around the SOAP stack, and in
 particular J2EE and .Net applications.
 
-### 5.1. Using HTTP {#ch05lev1sec1}
+#### Pre-reqs:
+- Google Chrome (Recommended)
+
+#### Lab Environment
+Al labs are ready to run. All packages have been installed. There is no requirement for any setup.
+
+All exercises are present in `~/work/ruby-programming/` folder.
+
+
+### 5.1. Using HTTP
 
 The basic building blocks of the web are the HTTP protocol and the use
 of URLs for addressing, and the content is mostly HTML and various media
-types like images, music, and video. In this chapter, we’re going to
+types like images, music, and video. In This lab, we’re going to
 focus on the programmatic web, which is all about machines talking to
 machines and application-to-application integration. As a result, we’ll
 pay much more attention to structured data formats like XML, JSON, and
 even CSV.
 
-#### 5.1.1. HTTP GET {#ch05lev2sec1}
+#### 5.1.1. HTTP GET
 
 We’re going to start with the simplest scenario and show you how to
 retrieve data from a remote web service and then how to parse the
@@ -53,14 +63,14 @@ with XML, there’s a surprising abundance of structured data out there
 that is not XML. In this section, we’ll take the opportunity to show you
 how easy it is to use non-XML data, delivered over the web.
 
-##### Problem {#ch05lev3sec1}
+##### Problem
 
 You’re building a market intelligence application that needs to retrieve
 historical stock prices about various public companies. That information
 is publicly available on the web, but you need to retrieve it and parse
 it into data you can use.
 
-##### Solution {#ch05lev3sec2}
+##### Solution
 
 For this example, we’re going to use Google Finance to get historical
 stock prices for Google itself. Google Finance has a URL you can use
@@ -83,8 +93,8 @@ create a connection and read the data:
 
 Not all data on the web is HTML or XML, and in this example we retrieve
 a CSV document. We’re going to use FasterCSV to parse the document (you
-will learn more about FasterCSV in [chapter
-13](https://livebook.manning.com/book/ruby-in-practice/chapter-13/ch13)).
+will learn more about FasterCSV in [lab
+13](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 Let’s parse the document into a set of rows, and convert each row into a
 hash:
 
@@ -99,12 +109,12 @@ historical\_stock\_prices, so we can use it to read historical stock
 prices in our applications. We’re also going to follow another Ruby
 idiom that allows us to either require the file as a library or run it
 from the command line as a script. [Listing
-5.1](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex01)
+5.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md)
 shows the entire program.
 
-##### Listing 5.1. Get historical stock prices from Google Finance {#ch05ex01}
+##### Listing 5.1. Get historical stock prices from Google Finance
 
-![](./1_files/092fig01_alt.jpg)
+![](./images/092fig01_alt.jpg)
 
 Here’s what we get when we run the program from the command line,
 showing one line from the actual result:
@@ -115,7 +125,7 @@ showing one line from the actual result:
 
 [copy **](javascript:void(0))
 
-##### Discussion {#ch05lev3sec3}
+##### Discussion
 
 Using the open-uri library is the easiest way to GET content from an
 HTTP server. It’s designed to be simple to use and to handle the most
@@ -191,20 +201,20 @@ progress bar. Check the open-uri documentation for more details.
 Now that we have covered retrieving data from a web server, let’s see
 how we can send data to a web server by making an HTTP POST request.
 
-#### 5.1.2. HTTP POST {#ch05lev2sec2}
+#### 5.1.2. HTTP POST
 
 The previous section was a simple scenario using GET to access publicly
 available information. In this section, we’ll turn it up a notch and use
 HTTP POST to submit data, add authentication for access control, and
 handle status codes and errors.
 
-##### Problem {#ch05lev3sec4}
+##### Problem
 
 In your network, you have an existing service that can receive and
 process orders. You need a way to turn orders into XML documents and
 send them over to the order-processing service.
 
-##### Solution {#ch05lev3sec5}
+##### Solution
 
 Let’s start with the data. To make this solution easy to use, we’re
 going to support two types of arguments. The XML document can be passed
@@ -283,12 +293,12 @@ code. All other responses are treated as error conditions:
 [copy **](javascript:void(0))
 
 [Listing
-5.2](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex02)
+5.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md)
 shows all these pieces merged into a single file.
 
-##### Listing 5.2. Using HTTP POST and XmlSimple to send a document to the web server {#ch05ex02}
+##### Listing 5.2. Using HTTP POST and XmlSimple to send a document to the web server
 
-![](./1_files/095fig01_alt.jpg)
+![](./images/095fig01_alt.jpg)
 
 Now let’s see how we can send a new order with three lines of code (four
 if you count the print statement):
@@ -299,7 +309,7 @@ if you count the print statement):
 
 [copy **](javascript:void(0))
 
-##### Discussion {#ch05lev3sec6}
+##### Discussion
 
 Ruby has several libraries for dealing with XML, and which one you
 choose depends on the use case. When you need maximum flexibility and
@@ -307,7 +317,7 @@ the ability to handle elements, attributes, and text nodes, you can use
 REXML to work with the XML document tree. For performance-intensive
 applications, you can use libxml, a native XML library. If you have data
 that you need to convert into an XML document, you can use Builder
-instead (we’ll look at using it later in this chapter). Some XML
+instead (we’ll look at using it later in This lab). Some XML
 documents map nicely into a hash, in which case XmlSimple is true to its
 name. For this particular example, we chose XmlSimple because it fits
 nicely with what we wanted to do, but throughout this book we will use
@@ -359,7 +369,7 @@ Keep in mind, though, that Net::HTTP is a low-level library. Unlike
 open-uri, it will not set the proxy server for you; you’ll need to do
 that yourself when creating connections. Most often, we use Net::HTTP
 for one-off tasks, or to write more convenient libraries. In [section
-5.2.3](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05lev2sec6),
+5.2.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md),
 we’ll talk about one such library called ActiveResource that provides
 RESTful access to remote resources, built from Net::HTTP.
 
@@ -368,17 +378,17 @@ We showed you how a client can retrieve data from and send data to a web
 server. Next we’ll show you how to implement a simple web server that
 client applications can retrieve data from.
 
-#### 5.1.3. Serving HTTP requests {#ch05lev2sec3}
+#### 5.1.3. Serving HTTP requests
 
 Now that we know how to access a web service, let’s build a simple
-service. In the previous chapter, we talked about Rails, and as you’ll
-see later in this chapter, Rails is a great framework for building web
+service. In the previous lab, we talked about Rails, and as you’ll
+see later in This lab, Rails is a great framework for building web
 services. Yet, not all web services need a full-fledged framework, and
 sometimes working close to the protocol (HTTP) is better, so in this
 section we’ll show you a simple service built straight into the HTTP
 server.
 
-##### Problem {#ch05lev3sec7}
+##### Problem
 
 You have an analytics console that you could use to monitor traffic
 across all servers in the network. It works by pulling log files from
@@ -386,7 +396,7 @@ each server and batch processing them. To make it work with your server,
 you need to set up a simple service that provides all the log files for
 a given day.
 
-##### Solution {#ch05lev3sec8}
+##### Solution
 
 Ruby comes with a built-in web server called WEBrick, a simple and
 lightweight server that is an adequate choice for development and
@@ -518,13 +528,13 @@ To retrieve all the latest log files, simply open your browser and head
 over to http://localhost:3000/logs/last.
 
 Now let’s merge all that code into a single file, shown in [Listing
-5.3](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex03).
+5.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md).
 
-##### Listing 5.3. A service for packaging log files and serving them as a zip file {#ch05ex03}
+##### Listing 5.3. A service for packaging log files and serving them as a zip file
 
-![](./1_files/099fig01_alt.jpg)
+![](./images/099fig01_alt.jpg)
 
-##### Discussion {#ch05lev3sec9}
+##### Discussion
 
 This example shows you how to set up a simple web service without going
 the route of a web framework. We do advocate using web frameworks when
@@ -568,7 +578,7 @@ further and explore the REST style. We’ll show you how to create
 resources, handle multiple representations, and use the uniform
 interface to build RESTful web services.
 
-### 5.2. REST with Rails {#ch05lev1sec2}
+### 5.2. REST with Rails
 
 So far, we’ve shown you how to build services and clients that use the
 HTTP protocol. We’ll take this a step further now and show you how to
@@ -591,7 +601,7 @@ stateless operations, and so forth. In the following sections, we’ll
 show an example using Rails. You’ll also quickly realize why we picked
 Rails for this task.
 
-#### 5.2.1. RESTful resources {#ch05lev2sec4}
+#### 5.2.1. RESTful resources
 
 Besides being the largest collection of useless information, personal
 opinions, and short video clips, the web is also a large-scale system
@@ -601,7 +611,7 @@ on those resources. Applying these same principles, we can build web
 services that are simple for both people and applications to use, and we
 can wire them together to create larger applications.
 
-##### Problem {#ch05lev3sec10}
+##### Problem
 
 You’re designing a task manager that your employees will use to manage
 their day-today assignments. You’re also planning several applications
@@ -609,7 +619,7 @@ and workflows that will create and act upon these tasks. How can you
 design your task manager as a web service that both people and
 applications can use?
 
-##### Solution {#ch05lev3sec11}
+##### Solution
 
 Obviously one part of the solution is supporting programmable web
 formats like XML and JSON, which we’ll handle in the next section.
@@ -768,9 +778,9 @@ priority resource with the URL path /tasks/{id}/priority.
 
 Let’s add these two resources together and create the routes shown in
 [listing
-5.4](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex04).
+5.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md).
 
-##### Listing 5.4. Defining our task manager resources in config/routes.rb {#ch05ex04}
+##### Listing 5.4. Defining our task manager resources in config/routes.rb
 
 ``` {.code-area}
 1ActionController::Routing::Routes.draw do |map|  # Tasks resources handled by TasksController  map.resources :tasks,    :collection => { :completed=>:get },    :member => { :priority=>:put } end
@@ -799,9 +809,9 @@ task:
 [copy **](javascript:void(0))
 
 The output should look something like [listing
-5.5](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex05).
+5.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md).
 
-##### Listing 5.5. Routes for our RESTful tasks list {#ch05ex05}
+##### Listing 5.5. Routes for our RESTful tasks list
 
 ``` {.code-area}
 1completed_tasks GET    /tasks/completed    {:action=>"completed"}        tasks GET    /tasks           {:action=>"index"}            POST    /tasks           {:action=>"create"}      new_task GET    /tasks/new        {:action=>"new"} completion_task PUT    /tasks/:id/completion {:action=>"completion"}     edit_task GET    /tasks/:id/edit     {:action=>"edit"}         task GET    /tasks/:id        {:action=>"show"}         PUT    /tasks/:id            {:action=>"update"}         DELETE /tasks/:id             {:action=>"destroy"}
@@ -858,14 +868,14 @@ going to make a couple of minor tweaks. First, we’ll use named routes
 instead of url\_for. Second, we’ll add a filter to load the task into
 the controller, for the benefit of actions operating on individual
 tasks. [Listing
-5.6](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex06)
+5.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md)
 shows the resulting controller.
 
-##### Listing 5.6. Routes for our RESTful tasks list {#ch05ex06}
+##### Listing 5.6. Routes for our RESTful tasks list
 
-![](./1_files/106fig01_alt.jpg)
+![](./images/106fig01_alt.jpg)
 
-##### Discussion {#ch05lev3sec12}
+##### Discussion
 
 We showed you how to build a simple RESTful web service using Rails.
 However, there are a few more things worth noting about this example and
@@ -992,7 +1002,7 @@ are multiple content types. We briefly touched upon this, using HTML for
 end users and XML for applications, and in the next section we’ll
 explore it further, adding support for JSON and Atom.
 
-#### 5.2.2. Serving XML, JSON, and Atom {#ch05lev2sec5}
+#### 5.2.2. Serving XML, JSON, and Atom
 
 Every resource has a representation. In fact, a given resource can have
 more than one representation. Users accessing our task manager will want
@@ -1007,13 +1017,13 @@ In this section, we’re going to explore resources by looking at multiple
 representations, starting with HTML and adding XML, JSON, and Atom
 representations for our tasks list.
 
-##### Problem {#ch05lev3sec13}
+##### Problem
 
 As you’re building your task manager, you realize you need to support a
 number of clients, specifically feed readers and programmable clients,
 by adding XML, JSON, and Atom representations to the tasks list.
 
-##### Solution {#ch05lev3sec14}
+##### Solution
 
 One reason we recommend Rails for building web services is the ease of
 adding different representations for the same underlying resource. So
@@ -1062,11 +1072,11 @@ an XML document or a JSON object:
 
 The preceding code shows the long way of doing things. You can see the
 short way to respond with different content types in [listing
-5.7](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex07).
+5.7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md).
 
-##### Listing 5.7. Responding with different content types {#ch05ex07}
+##### Listing 5.7. Responding with different content types
 
-![](./1_files/111fig01_alt.jpg)
+![](./images/111fig01_alt.jpg)
 
 We’re using the respond\_to method to match each format we support with
 the logic to render it. It’s similar to the case statement in the
@@ -1078,11 +1088,11 @@ maintain.
 
 Now it’s time to handle the Atom view, for which we’ll create a view
 file called index.atom.builder, as shown in [listing
-5.8](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex08).
+5.8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md).
 
-##### Listing 5.8. An Atom feed for our tasks list {#ch05ex08}
+##### Listing 5.8. An Atom feed for our tasks list
 
-![](./1_files/111fig02.jpg)
+![](./images/111fig02.jpg)
 
 The call to atom\_feed creates an XML document with the right wrapping
 for a feed, including the XML document type declaration, feed element
@@ -1095,7 +1105,7 @@ We now have a tasks resource that responds to GET and returns the task
 list in different content types: HTML for web browsers, Atom for feed
 readers, and either XML or JSON for client applications.
 
-##### Discussion {#ch05lev3sec15}
+##### Discussion
 
 The HTTP protocol allows clients to request data in a particular format
 using content negotiation. When the client sends a request to the
@@ -1131,14 +1141,14 @@ application.
 
 How does Rails handle this? When we use the built-in mechanism to decide
 on the content type, as we did in [listing
-5.7](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex07),
+5.7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md),
 Rails picks up the expected format from the format query parameter, or
 from the URL path suffix, or from the Accept header, in order of
 preference. Which way you request different content types is up to you—a
 Rails application can support all three.
 
 You’ll notice that in [listing
-5.6](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex06),
+5.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md),
 when we wrote an action to create a new task, we did this:
 
 ``` {.code-area}
@@ -1182,7 +1192,7 @@ parameter parsers. Have a look at ActionController::Base.param\_parsers
 for more information.
 
 In [listing
-5.8](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex08)
+5.8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md)
 we showed you how to use AtomFeedBuilder, a templating mechanism for
 generating Atom feeds. AtomFeedBuilder itself extends the more generic
 XML templating mechanism provided by Builder::XmlMarkup. Let’s take a
@@ -1238,7 +1248,7 @@ remote resources using an ActiveRecord-like API.
 
 * * * * *
 
-##### Method\_missing and BlankSlate {#ch05sb01}
+##### Method\_missing and BlankSlate
 
 Builder uses method\_missing in an interesting way. Ruby’s objects use
 method passing—when you call a method on an object, Ruby first tries to
@@ -1258,9 +1268,9 @@ BasicObject.)
 
 * * * * *
 
-#### 5.2.3. Using ActiveResource {#ch05lev2sec6}
+#### 5.2.3. Using ActiveResource
 
-We started this chapter by showing you how easy it is to use open-uri
+We started This lab by showing you how easy it is to use open-uri
 and Net::HTTP. Well, easy is a relative term. Building a client library
 to access our task manager service will still require a fair amount of
 boilerplate code—more than we care to write, test, and maintain. We also
@@ -1269,14 +1279,14 @@ services. In this section, we’ll take it a step further and show you how
 we can use them to develop a client library for the task manager using
 ActiveResource.
 
-##### Problem {#ch05lev3sec16}
+##### Problem
 
 Now that the task manager service is up and running, you need to develop
 your workflow application. As part of that application, you’ll need to
 create and manage tasks. You want to reuse our task manager service, and
 you want to get it done before the day is over.
 
-##### Solution {#ch05lev3sec17}
+##### Solution
 
 We’ll build a client application that uses ActiveResource to access the
 task manager service. We’ll start by writing a class to represent the
@@ -1289,7 +1299,7 @@ resources for handling a task list and individual tasks:
 [copy **](javascript:void(0))
 
 Remember from [section
-5.1.2](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05lev2sec2),
+5.1.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md),
 we’re using the URL to specify the username and password for accessing
 the service, and these map to HTTP Basic Authentication, using HTTPS
 when we need to access it over public networks.
@@ -1320,7 +1330,7 @@ It starts by creating a new object in memory and setting its attributes,
 and it saves the object by making a POST request to the resource /tasks,
 with an XML document containing the task definition. Our simple
 implementation, you may recall from [section
-5.2.1](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05lev2sec4),
+5.2.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md),
 receives the XML document, parses the attributes, and uses them to
 create a record in the database. It then tells the client what the new
 task resource is, which is all our ActiveResource needs to know.
@@ -1384,7 +1394,7 @@ task identifier in the URL template. The put method takes two additional
 arguments, the first being a hash that is passed along as query string
 parameters, and the second being the body of the message. Remember from
 [section
-5.2.1](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05lev2sec4),
+5.2.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md),
 we’re passing a priority number in the body of the message.
 
 As you might expect, there are other custom methods you can use, like
@@ -1392,11 +1402,11 @@ get, post, and delete. We’re going to hide the details of put from the
 application by wrapping it in a method; in fact, we’ll add a couple more
 to create an ActiveResource class that represents our task manager
 service. The result is shown in [listing
-5.9](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex09).
+5.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md).
 
-##### Listing 5.9. Using our task manager with ActiveResource {#ch05ex09}
+##### Listing 5.9. Using our task manager with ActiveResource
 
-![](./1_files/116fig01.jpg)
+![](./images/116fig01.jpg)
 
 Now let’s try it out by running this snippet using script/console:
 
@@ -1406,7 +1416,7 @@ Now let’s try it out by running this snippet using script/console:
 
 [copy **](javascript:void(0))
 
-##### Discussion {#ch05lev3sec18}
+##### Discussion
 
 As you’ve seen from our examples, Rails makes it extremely easy to build
 web services that follow the REST principles and work equally well with
@@ -1428,7 +1438,7 @@ need to handle deadlines and exceptions, send notifications, and even
 spawn workflows that would involve even more tasks and interact with
 other services. Those are all possible to do within the constraints of
 REST; unfortunately, it’s more than we can show in the limited span of
-one chapter.
+one lab.
 
 In the last three solutions, we have talked extensively about Rails, but
 we want you to take their general principles home with you even if you
@@ -1447,7 +1457,7 @@ and build services that cross languages, platforms, and applications. In
 the following sections, we’ll turn our attention to SOAP using the
 built-in SOAP4R library.
 
-### 5.3. SOAP services {#ch05lev1sec3}
+### 5.3. SOAP services
 
 When it comes to talking with J2EE, .Net, and legacy applications, the
 first option that comes to mind is SOAP. And yes, Ruby does come with a
@@ -1465,26 +1475,26 @@ In the next two sections, we’ll cover the basics of using SOAP4R as we
 implement a simple task manager service and a client application to
 invoke it.
 
-#### 5.3.1. Implementing the service {#ch05lev2sec7}
+#### 5.3.1. Implementing the service
 
 The appeal of the SOAP protocol is in crossing language and platform
 boundaries, so there’s no need to build the service in Ruby in order to
 use it from Ruby. We can easily imagine the task manager being a service
 implemented in Java and the client application in Ruby, or the other way
-around. Regardless, we want to make this chapter self-contained, so
+around. Regardless, we want to make This lab self-contained, so
 we’re going to show you how to implement the service in Ruby, and also
 how to invoke it using Ruby.
 
 We’re picking up on the same task manager service we developed in the
-previous sections of this chapter, but this time using SOAP instead of
+previous sections of This lab, but this time using SOAP instead of
 REST.
 
-##### Problem {#ch05lev3sec19}
+##### Problem
 
 You need to develop a task manager service that you can use from a
 variety of client applications using the SOAP messaging protocol.
 
-##### Solution {#ch05lev3sec20}
+##### Solution
 
 We recommend contract-first service development. In our experience, it
 leads to more robust services that are easier to reuse and maintain. In
@@ -1504,17 +1514,17 @@ operation, for creating a new task, and only care about two parameters,
 the task title and priority.
 
 [Figure
-5.1](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05fig01)
+5.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md)
 shows a simple outline of the service definition, visualized using
 Eclipse Web Service Toolkit. It was generated from the WSDL document
 given in [listing
-5.10](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex10).
+5.10](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md).
 
-##### Figure 5.1. Simple task manager service {#ch05fig01}
+##### Figure 5.1. Simple task manager service
 
-![](./1_files/05fig01_alt.jpg)
+![](./images/05fig01_alt.jpg)
 
-##### Listing 5.10. WSDL describing our task manager service {#ch05ex10}
+##### Listing 5.10. WSDL describing our task manager service
 
 ``` {.code-area}
 1<?xml version="1.0" encoding="utf-8"?> <definitions name='taskService'   targetNamespace='http://example.com/taskManager'   xmlns='http://schemas.xmlsoap.org/wsdl/'   xmlns:tns='http://example.com/taskManager'   xmlns:xsd='http://www.w3.org/2001/XMLSchema'   xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'>   <types>    <xsd:schema elementFormDefault='unqualified'       targetNamespace='http://example.com/taskManager'>     <xsd:element name='createTask'>      <xsd:complexType>       <xsd:sequence>        <xsd:element name='title' type='xsd:string'/>        <xsd:element name='priority' type='xsd:int' minOccurs='0'/>       </xsd:sequence>      </xsd:complexType>     </xsd:element>     <xsd:element name='createTaskResponse'>      <xsd:complexType>       <xsd:sequence>       <xsd:element name='id' type='xsd:string'/>      </xsd:sequence>     </xsd:complexType>    </xsd:element>   </xsd:schema>  </types>  <message name='createTask'>    <part name='task' element='tns:createTask'/>  </message>  <message name='createTaskResponse'>    <part name='task' element='tns:createTaskResponse'/>  </message>  <portType name='taskManagement'>   <operation name='createTask'>    <input message='tns:createTask'/>    <output message='tns:createTaskResponse'/>   </operation>  </portType>  <binding name='taskManagementDocLit' type='tns:taskManagement'>   <soap:binding transport='http://schemas.xmlsoap.org/soap/http'        style='document' />   <operation name='createTask'>    <soap:operation style='document' />    <input>     <soap:body use='literal'/>    </input>    <output>     <soap:body use='literal'/>    </output>   </operation>  </binding>  <service name='taskService'>   <port name='docLit' binding='tns:taskManagementDocLit'>     <soap:address location='http://localhost:8080/'/>   </port>  </service> </definitions>
@@ -1575,11 +1585,11 @@ classes, CreateTask and CreateTaskResponse, to hold the request and
 response messages, and implement the createTask method to create a new
 task record in the database and return the task identifier. You can see
 the full service implementation in [listing
-5.11](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex11).
+5.11](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md).
 
-##### Listing 5.11. Our task manager servant {#ch05ex11}
+##### Listing 5.11. Our task manager servant
 
-![](./1_files/120fig01_alt.jpg)
+![](./images/120fig01_alt.jpg)
 
 The common practice is building a number of services (or servants) and
 configuring a web server to host them all, exposing each one on a
@@ -1588,11 +1598,11 @@ service, so we’ll use the quick prototype standalone server provided by
 taskService.rb. In addition to the service definition, this file defines
 a standalone server application called TaskManagementApp. The only thing
 we need to do is start it (see [listing
-5.12](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex12)).
+5.12](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md).
 
-##### Listing 5.12. A simple task manager SOAP service {#ch05ex12}
+##### Listing 5.12. A simple task manager SOAP service
 
-![](./1_files/121fig01_alt.jpg)
+![](./images/121fig01_alt.jpg)
 
 We’re almost ready to run. We’re using ActiveRecord to access the
 database, so we also need to specify the database connection
@@ -1607,7 +1617,7 @@ which for our database setup looks like this:
 
 * * * * *
 
-##### Using ActiveRecord outside of Rails {#ch05sb02}
+##### Using ActiveRecord outside of Rails
 
 ActiveRecord is a key piece of the Rails puzzle and provides the model
 part of the Model-View-Controller (MVC) design pattern, mapping Ruby
@@ -1631,7 +1641,7 @@ We’ll write a client application that uses this service in the next
 section, so keep the service running and you can test the client
 application against it.
 
-##### Discussion {#ch05lev3sec21}
+##### Discussion
 
 We showed you how easy it is to get started developing SOAP services
 with Ruby. Before we move to the next section, there are a few more
@@ -1691,19 +1701,19 @@ and SOAP4R.
 Now let’s turn our attention to service invocation and write a SOAP
 client to invoke the task manager service.
 
-#### 5.3.2. Invoking the service {#ch05lev2sec8}
+#### 5.3.2. Invoking the service
 
 The promise of services is reuse, which emphasizes the client side of
 the application. In this section, we’ll show you how to write a client
 application to use the task manager service, and not surprisingly, it
 will be easier and quicker to write than the service itself.
 
-##### Problem {#ch05lev3sec22}
+##### Problem
 
 You want to develop a client application that can use the task manager
 service described in the WSDL document.
 
-##### Solution {#ch05lev3sec23}
+##### Solution
 
 In the previous section, we showed you how to use SOAP4R and a WSDL file
 to implement a simple task manager service. In this section, we’ll use
@@ -1738,11 +1748,11 @@ That’s all there is to it. We can start adding more operations to our
 WSDL, create more complex message definitions, all the while using the
 same basic patterns. You can see the entire client application in
 [listing
-5.13](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex13).
+5.13](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md).
 
-##### Listing 5.13. Task manager client using WSDLDriver {#ch05ex13}
+##### Listing 5.13. Task manager client using WSDLDriver
 
-![](./1_files/123fig01_alt.jpg)
+![](./images/123fig01_alt.jpg)
 
 SOAP::RPC::Driver can also map SOAP messages to and from Ruby objects,
 and when working with larger and more complex operations we prefer that,
@@ -1774,15 +1784,15 @@ configure SOAP4R, and once we generate this stub, we no longer need to
 reference the WSDL file.
 
 [Listing
-5.14](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05ex14)
+5.14](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md)
 shows how we would use the TaskManagement driver with the typed message
 parts in place of the WSDL driver and hashes.
 
-##### Listing 5.14. Task manager client using generated stubs {#ch05ex14}
+##### Listing 5.14. Task manager client using generated stubs
 
-![](./1_files/124fig01_alt.jpg)
+![](./images/124fig01_alt.jpg)
 
-##### Discussion {#ch05lev3sec24}
+##### Discussion
 
 There are several strategies for working with SOAP services. If you’re
 building an infrastructure piece, you may need to work with the bare
@@ -1799,7 +1809,7 @@ many other platforms and languages.
 
 * * * * *
 
-##### Deploying Ruby services on Java/C WS stacks {#ch05sb03}
+##### Deploying Ruby services on Java/C WS stacks
 
 At the time of this writing, a few alternatives are emerging for
 building and deploying SOAP services using Ruby. Unfortunately, these
@@ -1815,9 +1825,9 @@ for Axis/C, provided by WS02, the lead developer of Axis.
 
 * * * * *
 
-### 5.4. Summary {#ch05lev1sec4}
+### 5.4. Summary
 
-In this chapter, we’ve shown you what you need to know to get started
+In This lab, we’ve shown you what you need to know to get started
 building web services with Ruby. We covered the basics of the web
 architecture using open-uri and Net::HTTP, how to build RESTful web
 services using Rails, and how to exchange messages using the SOAP
@@ -1835,8 +1845,8 @@ the low-level RForce, or if you’re much more comfortable with
 ActiveRecord, have a look at ActiveSalesForce.
 
 We’ll show you another example when we talk about asynchronous messaging
-in [chapter
-7](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07)
+in [lab
+7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md)
 and integrate our internal business application with a web service,
 using WMQ and ActiveSalesForce. But first, we’ll talk about automating
-communication, starting with e-mail and IM in the next chapter.
+communication, starting with e-mail and IM in the next lab.

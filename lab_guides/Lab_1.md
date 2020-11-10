@@ -1,9 +1,10 @@
+<img align="right" src="../logo.png">
 
 
-Chapter 1. Ruby under the microscope {#ch01}
+Lab 1. Ruby under the microscope
 ====================================
 
-### This chapter covers {.intro-header}
+### This lab covers
 
 -   Minimizing developer cycles
 -   Loading a lot of features in a little code
@@ -18,29 +19,17 @@ masters. They are the slaves.*
 
 *Yukihiro Matsumoto, creator of Ruby*
 
-You’ve heard it all before, right? A new language or framework becomes
-the flavor du jour, and everyone starts talking about it. First there’s
-a low rumble on websites, then someone gets ahold of it and does
-something cool, and out comes the marketing speak. I’m sure you can
-imagine Dave from marketing barking at you about another amazing
-technology: “You’ll be more productive! Our synergistic approach to
-dynamic, domain-driven development will allow you to get to market
-quicker and get a better return on investment! Get a lower TCO and
-higher ROI over J2EE with our XP-driven Scrum model based on XML! Take
-apart your FOB and overhaul your BOB with our easy-to-use turnkey
-solution!” To some in the world of software development, it sounds like
-Ruby is all hype and buzz, but this book will show you that you can
-develop “real” software with Ruby.
 
-Maybe you have heard the accolades and decided to read this book to find
-out if Ruby is right for you. Maybe you know Ruby already, and you chose
-this book to pick up practical techniques you can take back to the
-workplace. Whatever your reason for picking up our book, we’re glad you
-did and we hope that we can help you learn more about using Ruby in the
-real world. But before we get down to the nuts and bolts, let’s take a
-step back and gain some perspective.
+#### Pre-reqs:
+- Google Chrome (Recommended)
 
-### 1.1. Why Ruby now? {#ch01lev1sec1}
+#### Lab Environment
+Al labs are ready to run. All packages have been installed. There is no requirement for any setup.
+
+All exercises are present in `~/work/ruby-programming/` folder.
+
+
+### 1.1. Why Ruby now?
 
 Here’s a fact that surprises many people: Ruby came to the world the
 same year as Java—1995. Like many other open source technologies (such
@@ -76,7 +65,7 @@ formats—the more complexity you add. The only way to alleviate this
 complexity conundrum is to look for simpler solutions to existing
 problems, efficiently using the developer cycles you have available.
 
-#### 1.1.1. Optimizing developer cycles {#ch01lev2sec1}
+#### 1.1.1. Optimizing developer cycles
 
 There has been a growing realization that software companies are
 targeting these business problems (one might call it the “enterprise”
@@ -91,7 +80,7 @@ simpler, lightweight technologies.
 
 * * * * *
 
-##### Open Source {#ch01sb01}
+##### Open Source
 
 Open source, with its organic development model, is able to adapt to
 this changing of tides better. For example, in the Java space, one can
@@ -139,7 +128,7 @@ time. Just as too much code can make your application unmaintainable, so
 can terse, short code that’s “write only.” Many of Ruby’s language
 features contribute to creating short, sane, and maintainable code.
 
-#### 1.1.2. Language features {#ch01lev2sec2}
+#### 1.1.2. Language features
 
 Ruby seems to hit the sweet spot and appeal to developers who value
 natural interfaces and choose to migrate away from languages that
@@ -191,7 +180,7 @@ potent tool for software development.
 
 Let’s jump right into some Ruby code.
 
-### 1.2. Ruby by example {#ch01lev1sec2}
+### 1.2. Ruby by example
 
 We think the best way to illustrate Ruby’s capabilities and features is
 by example, and what better way than by diving into some code? Let’s
@@ -217,7 +206,7 @@ you need.
 
 * * * * *
 
-##### Tip {#ch01note01}
+##### Tip
 
 RMagick can be a beast to set up. We suggest checking the project’s
 documentation, the mailing list, and your favorite search engine if you
@@ -226,20 +215,20 @@ have problems.
 * * * * *
 
 Now, let’s set up our database. [Figure
-1.1](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01fig01)
+1.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows our schema diagram for the database.
 
-##### Figure 1.1. For our graph, we will build a simple domain model: products will have purchases, which belong to the stores where they happened. {#ch01fig01}
+##### Figure 1.1. For our graph, we will build a simple domain model: products will have purchases, which belong to the stores where they happened.
 
-![](./1_files/01fig01.jpg)
+![](./images/01fig01.jpg)
 
 You can use [figure
-1.1](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01fig01)
+1.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 as a model to create the tables (if you prefer to use some sort of GUI
 tool), or you can use the SQL in [listing
-1.1](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex01).
+1.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 
-##### Listing 1.1. SQL for graph example database {#ch01ex01}
+##### Listing 1.1. SQL for graph example database
 
 ``` {.code-area}
 1CREATE DATABASE `paper`; CREATE TABLE `products` (  `id` int NOT NULL auto_increment,  `name` text,  PRIMARY KEY  (`id`) ); CREATE TABLE `purchases` (  `id` int NOT NULL auto_increment,  `product_id` int default NULL,  `store_id` int default NULL,  PRIMARY KEY  (`id`) ); CREATE TABLE `stores` (  `id` int NOT NULL auto_increment,  `location` text,  PRIMARY KEY  (`id`) );
@@ -251,26 +240,26 @@ Now, let’s set up ActiveRecord to work with the database. ActiveRecord
 is typically used inside of a Rails application, and because we’re not
 using it in that environment, it takes a few more lines of
 configuration. See our configuration and implementation code in [listing
-1.2](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex02).
+1.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 
-##### Listing 1.2. Setting up our database with ActiveRecord {#ch01ex02}
+##### Listing 1.2. Setting up our database with ActiveRecord
 
-![](./1_files/008fig01.jpg)
+![](./images/008fig01.jpg)
 
 As you can see, it doesn’t take a lot of code to get a full
 object-relationally mapped database connection. First, we import the
-RubyGems library ![](./1_files/circle-1.jpg), so we can then import
+RubyGems library ![](./images/circle-1.jpg), so we can then import
 ActiveRecord. Next, we establish a database connection with ActiveRecord
-![](./1_files/circle-2.jpg). Normally this configuration data would live
+![](./images/circle-2.jpg). Normally this configuration data would live
 in a database configuration file in a Rails application (such as
 database.yml), but for this example we chose to run outside Rails, so
 we’ve used establish\_connection directly. Next, we create ActiveRecord
 classes and associations to map our database
-![](./1_files/circle-3.jpg). Finally, we execute a query
-![](./1_files/circle-4.jpg) and output its results using Pretty Printing
-(pp) ![](./1_files/circle-5.jpg).
+![](./images/circle-3.jpg). Finally, we execute a query
+![](./images/circle-4.jpg) and output its results using Pretty Printing
+(pp) ![](./images/circle-5.jpg).
 
-Just fill in some testing data (or download the script from the book’s
+Just fill in some testing data (or download the script from the course’s
 source code to generate some for you), and run the script. You should
 see something like the following output:
 
@@ -283,33 +272,33 @@ see something like the following output:
 Our database is set up and our query works, so let’s move on to
 generating a graph from the data. First, remove those last two lines
 from [listing
-1.2](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex02)
+1.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 (they’ll be superfluous by the time we’re done). Now let’s take the data
 we retrieved, process it, and build the graph using Scruffy. In [listing
-1.3](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex03),
+1.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md),
 you’ll see how to do that.
 
-##### Listing 1.3. Generating a graph with Scruffy {#ch01ex03}
+##### Listing 1.3. Generating a graph with Scruffy
 
-![](./1_files/009fig01_alt.jpg)
+![](./images/009fig01_alt.jpg)
 
 First, we create a Scruffy::Graph instance and do a little bit of setup
-![](./1_files/circle-1.jpg). Next, we iterate through the products we
+![](./images/circle-1.jpg). Next, we iterate through the products we
 found earlier and calculate the sales counts for each store location
-![](./1_files/circle-2.jpg). Then we add a line on the graph showing the
+![](./images/circle-2.jpg). Then we add a line on the graph showing the
 sales trends for that product across the stores
-![](./1_files/circle-3.jpg). Before we render the graph, we need to add
+![](./images/circle-3.jpg). Before we render the graph, we need to add
 the markers to indicate which sales location we’re looking at
-![](./1_files/circle-4.jpg). Finally, we render the graph to a PNG file
-using one of Scruffy’s built-in themes ![](./1_files/circle-5.jpg).
+![](./images/circle-4.jpg). Finally, we render the graph to a PNG file
+using one of Scruffy’s built-in themes ![](./images/circle-5.jpg).
 
 If you open the graph and look at it, you can see that it is polished
 (ours looks like [figure
-1.2](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01fig02)).
+1.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 
-##### Figure 1.2. Our finished graph: in about 40 lines of code, we pulled data from the database, processed it, and graphed it in a rather attractive fashion. {#ch01fig02}
+##### Figure 1.2. Our finished graph: in about 40 lines of code, we pulled data from the database, processed it, and graphed it in a rather attractive fashion.
 
-![](./1_files/01fig02.jpg)
+![](./images/01fig02.jpg)
 
 Not bad for 40 lines of code, including whitespace, comments, and more
 verbose than required constructs. Sure, this example isn’t
@@ -317,18 +306,18 @@ representative of every situation—you can’t develop a full CRM solution
 in Ruby with 40 lines of code—but it speaks volumes about the
 expressiveness of the language and the power of its toolkit.
 
-In the next section and subsequent chapters, we’ll look at a lot of the
+In the next section and subsequent labs, we’ll look at a lot of the
 concepts that power this example, so you can start building applications
 and tools that take full advantage of Ruby’s features.
 
-### 1.3. Facets of Ruby {#ch01lev1sec3}
+### 1.3. Facets of Ruby
 
 Now that we’ve discussed the “why” of Ruby, let’s look at the “how.” One
-of the goals of this book is to make you into a truly effective Ruby
+of the goals of this course is to make you into a truly effective Ruby
 developer; we want you to be able to use Ruby to reframe problems and
 craft solutions. In this section, we’ll discuss Ruby concepts and unique
 “Rubyisms” that will help you do this and that will power the examples
-and libraries you’ll see throughout the rest of the book. We intend that
+and libraries you’ll see throughout the rest of the course. We intend that
 you’ll come away with a grasp of these advanced concepts and know how to
 craft code that is readable, expressive, and “good” (by whatever
 subjective method you use to measure that). If we’re successful, you’ll
@@ -366,23 +355,23 @@ server, you need the same setup and teardown, but you want to do
 different things during the socket’s connection each time. You could
 write a number of methods for each sequence of events, duplicating the
 setup and teardown code in each one, or you could use a block. [Listing
-1.4](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex04)
+1.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows a simple implementation of this script.
 
-##### Listing 1.4. Using blocks to reduce code duplication {#ch01ex04}
+##### Listing 1.4. Using blocks to reduce code duplication
 
-![](./1_files/011fig01.jpg)
+![](./images/011fig01.jpg)
 
 First, we create a method to execute our setup and teardown, with a
-yield statement inside ![](./1_files/circle-1.jpg). That yield statement
+yield statement inside ![](./images/circle-1.jpg). That yield statement
 tells Ruby to execute the block that is fed to the method as a
 parameter. Next, we create a simple method to send the LOGIN command to
-our server ![](./1_files/circle-2.jpg). Note that a block is fed to this
+our server ![](./images/circle-2.jpg). Note that a block is fed to this
 method as a parameter. The sock parameter is the socket from our setup
 method (remote\_session) that is given to the block to use. We do the
-same for the login method ![](./1_files/circle-3.jpg), but this time we
+same for the login method ![](./images/circle-3.jpg), but this time we
 send the login and do something with the returned data
-![](./1_files/circle-4.jpg). Notice the code duplication we’ve
+![](./images/circle-4.jpg). Notice the code duplication we’ve
 eliminated by putting all of our setup and teardown into a separate
 method; this is just one of the many facets of Ruby that make
 development with it that much cleaner and easier.
@@ -447,12 +436,12 @@ class to define it. With fewer classes and methods, it’s easier to
 understand the overall design of your software and how all the pieces
 fit together.
 
-This discussion has barely scratched the surface. This book is not a
+This discussion has barely scratched the surface. This course is not a
 walkthrough of the Ruby language; we only wanted to give you a taste for
 the language’s features. We could go on and on about all of the dynamic
 features of Ruby, but it would ultimately be redundant. We’ll cover some
-of these concepts, features, and practices in this chapter, but
-throughout the book you’ll see these and other Ruby idioms in practice,
+of these concepts, features, and practices in This lab, but
+throughout the course you’ll see these and other Ruby idioms in practice,
 which is where real education happens: when you use your knowledge in
 practice. We hope that we can help you learn those mostly by example,
 with some explanations along the way. The more you invest in learning
@@ -473,7 +462,7 @@ take those same productivity gains and magic methods, and use them in
 that can make this possible: duck typing, simplicity, efficiency, and
 functional programming.
 
-#### 1.3.1. Duck typing {#ch01lev2sec3}
+#### 1.3.1. Duck typing
 
 Ruby uses dynamic typing rather than static typing, and Ruby’s brand of
 dynamic typing has been dubbed *duck typing.* It’s not so much that
@@ -564,7 +553,7 @@ branch depending on the parameter given to the method:
 This technique can help make your API simpler, and, depending on how the
 code is written, make your code shorter.
 
-#### 1.3.2. Simplicity {#ch01lev2sec4}
+#### 1.3.2. Simplicity
 
 Ruby values simplicity. To be fair, all programming languages do, each
 striving for simplicity in its own way. But they don’t all achieve it in
@@ -602,7 +591,7 @@ Ruby will reward you for keeping things simple, and saying no to code
 you don’t need will reward you with quicker development and easier
 maintenance.
 
-#### 1.3.3. DRY efficiency {#ch01lev2sec5}
+#### 1.3.3. DRY efficiency
 
 Ruby is a DRY language. DRY stands for: Don’t Repeat Yourself.
 Syntactically, it’s an efficient language: you can express the same
@@ -613,7 +602,7 @@ with, the harder it is to see what it does and find the problems that
 need fixing. Ruby helps you keep your code short and concise.
 
 [Listing
-1.5](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex05)
+1.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows this with a simple example. The first style is Ruby, but you’ll
 notice that it looks similar to many other programming languages. The
 second style is the preferred way of doing it in Ruby: shorter and less
@@ -622,7 +611,7 @@ superfluous). There’s not a lot to this example, but imagine that you
 could do this throughout your code, eliminating thousands of lines of
 unnecessary cruft.
 
-##### Listing 1.5. A small example of DRY syntax {#ch01ex05}
+##### Listing 1.5. A small example of DRY syntax
 
 ``` {.code-area}
 1# The long way record = Hash.new record[:name]  = "Dave" record[:email] = "admin@net.com" record[:phone] = "555-1235" return record # The Ruby way return { :name=>"Dave", :email=>"admin@net.com", :phone=>"555-1235" }
@@ -637,7 +626,7 @@ end up giving you huge gains: blocks, iterators, open classes, and more.
 And many of these features are due to Ruby’s ties to functional
 programming.
 
-#### 1.3.4. Functional programming {#ch01lev2sec6}
+#### 1.3.4. Functional programming
 
 Ruby is an object-oriented language: it is objects all the way down.
 Like many other dynamic languages, functions are also first-class
@@ -667,11 +656,11 @@ the Google MapReduce algorithm, which achieves unparalleled scalability
 by running tasks independently of each other. Its efficiency is achieved
 through two main algorithms or methods: map and reduce. You can see
 Ruby’s “map” in [listing
-1.6](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex06)
+1.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 as the obviously named map method; the “reduce” part in Ruby is most
 often done using the inject method.
 
-##### Listing 1.6. Map is one way Ruby uses functional programming for parallelism {#ch01ex06}
+##### Listing 1.6. Map is one way Ruby uses functional programming for parallelism
 
 ``` {.code-area}
 1# Code that iterates in order to map one array to another application_names = [] for application in applications  application_names << application.visible_name end # Code that maps one array to another applications.map { |application| application.visible_name } # An even shorter way to express it in Rails and Ruby 1.9 applications.map &:visible_name
@@ -688,7 +677,7 @@ Now let’s look at one of the most attractive features of Ruby. In
 covering these facets of Ruby, we’ve been working our way toward one of
 the biggest features of the language: metaprogramming.
 
-### 1.4. Metaprogramming {#ch01lev1sec4}
+### 1.4. Metaprogramming
 
 We talked in the beginning about reframing solutions in terms of Ruby.
 Software development bridges the gap between your ideas and applications
@@ -697,23 +686,23 @@ We’re going to stop the analogies here, but the point is that you want
 to translate your ideas into code quickly and easily. The language you
 choose can increase or reduce this distance between ideas and your
 implementation (see [figure
-1.3](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01fig03)).
+1.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 
-##### Figure 1.3. Some languages create a gulf between your ideas and working code. {#ch01fig03}
+##### Figure 1.3. Some languages create a gulf between your ideas and working code.
 
-![](./1_files/0fig03.jpg)
+![](./images/0fig03.jpg)
 
 But as you progress and become an expert with the tools of your trade
 (regardless of which language you use), this gap will slowly close.
 You’ll be able to frame things in terms of a language’s idioms, keeping
 the language’s limitations, strengths, and so on, in the back of your
 mind. Your ideas are then much closer to real code ([figure
-1.4](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01fig04)
+1.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 illustrates this).
 
-##### Figure 1.4. Ideas can more closely match the resulting code if your expertise and perspective create an overlap between the framing of an idea and the real code that will execute it. {#ch01fig04}
+##### Figure 1.4. Ideas can more closely match the resulting code if your expertise and perspective create an overlap between the framing of an idea and the real code that will execute it.
 
-![](./1_files/0fig04.jpg)
+![](./images/0fig04.jpg)
 
 Most programming languages are content being what they are. Some
 languages are more generic, but they force you to deal with more
@@ -723,20 +712,20 @@ Ant, and CSS. Through *metaprogramming*, Ruby allows you to have a
 mixture of both. You can extend Ruby with mini-languages that can get
 you closer to the problem you’re solving, and you can still use all the
 expressive power of Ruby (see [figure
-1.5](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01fig05)).
+1.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 
-##### Figure 1.5. Ruby can be bent to your problem domain, making the overlap between your problem domain and real code significant. {#ch01fig05}
+##### Figure 1.5. Ruby can be bent to your problem domain, making the overlap between your problem domain and real code significant.
 
-![](./1_files/0fig05.jpg)
+![](./images/0fig05.jpg)
 
-This book isn’t focused on teaching much Ruby “teachnique” in the sense
+This course isn’t focused on teaching much Ruby “teachnique” in the sense
 of the core language, but there are a couple of powerful tools that will
 let you crank your developer volume all the way to 11 and give you the
 ability to solve problems with ease. We think it’s worthwhile to spend a
 few minutes introducing you to these tools: metaprogramming and
 domain-specific languages.
 
-#### 1.4.1. Getting started with metaprogramming {#ch01lev2sec7}
+#### 1.4.1. Getting started with metaprogramming
 
 The software industry always looks for that one silver bullet that can
 turn ideas into code without the “overhead” of software developers.
@@ -748,7 +737,7 @@ wizards give us a head start by writing boilerplate code and skeletons.
 And even further up the ladder, there’s *metaprogramming*, writing code
 that writes code.
 
-##### Methods that define methods {#ch01lev3sec1}
+##### Methods that define methods
 
 If you come from a background in Java or C\#, you learned that objects
 and classes are different in one fundamental way. Objects are mutable,
@@ -759,22 +748,22 @@ method on a class that will change the class definition.
 
 Let’s look at a simple example. Suppose we have a Project that has an
 owner, an attribute you can both get and set. [Listing
-1.7](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex07)
+1.7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows two ways to express that. We can write a couple of methods, or we
 can call attr\_accessor. By calling this method on the class, we allow
 it to change the class definition and essentially define a method for
 getting the value of the instance variable @owner, and a method for
 setting it.
 
-##### Listing 1.7. Using attr\_accessor to define accessor methods on your class {#ch01ex07}
+##### Listing 1.7. Using attr\_accessor to define accessor methods on your class
 
-![](./1_files/017fig01.jpg)
+![](./images/017fig01.jpg)
 
 The class definitions in [listing
-1.7](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex07)
+1.7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 both do the same thing: define an attribute owner that you can get and
-set. The first version is rather explicit ![](./1_files/circle-1.jpg),
-but the second version uses a lot less code ![](./1_files/circle-2.jpg).
+set. The first version is rather explicit ![](./images/circle-1.jpg),
+but the second version uses a lot less code ![](./images/circle-2.jpg).
 This seems a little contrived now, but imagine having 12 or 15
 attributes in a class. Then you’re going from 40 or 50 lines of code
 down to 1. That’s a *huge* spread across an entire application. Even
@@ -783,23 +772,23 @@ attribute) without having to be totally verbose about it.
 
 But how does it work? Let’s take a look at an implementation of
 attr\_accessor in Ruby in [listing
-1.8](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex08).
+1.8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 This is not *the* implementation from Ruby, but it has the same effect.
 
-##### Listing 1.8. A reimplementation of attr\_accessor {#ch01ex08}
+##### Listing 1.8. A reimplementation of attr\_accessor
 
-![](./1_files/018fig01.jpg)
+![](./images/018fig01.jpg)
 
 Using Ruby’s open classes, we reopen the class definition of the Ruby
-core class Module ![](./1_files/circle-1.jpg) and add a method,
+core class Module ![](./images/circle-1.jpg) and add a method,
 attr\_accessor, to it. This method takes each provided symbol and
 executes a code block in the context of the class definition using
-class\_eval ![](./1_files/circle-2.jpg). You will become familiar with
+class\_eval ![](./images/circle-2.jpg). You will become familiar with
 the \*\_eval family of methods in your metaprogramming. Check out [table
-1.1](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01table01)
+1.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 for a summary of their usage.
 
-##### Table 1.1. The eval family of methods {#ch01table01}
+##### Table 1.1. The eval family of methods
 
   ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   Method                                    Usage
@@ -832,10 +821,10 @@ That’s quite a lot of work: a lot of database work for inserting new
 tags, editing and deleting tags, not to mention searching. We decide to
 reinvent the wheel some other time, and instead we download a plugin
 called ActsAsTaggable. [Listing
-1.9](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex09)
+1.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows how we use it.
 
-##### Listing 1.9. Using ActsAsTaggable to get a lot of features in one line of code {#ch01ex09}
+##### Listing 1.9. Using ActsAsTaggable to get a lot of features in one line of code
 
 ``` {.code-area}
 1class Project < ActiveRecord::Base  acts_as_taggable end
@@ -861,7 +850,7 @@ collection of model classes from your database schema.
 
 Now let’s look at dynamic method definition.
 
-##### Implementing methods dynamically {#ch01lev3sec2}
+##### Implementing methods dynamically
 
 This style of metaprogramming happens at class definition, but
 metaprogramming can also be used to dynamically alter objects. With
@@ -876,9 +865,9 @@ definition, the object calls method\_missing. Typically, method\_missing
 will throw an exception, but you can override it to do more interesting
 things. Let’s try to create an XML document (an RSS feed for our
 projects) using XML::Builder. Take a look at [listing
-1.10](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex10).
+1.10](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 
-##### Listing 1.10. Building an RSS feed for our projects {#ch01ex10}
+##### Listing 1.10. Building an RSS feed for our projects
 
 ``` {.code-area}
 1xml = XML::Builder.new xml.rss "version"=>"2.0" do  xml.channel do   xml.title "Projects"   xml.pubDate CGI.rfc1123_date(Time.now)   xml.description "List of all our projects"   for project in projects do    xml.item do     xml.title project.name     xml.guid project_url(project), :permalink=>true     xml.pubDate CGI.rfc1123_date(project.created_on)     xml.description project.details    end   end  end end
@@ -891,17 +880,17 @@ generate source code, you won’t find it. Builder uses method\_missing to
 create elements based on the method name, attributes from the method
 arguments, and text nodes from the first argument, if it’s a string. So
 a simplified version of that method might look like [listing
-1.11](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex11).
+1.11](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 
-##### Listing 1.11. A simplified look at XML::Builder’s use of method\_missing {#ch01ex11}
+##### Listing 1.11. A simplified look at XML::Builder’s use of method\_missing
 
-![](./1_files/020fig01.jpg)
+![](./images/020fig01.jpg)
 
 Using Ruby’s open classes, Builder overrides the method\_missing method.
 Builder takes the name of the missing method that is called
-![](./1_files/circle-1.jpg), and the value provided
-![](./1_files/circle-2.jpg), and makes elements out of them depending on
-the value’s type ![](./1_files/circle-3.jpg). You’ll likely find coding
+![](./images/circle-1.jpg), and the value provided
+![](./images/circle-2.jpg), and makes elements out of them depending on
+the value’s type ![](./images/circle-3.jpg). You’ll likely find coding
 like this sprinkled throughout your favorite and most-used libraries,
 including ActiveRecord.
 
@@ -912,7 +901,7 @@ help you build mini-languages that you can use to reframe business logic
 in terms of the problem domains, rather than in terms of a language’s
 syntax. We’re talking about *domain-specific languages*.
 
-#### 1.4.2. Domain-specific languages {#ch01lev2sec8}
+#### 1.4.2. Domain-specific languages
 
 Functions, objects, libraries, and frameworks all help you work at a
 higher level of abstraction, closer to the problem. If you look at the
@@ -920,7 +909,7 @@ software landscape, you’ll see a lot of different specialty domains. You
 can imagine languages, each of which is designed to solve a specific set
 of problems by expressing solutions in a way that’s easy and natural for
 that specific domain. Perhaps you hadn’t heard of domain-specific
-languages (DSLs) before reading this book, but you certainly have used
+languages (DSLs) before reading this course, but you certainly have used
 them. Do any of the following names sound familiar: SQL, regular
 expressions, HTML, Make, WSDL, .htaccess, UML, CSS, Ant, XSLT, Bash?
 These are all domain-specific languages.
@@ -961,9 +950,9 @@ one of these elements exists. There’s no easy way to validate that all
 U.S. addresses have a state, or that the ZIP Code matches the address.
 But if we created a DSL using a powerful host language (like Ruby), we
 could come up with something that looks like [listing
-1.12](https://livebook.manning.com/book/ruby-in-practice/chapter-1/ch01ex12).
+1.12](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 
-##### Listing 1.12. A validation domain-specific language example {#ch01ex12}
+##### Listing 1.12. A validation domain-specific language example
 
 ``` {.code-area}
 1contact_information_verification do |the_persons|  the_persons.name.is_required  the_persons.address.is_required  the_persons.address.must_be(10).characters_long  the_persons.phone.must_be(10).characters_long  the_persons.im_handle.must_not_be(in_existing_accounts) end
@@ -978,11 +967,11 @@ to a lot of your specific problems.
 
 * * * * *
 
-##### Note {#ch01note02}
+##### Note
 
 What we’ve created here is not *technically* a DSL in the purest sense,
 but an embedded DSL (EDSL)—a domain-specific language that’s embedded
-inside a host language, in this case Ruby. Throughout this book, we’ll
+inside a host language, in this case Ruby. Throughout this course, we’ll
 show different Ruby libraries and tools that include their own
 mini-languages, all of which are EDSLs.
 
@@ -995,7 +984,7 @@ also help you as a developer keep yourself sane. Using Ruby’s
 metaprogramming capabilities, you can build these sorts of solid,
 literate tools and fluent interfaces.
 
-#### 1.4.3. Refining your metaprogramming {#ch01lev2sec9}
+#### 1.4.3. Refining your metaprogramming
 
 If you’ve never built a DSL, it can be slightly daunting to make sure
 your implementation stays flexible yet still clean. Even the masters
@@ -1021,7 +1010,7 @@ your code right now, for practices and idioms you use often, and use
 metaprogramming to simplify those. This process is called *extraction*,
 and it’s based on what you need and use, not what you could imagine
 doing some day. You’ll notice that Rails, Rake, RSpec, and many of the
-other frameworks we cover in this book all came from extractions, from
+other frameworks we cover in this course all came from extractions, from
 looking at existing solutions and finding better, easier ways to write
 those.
 
@@ -1064,9 +1053,9 @@ But what about testing? Don’t the dynamic features make it harder to
 test? Testing metaprogramming is no different from testing any other
 piece of code. There’s nothing magical about it, no hidden traps. You
 can use any tool available for testing, and, in fact, in the next
-chapter we’re going to talk about testing at length.
+lab we’re going to talk about testing at length.
 
-### 1.5. Summary {#ch01lev1sec5}
+### 1.5. Summary
 
 Ruby has gained a lot of popularity in recent times because it’s a
 simpler, expressive alternative to other contemporary languages. This
@@ -1081,7 +1070,7 @@ current programming paradigms, like aspect-oriented programming or
 declarative programming, and development practices such as Scrum or
 test-driven development. Ruby has a number of libraries to help bring
 these old practices into your new environment (such as Ruleby or
-AspectR). In the next chapter, we’ll concentrate on the most prevalent
+AspectR). In the next lab, we’ll concentrate on the most prevalent
 of these—test-driven development—and we’ll look at testing Ruby code
 using the built-in testing library and some related third-party tools
 and libraries.

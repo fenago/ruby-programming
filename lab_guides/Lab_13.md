@@ -1,9 +1,10 @@
+<img align="right" src="../logo.png">
 
 
-Chapter 13. Document processing and reporting {#ch13}
+Lab 13. Document processing and reporting
 =============================================
 
-### This chapter covers {.intro-header}
+### This lab covers
 
 -   Reading and writing CSV data
 -   Generating daily reports
@@ -29,7 +30,7 @@ it’s often desirable to get exactly the kinds of results you’re looking
 for, instead of using prebuilt solutions that may or may not be what you
 need. For this kind of problem, Ruby shines.
 
-In this chapter, we’ll be looking at several solutions to common
+In This lab, we’ll be looking at several solutions to common
 reporting problems. We’ll cover processing and formatting libraries such
 as FasterCSV, and we’ll look at the lightweight reporting system,
 Ruport. Through these solutions, you’ll be able to see how rolling your

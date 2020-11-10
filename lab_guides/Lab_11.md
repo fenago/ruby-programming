@@ -1,9 +1,11 @@
 
+<img align="right" src="../logo.png">
 
-Chapter 11. Identity and authentication {#ch11}
+
+Lab 11. Identity and authentication
 =======================================
 
-### This chapter covers: {.intro-header}
+### This lab covers:
 
 -   Storing passwords securely
 -   Authenticating users against LDAP and Active Directory
@@ -15,7 +17,7 @@ Chapter 11. Identity and authentication {#ch11}
 Trust is the foundation of successful networked systems. If you are
 providing a personalized service over a network, you need to be able to
 trust that your users are who they say they are, and your users must
-trust you with their identity and their personal data. This chapter
+trust you with their identity and their personal data. This lab
 looks primarily at how you can trust your users—by implementing a robust
 authentication mechanism. How well you execute that authentication will
 influence how much trust your users will place in your application. Your
@@ -23,12 +25,21 @@ approach to security has a big impact, whether you are ensuring that
 users’ passwords are safe, or you are offering an authentication option
 that involves a trusted third party.
 
-In this chapter, we take a look at how to use Ruby and Rails to
+In This lab, we take a look at how to use Ruby and Rails to
 implement your own secure authentication schemes as well as integrate
 with established authentication mechanisms like Lightweight Directory
 Access Protocol (LDAP), Active Directory, and OpenID.
 
-### 11.1. Securely storing a password {#ch11lev1sec1}
+#### Pre-reqs:
+- Google Chrome (Recommended)
+
+#### Lab Environment
+Al labs are ready to run. All packages have been installed. There is no requirement for any setup.
+
+All exercises are present in `~/work/ruby-programming/` folder.
+
+
+### 11.1. Securely storing a password
 
 With few exceptions, your users’ passwords should never be persisted in
 a way that would allow anyone access to them. For example, if a hacker
@@ -37,12 +48,12 @@ filled with passwords as plain text. Hopefully, this is obvious, but
 enough sites on the web violate this rule that it is worth making sure
 your applications don’t make this mistake.
 
-#### Problem {#ch11lev2sec1}
+#### Problem
 
 You need to store a password for later authentication, and do it
 securely.
 
-#### Solution {#ch11lev2sec2}
+#### Solution
 
 Securely hash the password using a salt, and store the resulting string.
 When it is time to authenticate a user, run the submitted password
@@ -51,7 +62,7 @@ stored.
 
 * * * * *
 
-##### Hashes with salt {#ch11sb01}
+##### Hashes with salt
 
 A salt is the common term for a secondary input to a cryptographic
 function. It is typically used with a hash function, in order to make
@@ -63,25 +74,25 @@ Cracking: Rainbow Tables Explained”
 * * * * *
 
 [Listing
-11.1](https://livebook.manning.com/book/ruby-in-practice/chapter-11/ch11ex01)
+11.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows an example of an ActiveRecord class implementing this approach.
 
-##### Listing 11.1. An ActiveRecord class implementing password hashing {#ch11ex01}
+##### Listing 11.1. An ActiveRecord class implementing password hashing
 
-![](./11_files/234fig01_alt.jpg)
+![](./images/234fig01_alt.jpg)
 
 In this example, the database table has a column named
 secured\_password. This code supports setting the user’s password, as
 well as authenticating a user. The password is assigned as clear text to
 the password attribute defined using attr\_accessor
-![](./11_files/circle-1.jpg). The before\_save callback encrypts the
+![](./images/circle-1.jpg). The before\_save callback encrypts the
 value of that attribute and stores it as the secured\_password
-![](./11_files/circle-2.jpg), which gets persisted to the database. When
+![](./images/circle-2.jpg), which gets persisted to the database. When
 it is time to authenticate a given username and password, the
 authenticate method searches for a matching username and password, using
-the one-way encrypted password value ![](./11_files/circle-3.jpg).
+the one-way encrypted password value ![](./images/circle-3.jpg).
 
-#### Discussion {#ch11lev2sec3}
+#### Discussion
 
 An implementation of the SHA1 algorithm is included in the Ruby standard
 library—it was written in C to make it perform as quickly as possible.
@@ -120,12 +131,12 @@ attack. It also means that if two users choose the same password, the
 encrypted versions will still be different. If one of them had access to
 the encrypted passwords, it could not discover that it was using the
 same password as the other user. [Listing
-11.2](https://livebook.manning.com/book/ruby-in-practice/chapter-11/ch11ex02)
+11.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows an implementation of this approach.
 
-##### Listing 11.2. Per-user salt for password hashing {#ch11ex02}
+##### Listing 11.2. Per-user salt for password hashing
 
-![](./11_files/236fig01_alt.jpg)
+![](./images/236fig01_alt.jpg)
 
 In this version, a row must be retrieved from the database in order to
 validate a password. This is because the salt is stored alongside the
@@ -149,11 +160,11 @@ from brute force attacks.
 
 * * * * *
 
-##### Note {#ch11note01}
+##### Note
 
 This use of multiple salts is the approach used by the
 restful\_authentication Rails plugin, discussed in [section
-11.3](https://livebook.manning.com/book/ruby-in-practice/chapter-11/kindle_split_100.html/ch11lev1sec3).
+11.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 
 * * * * *
 
@@ -175,7 +186,7 @@ This will replace the value of any parameter whose name contains
 Now that we’ve looked at a simple authentication scheme, let’s take a
 look at authentication and identity with LDAP.
 
-#### 11.1.1. Authenticating against LDAP {#ch11lev2sec4}
+#### 11.1.1. Authenticating against LDAP
 
 LDAP is an open standard for interacting with hierarchical sets of
 people, groups, or resources. Popular open source LDAP servers include
@@ -187,18 +198,18 @@ security credentials. As a result, they are commonly used for
 authentication purposes. Let’s take a look at how we can accomplish this
 with Ruby.
 
-##### Problem {#ch11lev3sec1}
+##### Problem
 
 You need to authenticate users against an LDAP server.
 
-##### Solution {#ch11lev3sec2}
+##### Solution
 
 We can use a Ruby LDAP library like the **ruby-net-ldap gem** to
 validate a username/password pair. [Listing
-11.3](https://livebook.manning.com/book/ruby-in-practice/chapter-11/ch11ex03)
+11.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows an implementation of LDAP authentication with Ruby.
 
-##### Listing 11.3. Authenticating with ruby-net-ldap {#ch11ex03}
+##### Listing 11.3. Authenticating with ruby-net-ldap
 
 ``` {.code-area}
 1require 'net/ldap' def valid_user?(username, password)  ldap = initialize_ldap(username, password)  ldap.bind end def initialize_ldap(username, password)  Net::LDAP.new(:base => 'dc=example,dc=com',                :host => 'your-ldap-server',                :auth => {:username => "uid=#{username},cn=users",                       :password => password,                       :method => :simple}) end
@@ -209,10 +220,10 @@ shows an implementation of LDAP authentication with Ruby.
 The method LDAP.bind attempts to connect to the LDAP instance using the
 credentials we supply. It returns true if successful, and false if not.
 
-##### Discussion {#ch11lev3sec3}
+##### Discussion
 
 The primary alternative to the **ruby-net-ldap gem** used in [listing
-11.3](https://livebook.manning.com/book/ruby-in-practice/chapter-11/ch11ex03)
+11.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 is **ruby-ldap.** While **ruby-net-ldap** is a pure Ruby LDAP client
 implementation, **ruby-ldap** is a wrapper around the OpenLDAP C
 library. As you might guess, this means that **ruby-net-ldap** is far
@@ -240,7 +251,7 @@ Leveraging a central corporate LDAP directory is a great strategy for
 applications being deployed internally. Your users will thank you for
 not making them create and remember yet another password!
 
-### 11.2. Authenticating against Active Directory {#ch11lev1sec2}
+### 11.2. Authenticating against Active Directory
 
 Active Directory from Microsoft is used by many businesses for identity
 management. Integrating your authentication system with Active Directory
@@ -248,20 +259,20 @@ is a great way to provide a good logon experience for internal
 applications and help the business keep identity and password management
 centralized.
 
-#### Problem {#ch11lev2sec5}
+#### Problem
 
 You need to authenticate users against an existing Active Directory
 installation.
 
-#### Solution {#ch11lev2sec6}
+#### Solution
 
 Fortunately, Active Directory is compatible with the LDAP spec, so we
 can use a Ruby LDAP library, like the **ruby-net-ldap** gem, to validate
 a username/password pair. See [listing
-11.4](https://livebook.manning.com/book/ruby-in-practice/chapter-11/ch11ex04)
+11.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 for an example.
 
-##### Listing 11.4. Authenticating against Active Directory using ruby-net-ldap {#ch11ex04}
+##### Listing 11.4. Authenticating against Active Directory using ruby-net-ldap
 
 ``` {.code-area}
 1equire 'net/ldap' def valid_user?(username, password)  ldap = initialize_ldap(username, password)  ldap.bind end def initialize_ldap(username, password)  Net::LDAP.new(:base => 'dc=example,dc=corp',            :host => 'exampledomaincontroller',            :auth => {:username => "#{username}@example.corp",                    :password => password,                    :method => :simple}) end
@@ -278,10 +289,10 @@ Directory: you can send user@domain as the username for the purposes of
 binding, and Active Directory will handle it properly. Normally, LDAP
 instances expect a distinguished name (DN) in this spot.
 
-#### Discussion {#ch11lev2sec7}
+#### Discussion
 
 The approach in [listing
-11.4](https://livebook.manning.com/book/ruby-in-practice/chapter-11/ch11ex04)
+11.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 is suitable for an application that should be available to any member of
 the Active Directory instance, but if you need more information about a
 user, you can call the search method, which returns a collection of LDAP

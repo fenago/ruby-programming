@@ -1,9 +1,10 @@
+<img align="right" src="../logo.png">
 
 
-Chapter 2. Testing Ruby {#ch02}
+Lab 2. Testing Ruby
 =======================
 
-### This chapter covers {.intro-header}
+### This lab covers
 
 -   Testing principles
 -   Test-driven development
@@ -27,7 +28,16 @@ unit-testing library with its standard distribution (and more tools are
 available via third-party libraries). But before we use that library,
 let’s take a look at the basics of software testing.
 
-### 2.1. Testing principles {#ch02lev1sec1}
+#### Pre-reqs:
+- Google Chrome (Recommended)
+
+#### Lab Environment
+Al labs are ready to run. All packages have been installed. There is no requirement for any setup.
+
+All exercises are present in `~/work/ruby-programming/` folder.
+
+
+### 2.1. Testing principles
 
 *Automated testing* is a process in which code is written to test the
 behavior of other code. For example, if you wrote a shopping cart web
@@ -61,9 +71,9 @@ a safeguard: you want it to complain when it’s improperly used (you want
 to test what works, and what doesn’t). You are testing the behavior of
 your code in an isolated environment to ensure it behaves as it should.
 This may sound abstract now, but we’ll take a look at what these tests
-look like in Ruby later in this chapter.
+look like in Ruby later in This lab.
 
-#### 2.1.1. Why bother with testing? {#ch02lev2sec1}
+#### 2.1.1. Why bother with testing?
 
 Many developers avoid testing because of all that extra code, and we’ll
 certainly give it to you honestly: testing creates more code. But don’t
@@ -105,7 +115,7 @@ cases you can find bugs and fix them easily.
 
 * * * * *
 
-##### Testing and dynamic languages {#ch02sb01}
+##### Testing and dynamic languages
 
 Many critics of dynamic typing say that debugging dynamic languages is
 harder because the compiler doesn’t help you with debugging through type
@@ -126,7 +136,7 @@ to its built-in testing libraries and third-party tools. In this
 section, we’ll take a look at these tools and how they can help you
 effectively write tests and code faster and easier.
 
-#### 2.1.2. Types of testing {#ch02lev2sec2}
+#### 2.1.2. Types of testing
 
 When people refer to testing, they are usually talking about *unit
 tests*. Unit tests test your code in small, discrete units: methods or
@@ -148,11 +158,11 @@ can’t make the test for bar fail.
 
 * * * * *
 
-##### Note {#ch02note01}
+##### Note
 
 Most developers initially have difficulty gaining this separation of
 concerns. Don’t worry! There are plenty of techniques and libraries to
-help you out. Further on in this chapter, we discuss some of these
+help you out. Further on in This lab, we discuss some of these
 strategies.
 
 * * * * *
@@ -173,11 +183,11 @@ direction.
 There are many other types of testing (functional tests, acceptance
 testing, regression testing, and so on), but these are beyond the scope
 of this book (and you may never need to write any of these sorts of
-tests if you have a testing/QA team). The remainder of this chapter will
+tests if you have a testing/QA team). The remainder of This lab will
 show you how to unit test your code using Ruby and its libraries, and
 we’ll start by walking through a basic testing workflow.
 
-#### 2.1.3. Testing workflow {#ch02lev2sec3}
+#### 2.1.3. Testing workflow
 
 Developers typically don’t test as much as they should. The excuses
 usually range from “It’s too much code!” to “We don’t have time for
@@ -200,11 +210,11 @@ the tests pass. Test-driven development (TDD) is the same idea, except
 that it adds an element of code refactoring to the mix. The basic
 process can be broken into five steps: add, fail, code, test, refactor
 (as shown in [figure
-2.1](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02fig01)).
+2.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Figure 2.1. Test-driven development is a five-step process: add, fail, code, test, refactor. {#ch02fig01}
+##### Figure 2.1. Test-driven development is a five-step process: add, fail, code, test, refactor.
 
-![](./1_files/02fig01.jpg)
+![](./images/02fig01.jpg)
 
 In the first step, you add tests for any new code you want to write
 *before you write the code*. You write a test that tests for the right
@@ -232,38 +242,38 @@ accomplish just as much or more).
 
 But why bother with all this business?
 
-### 2.2. Test-driven development with Ruby {#ch02lev1sec2}
+### 2.2. Test-driven development with Ruby
 
 The built-in Ruby testing library is similar to the libraries of other
 languages, such as Java and Python. The general architecture consists of
 test suites, built from methods, which make assertions about your code.
 These test suites are run by test runners, which invoke the tests and
 report the results. As shown in [figure
-2.2](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02fig02),
+2.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md),
 a single runner may invoke a number of suites, which may hold a whole
 lot of tests (the ActiveRecord tests for mySQL have 1,035 tests with
 3,940 assertions!).
 
-##### Figure 2.2. Test suites are composed of a collection of unit tests that are run one by one by a test runner. {#ch02fig02}
+##### Figure 2.2. Test suites are composed of a collection of unit tests that are run one by one by a test runner.
 
-![](./1_files/02fig02.jpg)
+![](./images/02fig02.jpg)
 
 So, let’s get going on writing some tests. We’ll start with a basic
 test: testing the length of a string. First, we’ll need to create a test
 harness, which in Ruby is a class that inherits from
 Test::Unit::TestCase. [Listing
-2.1](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex01)
+2.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 shows our test case.
 
-##### Listing 2.1. A simple test using Test::Unit {#ch02ex01}
+##### Listing 2.1. A simple test using Test::Unit
 
-![](./1_files/029fig01_alt.jpg)
+![](./images/029fig01_alt.jpg)
 
 First, we need to require the Test::Unit library
-![](./1_files/circle-1.jpg) and create a class that inherits from
+![](./images/circle-1.jpg) and create a class that inherits from
 Test::Unit::TestCase. We can then create methods that test the code
-![](./1_files/circle-2.jpg). Within these methods, we will make
-assertions ![](./1_files/circle-3.jpg) about the code. Save this code to
+![](./images/circle-2.jpg). Within these methods, we will make
+assertions ![](./images/circle-3.jpg) about the code. Save this code to
 a file (for example, my\_first\_test.rb) and run it. You should see
 output that looks something like this:
 
@@ -278,9 +288,9 @@ assertion, and no failures. We had one assert\_equal statement that
 evaluated to true, so we had no failures. The assert\_equal method isn’t
 the only assertion available; there are a number of assert methods,
 which are listed in [table
-2.1](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02table01).
+2.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Table 2.1. Ruby’s built-in testing library offers a large number of assertions baked right in. {#ch02table01}
+##### Table 2.1. Ruby’s built-in testing library offers a large number of assertions baked right in.
 
   Assertion                                                                           Description
   ----------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------
@@ -306,21 +316,21 @@ provides a way to do that using the xUnit architecture. For example, if
 we wanted to test our string for length, emptiness, and hash value, it
 wouldn’t make sense to instantiate the string in each method; instead we
 would use the setup method. Take a look at [listing
-2.2](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex02)
+2.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 to see what we mean.
 
-##### Listing 2.2. Using setup and teardown to prepare tests {#ch02ex02}
+##### Listing 2.2. Using setup and teardown to prepare tests
 
-![](./1_files/031fig01.jpg)
+![](./images/031fig01.jpg)
 
 We start out the same way as last time: require the library and create a
-class that inherits from TestCase ![](./1_files/circle-1.jpg). But this
+class that inherits from TestCase ![](./images/circle-1.jpg). But this
 time, we do something a little different. We create a setup method that
 creates an instance variable to hold our string
-![](./1_files/circle-2.jpg). Now we refer to my\_string as an instance
-variable throughout our tests (![](./1_files/circle-3.jpg) and other
+![](./images/circle-2.jpg). Now we refer to my\_string as an instance
+variable throughout our tests (![](./images/circle-3.jpg) and other
 places). Finally, we (superfluously) set my\_string to nil in teardown
-![](./1_files/circle-4.jpg). The teardown method is special, like setup,
+![](./images/circle-4.jpg). The teardown method is special, like setup,
 and it’s run after tests. Yes, this example is a little contrived
 (especially because we didn’t do the whole testing cycle), but it’s
 important to understand the concept before we take it into practice. Now
@@ -343,43 +353,43 @@ might look something like this:
 Fairly simple, right? Departments have employees, which have weeks and
 hours. That’s simple enough to implement, and we’ll get to it soon, but
 first let’s write the test cases. Take a look at [listing
-2.3](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex03).
+2.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Listing 2.3. Tests for our to-be-implemented XML reporter {#ch02ex03}
+##### Listing 2.3. Tests for our to-be-implemented XML reporter
 
-![](./1_files/032fig01_alt.jpg)
+![](./images/032fig01_alt.jpg)
 
 First, we create an instance of the PayrollReporter class
-![](./1_files/circle-1.jpg) in the setup method. The constructor takes a
+![](./images/circle-1.jpg) in the setup method. The constructor takes a
 path to an XML file (we’ll feed it a test file here). Next, we create a
 test for a method named department, which will retrieve the details
-(employees, for example) of a department ![](./1_files/circle-2.jpg). We
+(employees, for example) of a department ![](./images/circle-2.jpg). We
 follow this with a test for a method named employee, which will do the
 same thing but for employees (it will retrieve a hash of their work
-hours) ![](./1_files/circle-3.jpg). The last test we create is for a
+hours) ![](./images/circle-3.jpg). The last test we create is for a
 method named get\_hours\_for, which retrieves the total hours worked by
-an employee ![](./1_files/circle-4.jpg). Then we run the tests and get a
+an employee ![](./images/circle-4.jpg). Then we run the tests and get a
 load of errors. If we create a stub file (a file that has all classes
 and methods defined but with no method bodies), we should see failures
 rather than errors.
 
 We’ve added some tests and they are properly failing, so let’s implement
 the code (which you can see in [listing
-2.4](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex04)).
+2.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Listing 2.4. Our PayrollReporter implemented {#ch02ex04}
+##### Listing 2.4. Our PayrollReporter implemented
 
-![](./1_files/033fig01_alt.jpg)
+![](./images/033fig01_alt.jpg)
 
 We’ll talk more about using and manipulating XML data later in this
 book, but for now we’ll use a library named XmlSimple to do basic data
-extraction ![](./1_files/circle-1.jpg). We implement each piece of the
+extraction ![](./images/circle-1.jpg). We implement each piece of the
 code individually. First the constructor, which takes a file path and
-opens it for parsing ![](./1_files/circle-2.jpg). Then a department
-method to get the employees in a department ![](./1_files/circle-3.jpg),
+opens it for parsing ![](./images/circle-2.jpg). Then a department
+method to get the employees in a department ![](./images/circle-3.jpg),
 and an employee method to get the work hours of an employee
-![](./1_files/circle-4.jpg). Last, a get\_hours\_for method to get the
-total work hours of an employee ![](./1_files/circle-5.jpg). Now we need
+![](./images/circle-4.jpg). Last, a get\_hours\_for method to get the
+total work hours of an employee ![](./images/circle-5.jpg). Now we need
 to run the tests to ensure they pass.
 
 ``` {.code-area}
@@ -395,7 +405,7 @@ add this code, we’ll use the tests to ensure that the application’s
 behavior is consistent. If the language of assertions and tests doesn’t
 appeal to you, there is an alternative testing method.
 
-### 2.3. Behavior-driven development with RSpec {#ch02lev1sec3}
+### 2.3. Behavior-driven development with RSpec
 
 Test cases help you ensure the code behaves as it should, but how do you
 know what it should behave like? We like to base our development on a
@@ -410,7 +420,7 @@ In this section we’ll talk about behavior-driven development, an
 approach that focuses on specifying, testing and implementing behavior
 (in that order), and we’ll show you how to do that using RSpec.
 
-#### 2.3.1. What is behavior-driven development? {#ch02lev2sec4}
+#### 2.3.1. What is behavior-driven development?
 
 Specifications take many forms, from high-level architecture diagrams
 through storyboards and screen mocks, all the way down to capturing the
@@ -434,11 +444,11 @@ template that describes the expected behavior, which you then fill up
 with test cases. As you make changes, you reflect those back into the
 specification and tests, changing them alongside the code. The process
 is illustrated in [figure
-2.3](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02fig03).
+2.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Figure 2.3. The behavior-driven development process starts with specification, adds tests, and builds an implementation that matches the specification and passes the tests. {#ch02fig03}
+##### Figure 2.3. The behavior-driven development process starts with specification, adds tests, and builds an implementation that matches the specification and passes the tests.
 
-![](./1_files/02fig03.jpg)
+![](./images/02fig03.jpg)
 
 If this sounds a bit conceptual, don’t worry. In practice, it’s easy to
 do. A specification document may initially look something like this:
@@ -453,19 +463,19 @@ This is Ruby code, and we’ll explain what it does in just a moment. It’s
 also a specification that’s easy to read and understand. The behavior
 stands out, so we don’t have to guess it from the code. When we run it
 through a tool, we get a report that looks the one shown in [Figure
-2.4](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02fig04).
+2.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 The report we generate has three colors: green for test cases that pass,
 identifying behaviors we implemented correctly; red for failing tests;
 and yellow for anything we specified but haven’t implemented yet. It
 tells us where we stand so we can track progress on our project.
 
-##### Figure 2.4. An HTML report showing successful, failing, and pending specifications {#ch02fig04}
+##### Figure 2.4. An HTML report showing successful, failing, and pending specifications
 
-![](./1_files/02fig04_alt.jpg)
+![](./images/02fig04_alt.jpg)
 
 To go from the specification to working code, we’ll start by adding test
 cases (see [listing
-2.6](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex06)).
+2.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 From here on, we’re following TDD practices: write a test that fails,
 then write the implementation to make the test pass.
 
@@ -484,7 +494,7 @@ framework—one that’s used extensively in the Ruby world and that also
 influenced BDD frameworks for languages as diverse as Java and FORTRAN.
 We’re talking about RSpec.
 
-#### 2.3.2. Testing with RSpec {#ch02lev2sec5}
+#### 2.3.2. Testing with RSpec
 
 Let’s build a suite of BDD tests using RSpec as we look at a simple spec
 for a class we’ll create. We’ll start by installing RSpec (gem install
@@ -492,20 +502,20 @@ rspec), which provides us with the spec library we need to require in
 our code and the spec command-line tool we’ll use to run these
 specification files. You can also use the command-line tool to generate
 reports like the one in [figure
-2.4](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02fig04)
-and to repeatedly run only failing tests. In [chapter
-3](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03)
+2.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
+and to repeatedly run only failing tests. In [lab
+3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md)
 we’ll talk about Rake, and we’ll show you how to set up your environment
 to automate these tasks.
 
 Let’s return to our previous string-testing example to get a grasp on
 BDD; [listing
-2.5](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex05)
+2.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 shows a basic spec for a new string object.
 
 * * * * *
 
-##### The role of specification in agile development {#ch02sb02}
+##### The role of specification in agile development
 
 Agile development practices put emphasis on progress through small,
 incremental iterations, with a close feedback loop between developer and
@@ -531,44 +541,44 @@ an important tool for agile development.
 
 * * * * *
 
-##### Listing 2.5. A context for an empty queue string {#ch02ex05}
+##### Listing 2.5. A context for an empty queue string
 
-![](./1_files/037fig01.jpg)
+![](./images/037fig01.jpg)
 
-First, we require the needed libraries ![](./1_files/circle-1.jpg),
+First, we require the needed libraries ![](./images/circle-1.jpg),
 which make available the methods that we must have. Then we create a
-context ![](./1_files/circle-2.jpg) for our string object: “A new
+context ![](./images/circle-2.jpg) for our string object: “A new
 string.” This context will describe the expected behavior of a new
 string. We can list those behaviors without writing any code to test
 them yet, or we can go straight ahead and start adding code that will
 test these behaviors. Because this is a trivial example, we’ll go ahead
 and add some real test cases, which you can see in [listing
-2.6](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex06).
+2.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Listing 2.6. A few specs for a string object {#ch02ex06}
+##### Listing 2.6. A few specs for a string object
 
-![](./1_files/037fig02.jpg)
+![](./images/037fig02.jpg)
 
 The general setup of the contexts and specifications may look familiar
 to you, because they are somewhat similar to those in the TDD library.
-First, we specify a before block ![](./1_files/circle-1.jpg), which will
+First, we specify a before block ![](./images/circle-1.jpg), which will
 create an instance variable for us to use in our specifications
 (cleaning up after a test is done using an after block). Next, we create
 a specification that a new string should have a length of 0
-![](./1_files/circle-2.jpg).
+![](./images/circle-2.jpg).
 
 Note the use of the method should; the should and should\_not methods
 are the primary verbs used in RSpec. These methods, combined with
-predicates (like empty ![](./1_files/circle-3.jpg)), allow you to
+predicates (like empty ![](./images/circle-3.jpg)), allow you to
 specify various conditions. You use these predicates to describe how the
 object being tested should behave (should throw\_symbol), exist (should
 be\_instance\_of), respond (should respond\_to), and so on. Check out
 [table
-2.2](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02table02)
+2.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 to see a list of the specification predicates that are available. You
 can find more details on the RSpec website (rspec.info).
 
-##### Table 2.2. RSpec has numerous specifications you can use to verify the behavior of your application. {#ch02table02}
+##### Table 2.2. RSpec has numerous specifications you can use to verify the behavior of your application.
 
   Specification                                                                                                                       Description
   ----------------------------------------------------------------------------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -600,21 +610,21 @@ or not the object has stories in it, whether it properly connected,
 whether the RSS is parsed correctly, and so on, rather than asserting
 values and conditions. Let’s start with the most basic spec, which you
 can see in [listing
-2.7](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex07).
+2.7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Listing 2.7. A basic spec for our IntranetReader class {#ch02ex07}
+##### Listing 2.7. A basic spec for our IntranetReader class
 
-![](./1_files/039fig01_alt.jpg)
+![](./images/039fig01_alt.jpg)
 
 This is similar to our specification in [listing
-2.6](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex06),
+2.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md),
 except this time we’ve specified two contexts. First, we require our
-essential libraries ![](./1_files/circle-1.jpg), and then we proceed to
+essential libraries ![](./images/circle-1.jpg), and then we proceed to
 create a context for an empty IntranetReader
-![](./1_files/circle-2.jpg). Inside the context, we have specifications
+![](./images/circle-2.jpg). Inside the context, we have specifications
 to check for the emptiness of the new object we’ve created. A second
 context holds specifications for a populated IntranetReader
-![](./1_files/circle-3.jpg). These specifications ensure that the object
+![](./images/circle-3.jpg). These specifications ensure that the object
 was populated properly.
 
 If you run these specifications now (using the spec command like this:
@@ -633,11 +643,11 @@ haven’t included here.)
 Once you’ve reached this point, all you have to do is go back and
 implement code to make the tests pass, just like in test-driven
 development. [Listing
-2.8](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex08)
+2.8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 shows our implementation using the SimpleRSS gem, but yours may look
 somewhat different.
 
-##### Listing 2.8. Our implementation of IntranetReader {#ch02ex08}
+##### Listing 2.8. Our implementation of IntranetReader
 
 ``` {.code-area}
 1require 'rubygems' require 'simple-rss' require 'open-uri' class IntranetReader  def initialize(url)   @feed_url = url  end  def process   @raw = open(@feed_url).read   @rss = SimpleRSS.parse @raw  end  def entries   @rss.items if @rss  end  def empty?   @rss.nil? ? true : @rss.items.empty?  end  def raw   @raw  end end
@@ -656,9 +666,9 @@ feed? How do you mimic your production environment for testing? The next
 section will discuss a few strategies for dealing with this problem and
 a few techniques for setting up an environment for your tests.
 
-### 2.4. A testing environment {#ch02lev1sec4}
+### 2.4. A testing environment
 
-As you read this chapter and start playing with tests, you may be
+As you read This lab and start playing with tests, you may be
 wondering, “What if my test environment doesn’t have access to certain
 parts of my application, like networked components or third-party
 services?” Fortunately for us, the pioneers of software testing devised
@@ -666,7 +676,7 @@ a number of techniques to handle this sort of thing. In this section,
 we’ll take a look at three of these techniques: fixtures, stubs, and
 mocks.
 
-#### 2.4.1. Setting up a baseline with fixture data {#ch02lev2sec6}
+#### 2.4.1. Setting up a baseline with fixture data
 
 One of the earliest difficulties you’ll encounter with testing is
 replicating the environment in which your code will run. Often the
@@ -683,7 +693,7 @@ your code reacts to existing data.
 
 * * * * *
 
-##### Note {#ch02note02}
+##### Note
 
 In the Ruby development realm, you will probably most often hear the
 term “fixture” applied to Rails and its testing fixtures for databases.
@@ -696,20 +706,20 @@ There is no special technique necessary to use fixtures because you are
 simply constructing a baseline environment for testing. For example,
 let’s say you were testing a component of your application that received
 the output from ps to check for the existence of a process. [Listing
-2.9](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex09)
+2.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 shows the original class and test.
 
-##### Listing 2.9. A process checker class and test {#ch02ex09}
+##### Listing 2.9. A process checker class and test
 
-![](./1_files/042fig01_alt.jpg)
+![](./images/042fig01_alt.jpg)
 
 As you can see, we have a ProcessChecker class that grabs the output
-from ps, stores it in an instance variable ![](./1_files/circle-1.jpg),
+from ps, stores it in an instance variable ![](./images/circle-1.jpg),
 and checks that variable for various processes (in this case, we just
 check that the Rails server script is running)
-![](./1_files/circle-2.jpg). We then create a test that ensures that
+![](./images/circle-2.jpg). We then create a test that ensures that
 variable is actually set when the object is instantiated
-![](./1_files/circle-3.jpg). But now we’re at a testing impasse. How do
+![](./images/circle-3.jpg). But now we’re at a testing impasse. How do
 you test the results of the ps call? Will you have to start the Rails
 server script every time this test is run? What if the deployment
 environment doesn’t even have Rails installed?
@@ -719,26 +729,26 @@ create standard data for the object to use instead of making a call to
 ps every time, you can ensure your tests will run the same everywhere
 (even on Windows!). Take a look at the revised version of the test in
 [listing
-2.10](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex10).
+2.10](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Listing 2.10. A revised test with fixture data {#ch02ex10}
+##### Listing 2.10. A revised test with fixture data
 
-![](./1_files/043fig01_alt.jpg)
+![](./images/043fig01_alt.jpg)
 
 In this instance, we fill in some fixture data, which has static output
-from a run of the ps command ![](./1_files/circle-1.jpg). This data is
+from a run of the ps command ![](./images/circle-1.jpg). This data is
 then fed into the object via instance\_variable\_set
-![](./1_files/circle-2.jpg). Now we can run this test on any platform
+![](./images/circle-2.jpg). Now we can run this test on any platform
 (even though Windows will complain that it can’t find ps) and it should
 behave the same way, because we now have a set of fixture data to work
 from.
 
 * * * * *
 
-##### Note {#ch02note03}
+##### Note
 
 We are injecting the data in a way that makes our test case fragile
-![](./1_files/circle-2.jpg). We recommend adding methods to your classes
+![](./images/circle-2.jpg). We recommend adding methods to your classes
 and modules that will assist in testing. We wanted to show what’s
 possible when you don’t have full control of the objects you’re testing.
 
@@ -746,15 +756,15 @@ possible when you don’t have full control of the objects you’re testing.
 
 You could then go back to your tests to refactor or add to them, as in
 [listing
-2.11](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex11).
+2.11](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Listing 2.11. Our refactored and expanded tests {#ch02ex11}
+##### Listing 2.11. Our refactored and expanded tests
 
-![](./1_files/043fig02_alt.jpg)
+![](./images/043fig02_alt.jpg)
 
 Now that we’ve refactored to use the setup method
-![](./1_files/circle-1.jpg), it’s trivial to add tests for the methods
-on the class ![](./1_files/circle-2.jpg).
+![](./images/circle-1.jpg), it’s trivial to add tests for the methods
+on the class ![](./images/circle-2.jpg).
 
 Fixtures make it easy to set a baseline environment for your tests, but
 they can’t cover everything. For example, if you’re using a database,
@@ -767,7 +777,7 @@ work and abstraction we can take advantage of them. We can use fixtures
 to rake data, as discussed earlier, and we can use stubs and mocks to
 fake methods and components. Let’s start with stubs.
 
-#### 2.4.2. Faking components with stubs {#ch02lev2sec7}
+#### 2.4.2. Faking components with stubs
 
 Stubs are “fake” objects or methods that mimic the behavior of “real”
 objects. A stubbed object creates a facade of a real object, seemingly
@@ -783,11 +793,11 @@ run without buying anything. These objects would act like, expose the
 same API as, and return the same values as the real objects that
 interact with the remote service, except they wouldn’t be interacting
 with the remote service. For a visual of the concept, see [figure
-2.5](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02fig05).
+2.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Figure 2.5. A stubbed class will seem to act like the real object but won’t actually behave like it. In this case, the stub doesn’t grab data from a remote service, but to the code consuming the API, it appears to. {#ch02fig05}
+##### Figure 2.5. A stubbed class will seem to act like the real object but won’t actually behave like it. In this case, the stub doesn’t grab data from a remote service, but to the code consuming the API, it appears to.
 
-![](./1_files/02fig05.jpg)
+![](./images/02fig05.jpg)
 
 Let’s look at this example in code. Let’s say the supplier exposes a web
 service API to you and has included a natural Ruby wrapper for this
@@ -799,9 +809,9 @@ supplier object to execute the purchase. The supplier class has an
 execute\_purchase method, which takes an array of product names and
 quantities from the XML purchasing data. Our test for a simple purchase
 is shown in [listing
-2.12](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex12).
+2.12](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Listing 2.12. Building tests for our supplier class {#ch02ex12}
+##### Listing 2.12. Building tests for our supplier class
 
 ``` {.code-area}
 1class TestSupplierInterface < Test::Unit::TestCase  def test_execute_purchase   data = [    {:item_name => 'Red Rug', :quantity => 2},    {:item_name => 'Set of Pens', :quantity => 17}   ]   my_supplier = MaterialSupplier.new   assert my_supplier.execute_purchase(data)  end end
@@ -813,17 +823,17 @@ As you can see, we instantiate our class, call the execute\_purchase
 method, and assert returns the truth value. If you run the tests, it
 should fail, so we’re ready to implement the class. The class
 implementation for this particular supplier is shown in [listing
-2.13](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex13).
+2.13](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Listing 2.13. A class for handling purchasing from a supplier {#ch02ex13}
+##### Listing 2.13. A class for handling purchasing from a supplier
 
-![](./1_files/045fig01_alt.jpg)
+![](./images/045fig01_alt.jpg)
 
 As we mentioned, the execute\_purchase method takes purchasing data from
-another part of your application ![](./1_files/circle-1.jpg). The data
+another part of your application ![](./images/circle-1.jpg). The data
 is then iterated, the product name is searched for, its id is found, and
-it is added to the cart ![](./1_files/circle-2.jpg). After the cart has
-been populated, we finalize the purchase ![](./1_files/circle-3.jpg).
+it is added to the cart ![](./images/circle-2.jpg). After the cart has
+been populated, we finalize the purchase ![](./images/circle-3.jpg).
 
 Now that we have a test and a class, how do we reliably test this? We
 can use the remote system to implement it, but we shouldn’t depend on
@@ -837,24 +847,24 @@ same name with input methods that return the right results (without
 making any requests to the remote service). Because we only use this
 class for testing, we’ll include it in the same file as our test case
 ([listing
-2.12](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex12)).
+2.12](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 [Listing
-2.14](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex14)
+2.14](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 shows the stubbed SupplierInterface.
 
-##### Listing 2.14. A stubbed SupplierInterface {#ch02ex14}
+##### Listing 2.14. A stubbed SupplierInterface
 
-![](./1_files/045fig02.jpg)
+![](./images/045fig02.jpg)
 
 We’ve created a stubbed version of SupplierInterface that works from
-data that we’ve statically created ![](./1_files/circle-1.jpg). We use
+data that we’ve statically created ![](./images/circle-1.jpg). We use
 class-level hashes to implement searching (using the index method)
-![](./1_files/circle-2.jpg) and adding to a cart
-![](./1_files/circle-3.jpg). Because all we are testing at this point is
+![](./images/circle-2.jpg) and adding to a cart
+![](./images/circle-3.jpg). Because all we are testing at this point is
 whether we can add items to the cart and purchase them, we can just have
 the purchase method mimic the remote system and return true if the order
 is successful (if there are items in the cart)
-![](./1_files/circle-4.jpg). Now our tests should execute in the same
+![](./images/circle-4.jpg). Now our tests should execute in the same
 manner, except using our local stubbed class instead of the remote
 service interface.
 
@@ -866,7 +876,7 @@ they would be if you were to test those calls to the objects you’re
 stubbing, because you could be missing out on a missed method call or a
 wrong parameter. Now let’s take a look at another technique: mocks.
 
-#### 2.4.3. Setting behavior expectations with mock objects {#ch02lev2sec8}
+#### 2.4.3. Setting behavior expectations with mock objects
 
 *Mock objects* are similar to stubs, except they set expectations about
 your code’s interactions with them. In our previous example, a mock
@@ -882,7 +892,7 @@ The first method we’ll discuss is creating your own mock object
 patterns, no library required. We’ll then take a look at using libraries
 such as Mocha to create mock objects.
 
-##### Creating custom mocks {#ch02lev3sec1}
+##### Creating custom mocks
 
 Before there were fancy mocking libraries, developers had to get their
 hands dirty and build their own mock objects. Unlike programming on
@@ -895,30 +905,30 @@ objects is simply easier.
 Let’s continue with our previous example. If we take our stubbed class
 and add expectations for each method, we can make it into a mock object.
 [Listing
-2.15](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex15)
+2.15](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 shows a revised version of the SupplierInterface stubbed class from
 [listing
-2.14](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex14).
+2.14](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Listing 2.15. Tests for shipping components {#ch02ex15}
+##### Listing 2.15. Tests for shipping components
 
-![](./1_files/047fig01_alt.jpg)
+![](./images/047fig01_alt.jpg)
 
 Here we have created expectations about parameters
-(![](./1_files/circle-1.jpg) and ![](./1_files/circle-2.jpg)) and an
+(![](./images/circle-1.jpg) and ![](./images/circle-2.jpg)) and an
 expectation that the purchase method will be called
-![](./1_files/circle-3.jpg), setting global variables appropriately.
+![](./images/circle-3.jpg), setting global variables appropriately.
 (This is not the best practice, but for the sake of brevity we’ll keep
 it simple.) These expectations can then be evaluated in an updated test,
 as shown in [listing
-2.16](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex16).
+2.16](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Listing 2.16. An updated test to use our custom mock {#ch02ex16}
+##### Listing 2.16. An updated test to use our custom mock
 
-![](./1_files/047fig02_alt.jpg)
+![](./images/047fig02_alt.jpg)
 
 As you can see, we have added a small piece of code
-![](./1_files/circle-1.jpg) to the end of the method that iterates over
+![](./images/circle-1.jpg) to the end of the method that iterates over
 our known expectations (one for each method we expected to be called) to
 make sure they were set. If they weren’t, the test fails. This technique
 makes our tests more robust, and, if used consistently, can make full
@@ -929,24 +939,20 @@ result, they are time-consuming to maintain. Fortunately there are a few
 libraries to formalize your mocks and speed up the development of your
 tests.
 
-##### Creating mocks with Mocha {#ch02lev3sec2}
+##### Creating mocks with Mocha
 
 As mocking has become more popular, a number of libraries has been
 created that make the process much easier. In this section, we’re going
 to discuss Mocha, one of the newer mocking libraries. Its mocking
 interface is much more intuitive and powerful than those of some other
-mocking libraries, so it’s the one we’d recommend, were you to ask (and
-you are asking, because you are reading this book!).
+mocking libraries, so it’s the one we’d recommend.
 
-* * * * *
 
-##### Tip {#ch02note04}
+##### Tip
 
 If you find that Mocha doesn’t work with your testing practices, or that
 it is “too magical,” you may want to look into FlexMock, Jim Weirich’s
 mocking library, or RSpec’s mocking capabilities.
-
-* * * * *
 
 Mocha works via a mechanism it calls expectations (which is why we
 called our hash \$expectations in the earlier examples). Mocha sets
@@ -958,24 +964,24 @@ much cleaner. Mocha expectations are defined by a single method,
 expects, and they can be attached to any object. When an expectation is
 attached to an object, a stub is automatically created and an
 expectation is set up. [Listing
-2.17](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex17)
+2.17](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 shows our example (from [listing
-2.16](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex16))
+2.16](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 refactored to use Mocha.
 
-##### Listing 2.17. The previous mocking example, rewritten using Mocha {#ch02ex17}
+##### Listing 2.17. The previous mocking example, rewritten using Mocha
 
-![](./1_files/048fig01_alt.jpg)
+![](./images/048fig01_alt.jpg)
 
 In this version of the code, we still verify behavior, but we don’t have
 to spend the time to implement an entire class, and we get the benefit
 of being able to verify specific calls to a method. We first create a
 blank class, because all we’re doing is attaching stubs to a dummy class
-![](./1_files/circle-1.jpg); in a real-world setting, this would be
+![](./images/circle-1.jpg); in a real-world setting, this would be
 unnecessary, because there would be a real class to attach the stubs to.
 Next, we define expectations for each method and for calls to that
-method ![](./1_files/circle-2.jpg). The final expectation is then set
-and the method tested ![](./1_files/circle-3.jpg). When this test suite
+method ![](./images/circle-2.jpg). The final expectation is then set
+and the method tested ![](./images/circle-3.jpg). When this test suite
 is executed, you should see something like the following:
 
 ``` {.code-area}
@@ -993,14 +999,14 @@ your testing code. Now that we’ve taken a look at testing, specifying,
 stubbing, and mocking, we need to look at a few techniques that test
 your tests.
 
-### 2.5. Testing your tests {#ch02lev1sec5}
+### 2.5. Testing your tests
 
 No one is perfect. If testing helps to smoke out your imperfections,
 who’s to say you won’t create some in the process of writing test code?
 In other words, “Who’s testing the testers?” In this section, we’ll look
 two metrics for evaluating your testing code’s coverage and quality.
 
-#### 2.5.1. Testing code coverage {#ch02lev2sec9}
+#### 2.5.1. Testing code coverage
 
 As your applications grow in size, so will your test suites, and as your
 test suites grow in size, so will the chances that you’ll miss testing a
@@ -1014,7 +1020,7 @@ at them next.
 
 * * * * *
 
-##### Tip {#ch02note05}
+##### Tip
 
 The ZenTest tool from Ryan Davis is another way to avoid skipping tests.
 If you run it over your code, it will generate stubs for code that
@@ -1024,7 +1030,7 @@ you’re doing TDD and want to exert less effort.
 
 * * * * *
 
-##### Testing coverage with rcov {#ch02lev3sec3}
+##### Testing coverage with rcov
 
 The rcov utility from Mauricio Fernandez allows you to test the C0
 coverage of your code (coverage of method and statements, but statements
@@ -1036,7 +1042,7 @@ data and produces HTML/XHTML (or, optionally, text).
 
 * * * * *
 
-##### Tip {#ch02note06}
+##### Tip
 
 Rcov can show your results in a simple text format if you feed it the -T
 option on the command line.
@@ -1048,12 +1054,12 @@ the code. You run it by invoking the rcov command followed by the list
 of files to test. As an example, we’ll run rcov on a portion of Rails
 using the command rcov test/\*.rb -o coverage/ (the -o option allows you
 to specify an output directory). [Figure
-2.6](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02fig06)
+2.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 shows the generated HTML page.
 
-##### Figure 2.6. The rcov tool presents its results as HTML or text; the HTML view has nice graphs that illustrate code coverage and individual pages for each file tested. {#ch02fig06}
+##### Figure 2.6. The rcov tool presents its results as HTML or text; the HTML view has nice graphs that illustrate code coverage and individual pages for each file tested.
 
-![](./1_files/02fig06_alt.jpg)
+![](./images/02fig06_alt.jpg)
 
 As you can see, a percentage is given for each code file, along with a
 small bar graph. Running this on a smaller codebase will yield less
@@ -1064,7 +1070,7 @@ Once you’ve mastered code coverage, it may beneficial to ensure your
 tests are of good quality and coverage; Heckle is a tool for testing
 just that.
 
-#### 2.5.2. Testing quality with Heckle {#ch02lev2sec10}
+#### 2.5.2. Testing quality with Heckle
 
 Heckle, from Ryan Davis, is a different kind of tool. Think of Heckle as
 your tests’ worst nightmare. It tests the *quality* of your tests using
@@ -1080,7 +1086,7 @@ covered or it isn’t covered well.
 
 * * * * *
 
-##### Tip {#ch02note07}
+##### Tip
 
 Heckle also supports RSpec. All you have to do is invoke RSpec with the
 --heckle option.
@@ -1089,9 +1095,9 @@ Heckle also supports RSpec. All you have to do is invoke RSpec with the
 
 Think of Heckle as a way of testing your tests—checking them for
 coverage and quality. Let’s say you have the class in [listing
-2.18](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex18).
+2.18](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Listing 2.18. A simple class to Heckle {#ch02ex18}
+##### Listing 2.18. A simple class to Heckle
 
 ``` {.code-area}
 1class Customer  def initialize(name = nil)   @name = name  end  def tag   tag = "Customer: "   tag += @name.nil? ? "<unknown>" : @name   tag  end end
@@ -1101,10 +1107,10 @@ coverage and quality. Let’s say you have the class in [listing
 
 This class will create a pretty simple object to represent customers and
 hold their names. [Listing
-2.19](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex19)
+2.19](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 shows a test for this class.
 
-##### Listing 2.19. Our tests to Heckle {#ch02ex19}
+##### Listing 2.19. Our tests to Heckle
 
 ``` {.code-area}
 1require 'test/unit' require 'customer' class TestCustomer < Test::Unit::TestCase  def test_tag   @customer = Customer.new('Mike Stevens')   assert_equal 'Customer: Mike Stevens', @customer.tag  end end
@@ -1128,10 +1134,10 @@ have. Note that it changed the value that is returned from tag from
 \<unknown\> to a long string of text. Because we didn’t test for this,
 it didn’t fail. So now we need to go back and add or refactor tests to
 catch the mutation. [Listing
-2.20](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02ex20)
+2.20](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md)
 shows how we did it.
 
-##### Listing 2.20. Our updated tests that can stand up to even a strong Heckling! {#ch02ex20}
+##### Listing 2.20. Our updated tests that can stand up to even a strong Heckling!
 
 ``` {.code-area}
 1class TestCustomer < Test::Unit::TestCase  def test_tag   @customer = Customer.new('James Litton')   assert_equal 'Customer: James Litton', @customer.tag  end  def test_tag_empty   @customer = Customer.new   assert_equal 'Customer: <unknown>', @customer.tag  end end
@@ -1154,10 +1160,10 @@ and heckle again and again. Even though Ruby makes this cycle easier, it
 can get annoying to make a change, run the tests, make a change, run the
 tests, and so on ad nauseum.
 
-### 2.6. Summary {#ch02lev1sec6}
+### 2.6. Summary
 
 Ruby’s testing facilities almost make it too hard not to test! In this
-chapter, you’ve been exposed to TDD and how to do it with Ruby. You
+lab, you’ve been exposed to TDD and how to do it with Ruby. You
 should be able to build test suites for new and old code and expand
 those tests over time. You were also shown how to do BDD using the RSpec
 library, starting with the specification and working your way through to
@@ -1171,7 +1177,7 @@ secondary tools that can help you out when writing tests. The rcov tool
 will ensure your code is covered, and the Heckle tool will help you
 ensure your code is covered well.
 
-In the next chapter, we’ll start looking at using Ruby with other
+In the next lab, we’ll start looking at using Ruby with other
 technologies. The rest of this book is about practical techniques, many
 of them using other technologies, but before we dig into that content,
 we need to take a look at the basics of integration and automation with

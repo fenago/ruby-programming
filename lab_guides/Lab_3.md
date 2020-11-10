@@ -1,9 +1,10 @@
+<img align="right" src="../logo.png">
 
 
-Chapter 3. Scripting with Ruby {#ch03}
+Lab 3. Scripting with Ruby
 ==============================
 
-### This chapter covers {.intro-header}
+### This lab covers
 
 -   Reading and writing CSV data
 -   Generating daily reports
@@ -14,11 +15,11 @@ One of the greatest assets of Ruby is its ability to scale small. As a
 software developer, you have learned about the difficulties of scaling
 large: applications with millions of lines of code, handling terabytes
 of data and serving billions of hits a day, taking advantage of
-multicore architectures and server farms. The rest of this book is about
+multicore architectures and server farms. The rest of this course is about
 working with big services: messaging, web services, databases, and so
 on. Scaling up and scaling out are tough challenges that excite the
 imagination, but they’re not all that software can do for you. We
-thought it would be prudent to take a chapter and show you how Ruby can
+thought it would be prudent to take a lab and show you how Ruby can
 help you out doing everyday “stuff.”
 
 In our daily lives, there are a lot of small problems waiting to be
@@ -32,7 +33,16 @@ life easier. Simple solutions like that automate repetitive tasks,
 double-check what we’re doing, and smooth our workflow so we can get
 more done without spending the night at the office.
 
-### 3.1. Scripting with Ruby {#ch03lev1sec1}
+#### Pre-reqs:
+- Google Chrome (Recommended)
+
+#### Lab Environment
+Al labs are ready to run. All packages have been installed. There is no requirement for any setup.
+
+All exercises are present in `~/work/ruby-programming/` folder.
+
+
+### 3.1. Scripting with Ruby
 
 If you talk to developers proficient with scripting
 languages—command-line languages like bash, or programming languages
@@ -50,7 +60,7 @@ of scripts that run in the background, on a schedule or from the command
 line, doing everything from deploying to monitoring to controlling and
 alerting.
 
-In this chapter, we’ll show you some simple, even throw-away, scripts.
+In This lab, we’ll show you some simple, even throw-away, scripts.
 Not because we have limited space, but because we think writing such
 scripts is a good habit to pick up. There’s always room in your life for
 little scripts that do dumb work so you don’t have to.
@@ -61,7 +71,7 @@ friends. Instead of inviting them over to watch a slide show (we know
 they’d have an “emergency” at home that night), we’ll serve those photos
 one by one using Twitter.
 
-#### Problem {#ch03lev2sec1}
+#### Problem
 
 You need to take a collection of high-resolution images, and scale them
 down to show fully in the browser, looking like Polaroid pictures. Next,
@@ -69,7 +79,7 @@ you’ll make them available on the web for everyone to see (using our
 Amazon S3 account), and announce each image to the world using your
 Twitter account.
 
-#### Solution {#ch03lev2sec2}
+#### Solution
 
 We’re going to write two different scripts:
 
@@ -91,27 +101,27 @@ them:
 [copy **](javascript:void(0))
 
 We’ll start with the first script, shown in [listing
-3.1](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex01).
+3.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 
-##### Listing 3.1. Turn our photos into smaller, Polaroid-like images, and upload to Amazon S3 {#ch03ex01}
+##### Listing 3.1. Turn our photos into smaller, Polaroid-like images, and upload to Amazon S3
 
-![](./1_files/056fig01_alt.jpg)
+![](./images/056fig01_alt.jpg)
 
 First, we need images that are just big enough to show fully in a web
 browser. Our photos are high resolution, so we need to scale them down
 to 800 pixels wide. We also want to make them look like Polaroid
 pictures, with a white border, and tilt them randomly between -10 and 10
 degrees. We’re going to use the convert program to do that
-transformation ![](./1_files/circle-1.jpg).
+transformation ![](./images/circle-1.jpg).
 
-We connect to our Amazon S3 account ![](./1_files/circle-2.jpg), and
+We connect to our Amazon S3 account ![](./images/circle-2.jpg), and
 since Amazon S3 stores files in buckets, we start by making sure we have
-a bucket ready ![](./1_files/circle-3.jpg). Next, we upload these images
+a bucket ready ![](./images/circle-3.jpg). Next, we upload these images
 one by one (for simplicity, the originals are JPEG and the Polaroids are
 PNG), and tell Amazon to make them publicly readable
-![](./1_files/circle-4.jpg). We get the URL for each of these images
-![](./1_files/circle-5.jpg) and store them in a file called images
-![](./1_files/circle-6.jpg).
+![](./images/circle-4.jpg). We get the URL for each of these images
+![](./images/circle-5.jpg) and store them in a file called images
+![](./images/circle-6.jpg).
 
 To use the script, we first need to supply our Amazon Web Services
 account credentials. We’ll put those in a separate file, so we can reuse
@@ -134,19 +144,19 @@ This is the command to run the script and tell it which bucket to use:
 [copy **](javascript:void(0))
 
 Now let’s turn to the second script, shown in [listing
-3.2](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex02).
+3.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 
-##### Listing 3.2. Twitter a link to an image {#ch03ex02}
+##### Listing 3.2. Twitter a link to an image
 
-![](./1_files/057fig01_alt.jpg)
+![](./images/057fig01_alt.jpg)
 
 We start by reading all the URLs from the images file
-![](./1_files/circle-1.jpg), but we’re only going to Twitter the first
+![](./images/circle-1.jpg), but we’re only going to Twitter the first
 image, so we’ll create a message for only one image
-![](./1_files/circle-2.jpg). Next, we connect to our Twitter account
-![](./1_files/circle-3.jpg) and post that message
-![](./1_files/circle-4.jpg). Finally, we’ll write the remaining URLs
-back to the file ![](./1_files/circle-5.jpg), so we can process the next
+![](./images/circle-2.jpg). Next, we connect to our Twitter account
+![](./images/circle-3.jpg) and post that message
+![](./images/circle-4.jpg). Finally, we’ll write the remaining URLs
+back to the file ![](./images/circle-5.jpg), so we can process the next
 URL when the script runs again.
 
 As before, we’re going to use a configuration file that lives in the
@@ -167,7 +177,7 @@ schedule it to run once an hour using cron:
 
 [copy **](javascript:void(0))
 
-#### Discussion {#ch03lev2sec3}
+#### Discussion
 
 There are several libraries we could use to resize images and apply
 interesting transformations. The first that comes to mind is RMagick.
@@ -232,7 +242,7 @@ In the next section, we’re going to take another look at scripting, this
 time scripting Windows applications using OLE Automation and Mac OS X
 applications using OSA.
 
-### 3.2. Automating with OLE and OSA {#ch03lev1sec2}
+### 3.2. Automating with OLE and OSA
 
 Scripting languages are easier to program with than low-level
 programming languages. If you’ve ever written an Excel macro, created a
@@ -259,7 +269,7 @@ iCal calendar application.
 
 Let’s start with OLE Automation and Microsoft Outlook.
 
-#### 3.2.1. Automating Outlook with Ruby {#ch03lev2sec4}
+#### 3.2.1. Automating Outlook with Ruby
 
 The example we’ll use is a fairly trivial one, but one that would be
 easier to develop in Ruby than either VBA or AppleScript.
@@ -273,43 +283,43 @@ code—mostly we forget about it. So we’re going to create a simple script
 that will read these comments from the source code and adds tasks in
 Outlook or To Do items in iCal to remind us about them.
 
-##### Problem {#ch03lev3sec1}
+##### Problem
 
 Given a directory containing Ruby source files, find all the TODO and
 FIXME comments buried in the source code, and create a task item for
 each one in Outlook.
 
-##### Solution {#ch03lev3sec2}
+##### Solution
 
 You can see the entire script in [listing
-3.3](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex03).
+3.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 
-##### Listing 3.3. Turn TODO and FIXME comments into Outlook tasks {#ch03ex03}
+##### Listing 3.3. Turn TODO and FIXME comments into Outlook tasks
 
-![](./1_files/059fig01_alt.jpg)
+![](./images/059fig01_alt.jpg)
 
 We start by obtaining the Outlook Application object using the Ruby-OLE
-bridge ![](./1_files/circle-1.jpg). We’ll need that object later on, to
+bridge ![](./images/circle-1.jpg). We’ll need that object later on, to
 create Outlook tasks. Next, we use the Dir.glob method to iterate
 through all the Ruby files in the current directory and each
-subdirectory and read each file ![](./1_files/circle-2.jpg). We need the
+subdirectory and read each file ![](./images/circle-2.jpg). We need the
 line number of each comment, so we use each\_with\_index to iterate
 through each line while keeping track of the line number
-![](./1_files/circle-3.jpg).
+![](./images/circle-3.jpg).
 
 Using a regular expression, we match each line containing a TODO or
-FIXME comment ![](./1_files/circle-4.jpg). Some people put a colon after
+FIXME comment ![](./images/circle-4.jpg). Some people put a colon after
 the TODO/FIXME, and some don’t, so our regular expression handles both
 cases. For each comment, we create an Outlook task using the comment
-text as the task subject ![](./1_files/circle-5.jpg). Next, we add the
+text as the task subject ![](./images/circle-5.jpg). Next, we add the
 filename, line number, and a code snippet to the task body
-![](./1_files/circle-6.jpg), before saving the task in Outlook
-![](./1_files/circle-7.jpg).
+![](./images/circle-6.jpg), before saving the task in Outlook
+![](./images/circle-7.jpg).
 
 Try running this script on your project’s directory and watch as all
 TODO and FIXME comments show up in your Outlook tasks list.
 
-##### Discussion {#ch03lev3sec3}
+##### Discussion
 
 The Ruby-OLE (win32ole) bridge is part of the Ruby standard library when
 running Ruby on the Windows platform, so there’s no need to install
@@ -352,9 +362,9 @@ is shorthand for
 
 * * * * *
 
-##### Slash and backslash {#ch03sb01}
+##### Slash and backslash
 
-You’ll notice throughout this book that our examples use *forward
+You’ll notice throughout this course that our examples use *forward
 slashes* as directory separators (/, also known as *slashes*). Most
 Windows applications use *backward slashes* by convention (\\, also
 known as *backslashes*), although the Windows APIs work equally well
@@ -399,18 +409,18 @@ join the lines together.
 We’re going to use most of this code in the next section, only changing
 it to deal with iCal instead of Outlook.
 
-#### 3.2.2. Automating iCal with Ruby {#ch03lev2sec5}
+#### 3.2.2. Automating iCal with Ruby
 
 Now let’s turn our attention to Mac OS X and write the same example to
 automate iCal.
 
-##### Problem {#ch03lev3sec4}
+##### Problem
 
 Given a directory containing Ruby source files, find all the TODO and
 FIXME comments buried in the source code, and create a To Do entry for
 each one in iCal.
 
-##### Solution {#ch03lev3sec5}
+##### Solution
 
 For this solution, we decided to access iCal’s scripting objects using
 the Appscript library. We explain why in the discussion, so for now,
@@ -423,39 +433,39 @@ let’s get Appscript installed. The gem name is actually rb-appscript:
 [copy **](javascript:void(0))
 
 You can see the entire script in [listing
-3.4](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex04).
+3.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 You’ll notice it’s similar to the Outlook script in [listing
-3.3](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex03).
+3.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 The main difference is using a method call to create the To Do item and
 set all the relevant properties.
 
-##### Listing 3.4. Turn TODO and FIXME comments into iCal To Dos {#ch03ex04}
+##### Listing 3.4. Turn TODO and FIXME comments into iCal To Dos
 
-![](./1_files/062fig01_alt.jpg)
+![](./images/062fig01_alt.jpg)
 
 We start by obtaining the iCal application object
-![](./1_files/circle-1.jpg). There are several calendars, and we want to
+![](./images/circle-1.jpg). There are several calendars, and we want to
 add To Dos to the Work calendar, so we look it up
-![](./1_files/circle-2.jpg).
+![](./images/circle-2.jpg).
 
 We use the Dir.glob method to iterate through all the Ruby files in the
 current directory and each subdirectory and read each file
-![](./1_files/circle-3.jpg), matching lines that contain a TODO or FIXME
-comment ![](./1_files/circle-4.jpg). For each comment, we create a
-summary from the comment text ![](./1_files/circle-5.jpg). We collect
+![](./images/circle-3.jpg), matching lines that contain a TODO or FIXME
+comment ![](./images/circle-4.jpg). For each comment, we create a
+summary from the comment text ![](./images/circle-5.jpg). We collect
 the filename, line number, and a code snippet to provide more details
-![](./1_files/circle-6.jpg). Then it’s just a matter of creating a new
+![](./images/circle-6.jpg). Then it’s just a matter of creating a new
 todo item at the end of the calendar with these two properties
-![](./1_files/circle-7.jpg).
+![](./images/circle-7.jpg).
 
-##### Discussion {#ch03lev3sec6}
+##### Discussion
 
 To understand this example in full, you need to understand a bit about
 how AppleScript works, so let’s start with a simple AppleScript example
 in [listing
-3.5](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex05).
+3.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 
-##### Listing 3.5. AppleScript example for adding a To Do item to iCal {#ch03ex05}
+##### Listing 3.5. AppleScript example for adding a To Do item to iCal
 
 ``` {.code-area}
 1tell application "iCal" to  make new todo at end of calendar "Work"   with properties  {summary:"FIXME now"}
@@ -469,7 +479,7 @@ understanding the syntax helps in understanding how to use the relevant
 APIs.
 
 The example in [listing
-3.5](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex05)
+3.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md)
 loosely translates into a method call (make) with one anonymous argument
 (todo) and two named arguments (at end and with properties). The value
 of the first named argument is an object reference; it doesn’t point to
@@ -481,11 +491,11 @@ iCal application.
 
 The Ruby equivalent, using the Appscript library, would look like
 [listing
-3.6](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex06).
+3.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 
-##### Listing 3.6. Ruby example for adding a To Do item to iCal using Appscript {#ch03ex06}
+##### Listing 3.6. Ruby example for adding a To Do item to iCal using Appscript
 
-![](./1_files/063fig01_alt.jpg)
+![](./images/063fig01_alt.jpg)
 
 There are two libraries you can use to automate Mac OS X applications.
 Appscript (from
@@ -496,11 +506,11 @@ applications. The other one is RubyOSA (from
 [rubyosa.rubyforge.org](http://rubyosa.rubyforge.org/)), which makes OSA
 feel more Ruby-ish. If you want to get a feeling for RubyOSA, check out
 [listing
-3.7](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex07).
+3.7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 
-##### Listing 3.7. Ruby example for adding a To Do item to iCal using RubyOSA {#ch03ex07}
+##### Listing 3.7. Ruby example for adding a To Do item to iCal using RubyOSA
 
-![](./1_files/063fig02_alt.jpg)
+![](./images/063fig02_alt.jpg)
 
 Unfortunately, some things get lost in translation, and a few automation
 tasks we worked on could not be done in RubyOSA. If you want to master a
@@ -510,15 +520,15 @@ Another way of adding To Do items to your calendar is by using the Cocoa
 API to create them in the calendar store. You can do a lot more things
 using the Cocoa APIs than is possible with the OSA APIs; in fact, you
 can build an entire native application using the Ruby/Cocoa bridge. For
-our example, this would be overkill, and we don’t have room in this book
+our example, this would be overkill, and we don’t have room in this course
 to cover Ruby/Cocoa in full. But to whet your appetite, we’ll look at a
 simple example. [Listing
-3.8](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex08)
+3.8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md)
 uses the Cocoa API to talk to Growl. Add it to the end of [listing
-3.5](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex05),
+3.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md),
 and the script will show a Growl notification when it completes.
 
-##### Listing 3.8. Growl notification using Cocoa API {#ch03ex08}
+##### Listing 3.8. Growl notification using Cocoa API
 
 ``` {.code-area}
 1require 'osx/cocoa' dnc = OSX::NSDistributedNotificationCenter.defaultCenter dnc.postNotificationName_object_userInfo_deliverImmediately(  :GrowlApplicationRegistrationNotification, nil,  { :ApplicationName=>'TODO/FIXME', :AllNotifications=>['Completed'] },  true) dnc.postNotificationName_object_userInfo_deliverImmediately(  :GrowlNotification, nil,  { :ApplicationName=>'TODO/FIXME', :NotificationName=>'Completed',    :NotificationTitle=>'TODO/FIXME comments added to iCal' }, true)
@@ -529,20 +539,20 @@ and the script will show a Growl notification when it completes.
 Next, we’re going to look at a different kind of automation, using Rake
 to automate multiple tasks and their dependencies.
 
-### 3.3. Using Rake {#ch03lev1sec3}
+### 3.3. Using Rake
 
 Rake is a build tool similar in principle to Make. Briefly, it allows
 you to define tasks, establish dependencies between tasks, and execute
-those tasks (and their dependencies) from the command line. In [chapter
-8](https://livebook.manning.com/book/ruby-in-practice/chapter-8/ch08),
+those tasks (and their dependencies) from the command line. In [lab
+8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_8.md),
 we’ll look at Ruby Gems and show you how to use Rake to build and
 package your gems.
 
 Since Rake tasks are written in Ruby, Rake is flexible enough that you
 can use it to automate different types of tasks. Rails and Merb are two
 web application frameworks that use Rake for development tasks; Vlad the
-Deployer, which we also cover in [chapter
-8](https://livebook.manning.com/book/ruby-in-practice/chapter-8/ch08),
+Deployer, which we also cover in [lab
+8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_8.md),
 uses Rake for deployment tasks. In fact, Rake has become such an
 indispensable tool that it’s now included in most distributions of Ruby
 1.8 (such as One-Click Installer, for Mac OS X) and it’s available as
@@ -563,7 +573,7 @@ If you don’t already have Rake installed, start by installing it:
 
 Now let’s get started.
 
-#### 3.3.1. Using tasks {#ch03lev2sec6}
+#### 3.3.1. Using tasks
 
 Rake is all about tasks, so we’ll start by looking at the very basics of
 working with tasks: how to use Rakefile to define tasks, how to invoke
@@ -573,7 +583,7 @@ necessary tasks, and only those. If you don’t get it on the first read,
 don’t despair; use Rake a few times in your own projects, and you’ll
 quickly pick it up.
 
-##### Problem {#ch03lev3sec7}
+##### Problem
 
 You’re starting a new project, and you plan to use RDoc to generate
 documentation and RSpec for behavior-driven development. These commands
@@ -581,34 +591,34 @@ require specific command-line options, which are not the same for every
 project and can be run in different ways. How can you make it less
 painful by automating these tasks?
 
-##### Solution {#ch03lev3sec8}
+##### Solution
 
 Rake will look for a file called Rakefile (or rakefile). It’s a regular
 Ruby file, but it has a specific name and is loaded by Rake so Rakefile
 can make use of methods like task and file that are part of the Rake
 API. We’ll create it in the root directory of our project and add all
 the necessary tasks to use RDoc and RSpec effectively. [Listing
-3.9](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex09)
+3.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md)
 shows what our Rakefile looks like.
 
-##### Listing 3.9. Rakefile for creating RDoc documentation and running RSpec tests {#ch03ex09}
+##### Listing 3.9. Rakefile for creating RDoc documentation and running RSpec tests
 
-![](./1_files/065fig01.jpg)
+![](./images/065fig01.jpg)
 
 We start out by using Rake::RDocTask to configure the documentation
-tasks ![](./1_files/circle-1.jpg). There are three—rdoc, rerdoc, and
+tasks ![](./images/circle-1.jpg). There are three—rdoc, rerdoc, and
 clobber\_rdoc—all created together using the same configuration. Next,
 we define two tasks for running specs (we’ll explain more about them in
 the discussion that follows). The first task (spec) runs all our specs
-![](./1_files/circle-2.jpg), while the second task (failed) runs only
+![](./images/circle-2.jpg), while the second task (failed) runs only
 those examples that failed in the previous run
-![](./1_files/circle-3.jpg). We’re strong believers in behavior-driven
+![](./images/circle-3.jpg). We’re strong believers in behavior-driven
 development, so we run spec as part of the default task
-![](./1_files/circle-4.jpg). Last, we use the clobber task to clean up
-![](./1_files/circle-5.jpg) all the temporary files and directories
+![](./images/circle-4.jpg). Last, we use the clobber task to clean up
+![](./images/circle-5.jpg) all the temporary files and directories
 created by the other tasks.
 
-##### Discussion {#ch03lev3sec9}
+##### Discussion
 
 Let’s start by finding out which tasks we just defined:
 
@@ -632,8 +642,8 @@ take care of all that. We’ll use Rake::RDocTask for that, so to generate
 documentation for the current project, all we need to do is run rake
 rdoc.
 
-We do the same for RSpec (we covered RSpec in [chapter
-2](https://livebook.manning.com/book/ruby-in-practice/chapter-2/ch02)).
+We do the same for RSpec (we covered RSpec in [lab
+2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 We use Spec::Rake::SpecTask to define a task that runs all the
 specification files it finds in the spec directory, and we set it up to
 use our preferred options. In fact, we have two tasks for RSpec. The
@@ -687,9 +697,9 @@ When would a task not execute? Let’s see what happens when we run the
 rdoc task twice in a row. We’re going to use the --trace flag, so Rake
 will report every task invoked and executed. You can see the result of
 running rake rdoc --trace twice in [listing
-3.10](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex10).
+3.10](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 
-##### Listing 3.10. Running rake rdoc twice with --trace {#ch03ex10}
+##### Listing 3.10. Running rake rdoc twice with --trace
 
 ``` {.code-area}
 1$ rake rdoc --trace (in /Users/assaf/Ruby In Practice/CH3/3.3) ** Invoke rdoc (first_time) ** Invoke html/index.html (first_time) ** Invoke README (first_time, not_needed) ** Invoke LICENSE (first_time, not_needed) ** Invoke Rakefile (first_time, not_needed) ** Execute html/index.html                      README:                     LICENSE: Generating HTML... Files:  2 Classes: 0 Modules: 0 Methods: 0 Elapsed: 0.148s ** Execute rdoc $ rake rdoc --trace (in /Users/assaf/Ruby In Practice/CH3/3.3) ** Invoke rdoc (first_time) ** Invoke html/index.html (first_time, not_needed) ** Invoke README (first_time, not_needed) ** Invoke LICENSE (first_time, not_needed) ** Invoke Rakefile (first_time, not_needed) ** Execute rdoc
@@ -701,7 +711,7 @@ Both times, Rake starts by invoking the task rdoc. It then invokes all
 its prerequisites (in this case, html/index.html), and finally executes
 the task, which by itself doesn’t do anything interesting. All the work
 is actually done by the html/index.html task. You can see from [listing
-3.10](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex10)
+3.10](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md)
 that this task executes on the first run, but not on the second one.
 
 Rake invokes the html/index.html task by first invoking all its
@@ -741,7 +751,7 @@ desk clean and tidy, you’ll want to do the same with your working
 directory. We’re going to use the clobber task for that.
 
 You can see, at the end of [listing
-3.9](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex09),
+3.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md),
 that we defined the clobber task to remove the failed file and the tmp
 directory, both of which are generated by the spec/failed task. We don’t
 have to worry about the html directory, because Rake::RDocTask took care
@@ -763,9 +773,9 @@ defined.
 You might be asking how we know clobber uses clobber\_rdoc? We used the
 --prereqs option to list all the tasks and their dependencies, as shown
 in [listing
-3.11](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex11).
+3.11](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 
-##### Listing 3.11. Listing all the tasks and their prerequisites {#ch03ex11}
+##### Listing 3.11. Listing all the tasks and their prerequisites
 
 ``` {.code-area}
 1$ rake --prereqs (in /Users/assaf/Ruby In Practice/CH3/3.3.1) rake clobber    clobber_rdoc rake clobber_rdoc rake default    spec rake failed rake html rake html/index.html    README    LICENSE    Rakefile rake rdoc    html/index.html rake rerdoc    clobber_rdoc    rdoc rake spec
@@ -784,7 +794,7 @@ methods for copying, removing, linking, and otherwise working with
 files. Usually you would have to require 'fileutils', but Rake makes
 these methods directly accessible in your Rakefile.
 
-#### 3.3.2. File tasks {#ch03lev2sec7}
+#### 3.3.2. File tasks
 
 In this section, we’re going to expand on file tasks and show you how to
 use three features of Rake that will help you automate tasks that deal
@@ -794,7 +804,7 @@ FileList to manage lists of files and show you how it’s easier to use
 and more powerful than a simple array. And we’ll use rules to tell Rake
 how to convert a file of one type into another.
 
-##### Problem {#ch03lev3sec10}
+##### Problem
 
 To get your code ready for release, you need to perform two additional
 tasks. You kept your code modular by writing several JavaScript files,
@@ -805,32 +815,32 @@ using Textile, a lovely markup language, but you’re going to serve HTML
 pages to your users. You want to automate a task that will convert your
 Textile files into HTML.
 
-##### Solution {#ch03lev3sec11}
+##### Solution
 
 We started building our Rakefile in the previous section (see [listing
-3.9](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex09)),
+3.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md),
 and in this section we’re going to add tasks to it. You can see those
 additional tasks in [listing
-3.12](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex12).
+3.12](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 
-##### Listing 3.12. Tasks to merge JavaScript files and create HTML from Textile documents {#ch03ex12}
+##### Listing 3.12. Tasks to merge JavaScript files and create HTML from Textile documents
 
-![](./1_files/070fig01_alt.jpg)
+![](./images/070fig01_alt.jpg)
 
 We start by defining one task, prepare, that will invoke all the tasks
-we want to automate ![](./1_files/circle-1.jpg). Some of these were
+we want to automate ![](./images/circle-1.jpg). Some of these were
 defined before (see [listing
-3.9](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex09)),
+3.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md),
 and the other two we define now. We start with a task to create the
 js/all.js file by merging all the JavaScript files found in the js
-directory ![](./1_files/circle-2.jpg). We also enhance the clobber task
-to clean up by discarding js/all.js ![](./1_files/circle-3.jpg). Next,
+directory ![](./images/circle-2.jpg). We also enhance the clobber task
+to clean up by discarding js/all.js ![](./images/circle-3.jpg). Next,
 we teach Rake how to convert any Textile file it finds in the docs
 directory into an HTML file, using the RedCloth library
-![](./1_files/circle-4.jpg). This is just a rule, it doesn’t process any
+![](./images/circle-4.jpg). This is just a rule, it doesn’t process any
 specific file, but it sets the stage for the next task that will find
 all the Textile files in the docs directory and use them to generate
-HTML files in the html directory ![](./1_files/circle-5.jpg).
+HTML files in the html directory ![](./images/circle-5.jpg).
 
 To run this Rakefile, first install the RedCloth gem (gem install
 redcloth) and invoke the prepare task:
@@ -841,7 +851,7 @@ redcloth) and invoke the prepare task:
 
 [copy **](javascript:void(0))
 
-##### Discussion {#ch03lev3sec12}
+##### Discussion
 
 Let’s start with the file task that creates the combined js/all.js. A
 naïve implementation would just iterate over a list of files, read the
@@ -855,7 +865,7 @@ could write it like this:
 [copy **](javascript:void(0))
 
 As we learned in [section
-3.3.1](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03lev2sec6),
+3.3.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md),
 this task will create the scripts/all.js file when it executes, but it
 will not execute if the file already exists. We can make it execute each
 time, but what we’re really interested in is making it execute whenever
@@ -894,7 +904,7 @@ each time we run the task. Oops! Fortunately, we can also tell FileList
 to exclude files that match a certain pattern, so we’ll change our
 definition to use FileList['js/\*.js'].exclude('js/all.js'). You can see
 the final version in [listing
-3.12](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex12).
+3.12](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 
 We’ll explore another way to use FileList in a moment, but first, let’s
 talk about rules. We decided to write our documentation using Textile
@@ -902,9 +912,9 @@ talk about rules. We decided to write our documentation using Textile
 a very simple markup language. Textile documents are very easy to write
 with a text editor, and they easily convert into HTML. A Textile
 document would look something like [listing
-3.13](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex13).
+3.13](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md).
 
-##### Listing 3.13. Example Textile document that we’ll convert to HTML {#ch03ex13}
+##### Listing 3.13. Example Textile document that we’ll convert to HTML
 
 ``` {.code-area}
 1h1. Welcome Myapp is *the best* something something. New features in Myapp 2.0: * Super fast * Never breaks * Saves kittens Hear what other people have to say: bq. Myapp has totally changed my life! -- Anonymous Developed for: "Ruby in Practice":http://www.manning.com/mcanally/
@@ -930,7 +940,7 @@ welcome.html, the source welcome.textile, and the action specified by
 the rule.
 
 The example we gave in [listing
-3.12](https://livebook.manning.com/book/ruby-in-practice/chapter-3/ch03ex12)
+3.12](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_3.md)
 is a bit more complicated. It uses a pathmap to convert one filename to
 another: docs/%n.textile replaces the filename extension with .textile
 and prefixes it with the docs directory. That way, we can use our rule
@@ -953,9 +963,9 @@ its files, only when necessary, while still updating the generated files
 when we modify the corresponding Textile documents. It’s this
 combination of simplicity and power that makes Rake what it is.
 
-### 3.4. Summary {#ch03lev1sec4}
+### 3.4. Summary
 
-In this chapter, we took a look at Ruby from a slightly different
+In This lab, we took a look at Ruby from a slightly different
 perspective: from that of a scripting language. We showed how to use
 Ruby to automate everyday tasks and drive other applications and
 services. In our first solution, we looked at simply using Ruby to
@@ -965,8 +975,8 @@ these technologies. Finally, we showed you how to use Rake to automate
 everyday tasks cleanly.
 
 This foray into “scaling small” was fun, wasn’t it? In the next part of
-the book, we’ll turn our attention to working with “bigger”
+the course, we’ll turn our attention to working with “bigger”
 technologies: databases, web applications, and so on. The next two
-chapters will take a look at working with the Web and Ruby, specifically
+labs will take a look at working with the Web and Ruby, specifically
 advancing your Rails knowledge and then applying that to creating Web
 services.

@@ -1,9 +1,10 @@
+<img align="right" src="../logo.png">
 
 
-Chapter 12. Searching and indexing {#ch12}
+Lab 12. Searching and indexing
 ==================================
 
-### This chapter covers {.intro-header}
+### This lab covers
 
 -   Searching databases
 -   Indexing content using Ferret and Solr
@@ -13,7 +14,7 @@ Chapter 12. Searching and indexing {#ch12}
 Throughout this book, and throughout your entire programming life,
 you’ve been used to dealing with data, because it forms the input and
 output for all computer programs. So far, we have mostly looked at
-transforming data from one state to another, but in this chapter we’re
+transforming data from one state to another, but in This lab we’re
 going to investigate Ruby’s abilities to let you *search through* data.
 
 Unfortunately, as a language that has reached maturity only in the last
@@ -22,7 +23,7 @@ libraries. This is not necessarily a bad thing, as search technologies
 progress quickly, and most of the available Ruby search solutions are up
 to date and ready to use in production immediately.
 
-In this chapter, we’ll look at Ruby-specific techniques for searching
+In This lab, we’ll look at Ruby-specific techniques for searching
 and indexing data, and we’ll examine some solutions to common
 search-related problems.
 
@@ -37,9 +38,18 @@ Ruby on Rails applications.
 First, we’ll define searching and indexing, as well as other related
 terminology.
 
-* * * * *
 
-##### Note {#ch12note01}
+#### Pre-reqs:
+- Google Chrome (Recommended)
+
+#### Lab Environment
+Al labs are ready to run. All packages have been installed. There is no requirement for any setup.
+
+All exercises are present in `~/work/ruby-programming/` folder.
+
+
+
+##### Note
 
 We will only cover search libraries that are under active development
 and that have been updated in the last year. There are several older
@@ -49,7 +59,7 @@ and support you would expect is still present.
 
 * * * * *
 
-### 12.1. The principles of searching {#ch12lev1sec1}
+### 12.1. The principles of searching
 
 *Searching* refers to the process of taking a collection of data,
 processing it so that it can be scanned quickly, then enabling a program
@@ -85,16 +95,16 @@ references each distinct term) to the page it is indexing. When a search
 is run, the query engine can quickly look up the IDs of pages that match
 the terms provided by a user’s search query.
 
-### 12.2. Standalone and high-performance searching {#ch12lev1sec2}
+### 12.2. Standalone and high-performance searching
 
 In this section, we’re going to look at generic, standalone searching
 and indexing scenarios with the simplest problem we can provide:
 indexing, and then querying, a corpus of documents. This contrasts with
-the latter half of this chapter, where we will look at how to use and
+the latter half of This lab, where we will look at how to use and
 integrate search techniques in busier situations, such as on the web or
 within a database-driven web application.
 
-#### 12.2.1. Standalone indexing and search with Ferret {#ch12lev2sec1}
+#### 12.2.1. Standalone indexing and search with Ferret
 
 Ferret is a Ruby implementation of Apache Lucene, an open source search
 and indexing library written in Java. Lucene is incredibly popular in
@@ -120,23 +130,23 @@ information, and other metadata).
 In this section, we’re going to look at using Ferret to index and search
 through documents we provide.
 
-##### Problem {#ch12lev3sec1}
+##### Problem
 
 You wish to be able to index, and then search via query, an arbitrary
 set of documents (that may or may not contain multiple fields of
 metadata, such as titles, descriptions, and author information) quickly
 and efficiently. You do not care if the index is usable only from Ruby.
 
-##### Solution {#ch12lev3sec2}
+##### Solution
 
 We’ll look at three solutions to the problem. The first, in [listing
-12.1](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex01),
+12.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md),
 implements a basic text-only indexing and searching system. The second,
 in [listing
-12.2](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex02),
+12.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md),
 looks at indexing and searching through content that contains metadata
 and multiple fields. The third solution, in [listing
-12.3](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex03),
+12.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md),
 looks at storing an index to disk and then loading it from another
 program (which allows the index to persist).
 
@@ -144,17 +154,17 @@ Each solution assumes that you have installed the **ferret** gem. This
 is very simple to do on a system running Ruby and RubyGems; use gem
 install ferret.
 
-##### Listing 12.1. Basic document search {#ch12ex01}
+##### Listing 12.1. Basic document search
 
-![](./12_files/255fig01.jpg)
+![](./images/255fig01.jpg)
 
-##### Listing 12.2. Multifield document search {#ch12ex02}
+##### Listing 12.2. Multifield document search
 
-![](./12_files/256fig01_alt.jpg)
+![](./images/256fig01_alt.jpg)
 
-##### Listing 12.3. Separate indexer and query client programs {#ch12ex03}
+##### Listing 12.3. Separate indexer and query client programs
 
-![](./12_files/256fig02_alt.jpg)
+![](./images/256fig02_alt.jpg)
 
 These three solutions are very similar, but they show different
 approaches and levels of complexity. All of them use a Ferret index,
@@ -163,12 +173,12 @@ use only, and the final solution storing the index to and loading it
 from the disk.
 
 In [listing
-12.1](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex01),
+12.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md),
 we can see how simple it is to create an index by creating a new object
-from the Ferret::Index::Index class ![](./12_files/circle-1.jpg).
+from the Ferret::Index::Index class ![](./images/circle-1.jpg).
 
 Next, we supply the index with multiple documents to be indexed
-![](./12_files/circle-2.jpg). We used strings, but we could have used
+![](./images/circle-2.jpg). We used strings, but we could have used
 almost any form of data in Ruby that can translate to a string (such as
 an array or a hash).
 
@@ -176,7 +186,7 @@ Whether we use an in-memory or on-disk index, “pushing” documents to the
 index causes them to be indexed immediately. Finally, we query the index
 using the search\_each method, which performs a search and iterates over
 each result, passing in the document ID of the matching document, along
-with a quality score, each time ![](./12_files/circle-3.jpg).
+with a quality score, each time ![](./images/circle-3.jpg).
 
 We did not give our documents ID numbers, but Ferret did this for us in
 the order that we supplied the documents. For example, the first
@@ -193,7 +203,7 @@ document that has an ID of 2, due to 0-indexing), it’s not returned as a
 result.
 
 [Listing
-12.2](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex02)
+12.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows how the previous solution can be extended with an option to
 include information about a set of fields that exist on the supplied
 documents. We define these fields first into a group using class
@@ -202,7 +212,7 @@ the index as an option.
 
 Defining fields to be indexed and managed separately by Ferret is easy.
 First, we create the FieldInfos object that will hold all of the
-information ![](./12_files/circle-4.jpg).
+information ![](./images/circle-4.jpg).
 
 This constructor takes many different options, but the important ones
 are :store and :index. These options act as the default choices for all
@@ -213,7 +223,7 @@ entirely) and :index specifies whether a field should be indexed at all.
 In our case, we want the default to be yes for both.
 
 Next, we define three fields: a “title” field, a “text” or content
-field, and an author field ![](./12_files/circle-5.jpg). Adding the
+field, and an author field ![](./images/circle-5.jpg). Adding the
 fields is as easy as calling add\_field on the FieldInfos object. Then
 we specify the field name, along with any options. In this case, the
 default options of :store =\> :yes and :index =\> :yes are used on all
@@ -229,10 +239,10 @@ would probably score more highly.
 
 Once the fields are defined in the FieldInfo set, we define the index
 much like in our first example, but we also pass through the field data
-![](./12_files/circle-6.jpg).
+![](./images/circle-6.jpg).
 
 Then, to add documents with defined fields, we use hashes
-![](./12_files/circle-7.jpg). Because the fields are delimited in these
+![](./images/circle-7.jpg). Because the fields are delimited in these
 sample documents, Ferret knows how to handle them in relation to the
 fields defined in the index.
 
@@ -252,15 +262,15 @@ content, and the third document, with an extremely low score, merely
 contains it in the text field.
 
 [Listing
-12.3](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex03)
+12.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 demonstrates how to store and retrieve an index from disk. Ferret makes
 it extremely simple; it is only necessary to specify the pathname within
-the construction of the index object ![](./12_files/circle-8.jpg).
+the construction of the index object ![](./images/circle-8.jpg).
 
 If the directory specified using the :path parameter doesn’t exist,
 it’ll be created, as it is in the first example of this third solution.
 In the second example, the index is loaded in much a similar fashion
-![](./12_files/circle-9.jpg).
+![](./images/circle-9.jpg).
 
 Because the index should already exist, and the field information is
 predefined, we don’t need to construct and pass through the field
@@ -268,7 +278,7 @@ information to Ferret, as it’s already part of the index’s structure.
 The rest of the third solution then uses the same querying code as used
 earlier.
 
-##### Discussion {#ch12lev3sec3}
+##### Discussion
 
 While the queries we performed in the solutions were simple, single-word
 queries, Ferret has support for complex queries, as you’d expect from a
@@ -286,7 +296,7 @@ official tutorial at
 Next, we’re going to look at a true Apache Lucene instance, installed
 and made available remotely by another Apache product: Solr.
 
-#### 12.2.2. Integrating with the Solr search engine {#ch12lev2sec2}
+#### 12.2.2. Integrating with the Solr search engine
 
 In the previous section, we looked at using Ferret, a Ruby
 implementation of Apache Lucene, to index and search data. As we
@@ -317,13 +327,13 @@ of software just to get started.
 
 The solution covered in this section expects that you have Apache Solr
 installed and running correctly. The installation of Solr is beyond the
-scope of this chapter, but the official home page is at
+scope of This lab, but the official home page is at
 [http://lucene.apache.org/solr/](http://lucene.apache.org/solr/), and
 information about its dependencies, such as Java 1.5 (or higher), and
 how to download Solr, is available in the main tutorial provided on the
 site.
 
-##### Problem {#ch12lev3sec4}
+##### Problem
 
 You wish to use a Solr installation to index and query a set of
 documents, whether the Solr server is local or remote. This will give
@@ -331,19 +341,19 @@ you the ability to perform searches over HTTP and to use Solr’s features
 to gain access to a more robust, scalable, cross-application search
 solution.
 
-##### Solution {#ch12lev3sec5}
+##### Solution
 
 In our solution in [listing
-12.4](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex04),
+12.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md),
 we assume Solr is installed and running, and that access to the admin
 interface is possible at http://localhost:8983/solr/admin/. If the
 server is running on a different machine or port, replace localhost
 references in the code with the relevant hostname, IP address, and/or
 port.
 
-##### Listing 12.4. The MySolr class {#ch12ex04}
+##### Listing 12.4. The MySolr class
 
-![](./12_files/260fig01.jpg)
+![](./images/260fig01.jpg)
 
 A class is specially provided here, as current libraries available are
 focused on integration with Ruby on Rails, rather than for use directly
@@ -353,17 +363,17 @@ familiar with Solr, you may choose to take a different approach, or to
 use one of the Rails/ActiveRecord-based solutions.
 
 The MySolr class ([listing
-12.4](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex04))
+12.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 is used by the remainder of this solution, so you’ll need to include it
 at the top of the code in [listings
-12.5](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex05)
+12.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 through
-[12.7](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex07)
+[12.7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 or require it in. These three code examples give demonstrations of some
 of the most basic functions provided by both Solr and the MySolr
 interface class.
 
-##### Listing 12.5. Adding and indexing documents {#ch12ex05}
+##### Listing 12.5. Adding and indexing documents
 
 ``` {.code-area}
 1# Create an index object using the MySolr class index = MySolr.new("http://localhost:8983/solr/") # Add documents to the index index << { :id   => 1,         :name  => "My Test Document",         :text  => "This is a test to demonstrate Solr" } index << { :id   => 2,         :name  => "Irrelevant Title",         :text  => "Another test document" } # Commit the documents to the index index.commit
@@ -371,7 +381,7 @@ interface class.
 
 [copy **](javascript:void(0))
 
-##### Listing 12.6. Querying the index {#ch12ex06}
+##### Listing 12.6. Querying the index
 
 ``` {.code-area}
 1results = index.query('title') # Print the results puts "#{results['numFound']} result(s) found!" puts results['docs'].each do |result|  puts "Document ID: #{result['id']}"  puts "    Title: #{result['name']}\n\n" end
@@ -380,9 +390,9 @@ interface class.
 [copy **](javascript:void(0))
 
 Running [listing
-12.6](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex06)
+12.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 after the indexing routine in [listing
-12.5](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex05)
+12.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 should produce a result like the following:
 
 ``` {.code-area}
@@ -391,7 +401,7 @@ should produce a result like the following:
 
 [copy **](javascript:void(0))
 
-##### Listing 12.7. Deleting items from the index {#ch12ex07}
+##### Listing 12.7. Deleting items from the index
 
 ``` {.code-area}
 1index.delete(1) index.delete(2) index.commit
@@ -411,7 +421,7 @@ client library, although it works well for our demonstration of how to
 integrate with Solr at the HTTP level. One major flaw with the library
 is that it doesn’t construct XML documents in a reliable way. (The
 intricacies of building XML documents is long-winded and beyond the
-scope of this chapter.)
+scope of This lab.)
 
 This solution depends on a Solr server being installed and running when
 MySolr is used. It also expects you to be using the “example” Solr
@@ -424,10 +434,10 @@ fields to Solr; otherwise an error will result.
 
 From the client’s point of view, using MySolr is similar to using the
 Ferret library. In [listing
-12.5](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex05),
+12.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md),
 we create an index and push documents onto it. Querying is quite
 different, as you can see in [listing
-12.6](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex06).
+12.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 Solr accepts queries over HTTP to a URL like so:
 
 ``` {.code-area}
@@ -448,8 +458,8 @@ like this:
 [copy **](javascript:void(0))
 
 This technique is apparent in the query method of MySolr ([listing
-12.4](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex04))
-when we put the URL together ![](./12_files/circle-1.jpg). Solr will
+12.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
+when we put the URL together ![](./images/circle-1.jpg). Solr will
 return a string that can be evaled by Ruby:
 
 ``` {.code-area}
@@ -459,8 +469,8 @@ return a string that can be evaled by Ruby:
 [copy **](javascript:void(0))
 
 We evaluate this and return the relevant section from the query method
-(![](./12_files/circle-2.jpg) in [listing
-12.4](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex04)).
+(![](./images/circle-2.jpg) in [listing
+12.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 This eval line downloads the results (using open-uri’s convenient
 technique), evaluates the Ruby-friendly text response, then returns only
 the response section, because the responseHeader section only contains
@@ -480,11 +490,11 @@ and present the results.
 
 Deleting items indexed by Solr is achieved, again, by a simple HTTP
 call. The code in [listing
-12.7](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex07)
+12.7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 demonstrates how this feature of MySolr is used, and the code in the
 library illustrates the API call at a more direct level.
 
-##### Discussion {#ch12lev3sec6}
+##### Discussion
 
 In this section we have interfaced with Solr, a system that provides a
 network-accessible API using HTTP to a search indexer and query engine.
@@ -500,11 +510,11 @@ You can learn more about Solr’s HTTP API calls and how to index data and
 configure Solr at the Solr Wiki at
 [http://wiki.apache.org/solr/FrontPage](http://wiki.apache.org/solr/FrontPage).
 
-Later in this chapter, we will look briefly at how to use Solr from a
+Later in This lab, we will look briefly at how to use Solr from a
 Ruby on Rails application, where the acts\_as\_solr plugin takes care of
 all of the intricacies of XML and HTTP.
 
-#### 12.2.3. Ultrafast indexing and searching with FTSearch {#ch12lev2sec3}
+#### 12.2.3. Ultrafast indexing and searching with FTSearch
 
 The previous two sections have looked at Apache Lucene-based searching
 and indexing tools. In this section, we’re going to look at a more
@@ -531,29 +541,29 @@ situations where you have a massive set of text files (such as source
 code) and all you need to do is index and perform queries on their raw
 contents very rapidly.
 
-##### Problem {#ch12lev3sec7}
+##### Problem
 
 You want to index, and then search via query, an arbitrary set of
 documents or files extremely quickly, without using an Apache Lucene
 derivative. Raw indexing and query performance are the overriding
 considerations, as opposed to features.
 
-##### Solution {#ch12lev3sec8}
+##### Solution
 
 We will use an indexer ([listing
-12.8](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex08)),
+12.8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md),
 which will define the fields, iterate through the files, and index them.
 We’ll then use a query script ([listing
-12.9](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex09))
+12.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 to query the index we created.
 
-##### Listing 12.8. Using FTSearch to build an indexer {#ch12ex08}
+##### Listing 12.8. Using FTSearch to build an indexer
 
-![](./12_files/264fig01_alt.jpg)
+![](./images/264fig01_alt.jpg)
 
-##### Listing 12.9. Querying the index {#ch12ex09}
+##### Listing 12.9. Querying the index
 
-![](./12_files/264fig02_alt.jpg)
+![](./images/264fig02_alt.jpg)
 
 Before we look at how the FTSearch library is used, it’s necessary to
 cover its installation process. As a prerelease library, FTSearch
@@ -582,9 +592,9 @@ running this command:
 
 The FTSearch solution is split into an indexer and a program that
 performs queries upon the index. The indexer ([listing
-12.8](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex08))
+12.8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 looks very similar to the Ferret indexer. Fields are defined, again
-using a FieldInfos class ![](./12_files/circle-1.jpg). Notice that we
+using a FieldInfos class ![](./images/circle-1.jpg). Notice that we
 specify different analyzers to be used on the two fields. The content is
 indexed with each word being parsed once it is broken up by whitespace.
 But filenames are divided up by other separators, and the
@@ -598,7 +608,7 @@ Finally, the finish! method is called on the index to write the data to
 disk.
 
 The querying program ([listing
-12.9](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex09))
+12.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 looks a little more complex. Due to FTSearch’s young age, it’s necessary
 to do more work than you need to do with Ferret. We have to require
 quite a few library files (which, in future, will hopefully be replaced
@@ -609,10 +619,10 @@ happen with FTSearch in the future.
 
 Once the reader objects are prepared and the user has supplied a query,
 the first step is to get a list of all of the “raw hits” for the query
-![](./12_files/circle-2.jpg). With the list of raw hits in the bag, it’s
-time to refer them to the documents ![](./12_files/circle-3.jpg), and
+![](./images/circle-2.jpg). With the list of raw hits in the bag, it’s
+time to refer them to the documents ![](./images/circle-3.jpg), and
 then sort our results by the scores with rank\_offsets
-![](./12_files/circle-4.jpg). The second argument to rank\_offsets is an
+![](./images/circle-4.jpg). The second argument to rank\_offsets is an
 array with weights for each field used in the index. Whereas with Ferret
 the boost values could be provided up front and stored in the index,
 with FTSearch it is currently necessary to provide these figures at the
@@ -621,14 +631,14 @@ time of search. Therefore, we’re giving words within the filename a
 only 10,000.
 
 Displaying the sorted results is easy, as rank\_offsets returns an array
-containing document IDs and scores ![](./12_files/circle-5.jpg).
+containing document IDs and scores ![](./images/circle-5.jpg).
 
-##### Discussion {#ch12lev3sec9}
+##### Discussion
 
 If the source code to the Linux 0.01 kernel
 ([http://www.kernel.org/pub/linux/kernel/Historic/linux-0.01.tar.gz](http://www.kernel.org/pub/linux/kernel/Historic/linux-0.01.tar.gz))
 is extracted into the “data” directory, the code in [listing
-12.9](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex09)
+12.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 is run, and a query of “Linus” is supplied, the results should look like
 this:
 
@@ -650,7 +660,7 @@ FTSearch becomes apparent. A FTSearch vs. Ferret benchmarking tool is
 also included, so you can see FTSearch’s significant speed advantages
 for yourself.
 
-#### 12.2.4. Indexing and searching Rails data with Ferret and Solr {#ch12lev2sec4}
+#### 12.2.4. Indexing and searching Rails data with Ferret and Solr
 
 When approaching search with Rails, you might be asking, “Why use Ferret
 or Solr or Sphinx from Rails? Can’t I search with a database and
@@ -679,24 +689,24 @@ hacks like this (for MySQL):
 The downside to the preceding code line is that it forces the database
 to go through every row in the posts table to find an entry with a title
 containing the necessary word or phrase. As we discussed in [section
-12.1](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12lev1sec1),
+12.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md),
 this is considered to be a search, but without any indexing process it’s
 extremely inefficient and slow, particularly on larger datasets.
 
 To get around the performance problems, it’s possible to use the
 Lucene-inspired Ferret library that we looked at in [section
-12.2.1](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12lev2sec1)
+12.2.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 to index data that’s in our database, and then query the index when we
 want to perform searches, rather than querying the database directly.
 Once Ferret returns the correct document IDs, we can use standard
 ActiveRecord methods to extract the data from the live database.
 
-##### Problem {#ch12lev3sec10}
+##### Problem
 
 You want to index, then search via query, data stored in a single Rails
 model using a Ferret- or Solr-based index.
 
-##### Solution {#ch12lev3sec11}
+##### Solution
 
 We are going to focus on a Ferret-based solution, and then we’ll take a
 quick look at how to change the solution to work using Solr. As the
@@ -705,7 +715,7 @@ for Solr is not necessary.
 
 Note that this solution relies on having Ferret installed (as explained
 in [section
-12.2.1](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12lev2sec1)).
+12.2.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 You will also need the **acts\_as\_ferret** Rails plugin, which can be
 installed simply:
 
@@ -729,13 +739,13 @@ Once **acts\_as\_ferret** is installed and included in our Rails
 application, using Ferret’s features on our models becomes extremely
 trivial. To get started, open your model file (**app/models/post.rb** or
 whichever model you please), and edit it so it looks similar to [listing
-12.10](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex10).
+12.10](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 Note the call to acts\_as\_ferret; this tells the plugin that this model
 is searchable.
 
-##### Listing 12.10. A simple search-enabled class using acts\_as\_ferret {#ch12ex10}
+##### Listing 12.10. A simple search-enabled class using acts\_as\_ferret
 
-![](./12_files/268fig01.jpg)
+![](./images/268fig01.jpg)
 
 Querying the index is very simple and offers helpers that will work from
 models, controllers, and views:
@@ -750,12 +760,12 @@ The acts\_as\_ferret line throws a whole set of gears into action that
 take care of indexing and tracking the title and content
 fields/attributes on our Post objects. But a more powerful style to
 follow is the style shown in [listing
-12.10](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex10)
-![](./12_files/circle-1.jpg). This style is more complex, but it allows
+12.10](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
+![](./images/circle-1.jpg). This style is more complex, but it allows
 us to specify options for each field, much as we did in [section
-12.2.1](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12lev2sec1).
+12.2.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 Similar to our example in [listing
-12.2](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex02),
+12.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md),
 we apply a boost to a particular field. This means that words contained
 within the title of a post are considered more important than those in
 the content. Because titles are usually more concise and targeted than
@@ -763,7 +773,7 @@ the content of blog posts, this is a good use of the boost technique.
 
 You can also specify whether or not Ferret should store the data it’s
 indexing by using the :store option, much as we did in [listing
-12.2](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex02)
+12.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 (by default, storing is off):
 
 ``` {.code-area}
@@ -843,7 +853,7 @@ You can learn a lot more about how **acts\_as\_ferret** works from the
 official wiki at
 [http://projects.jkraemer.net/acts\_as\_ferret/wiki](http://projects.jkraemer.net/acts_as_ferret/wiki).
 
-##### Discussion {#ch12lev3sec12}
+##### Discussion
 
 Now that we’ve covered **acts\_as\_ferret** sufficiently, let’s look at
 using the same code with Solr, a Lucene-based search server. The
@@ -862,7 +872,7 @@ be installed):
 [copy **](javascript:void(0))
 
 The plugin can use a remote Solr install (as we did in [section
-12.2.2](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12lev2sec2)—you
+12.2.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)—you
 should even be able to use the same example install that we used
 previously) but it also comes with its own version of Solr, which makes
 things easier. To run it, type this:
@@ -917,9 +927,9 @@ or performance problems. The Sphinx full-text search engine, covered in
 the next section, isn’t perfect, but it does solve some of these
 problems and offers a compelling alternative to Lucene-based solutions.
 
-#### 12.2.5. Searching in Rails with Ultrasphinx {#ch12lev2sec5}
+#### 12.2.5. Searching in Rails with Ultrasphinx
 
-Ferret and the other search options we discuss in this chapter are
+Ferret and the other search options we discuss in This lab are
 tested and proven to work well in most situations, but some environments
 call for more-performant and better-scaling solutions. Sphinx, a search
 daemon written by Andrew Aksyonoff, is a high-performance full-text
@@ -931,12 +941,12 @@ available from
 [http://www.sphinxsearch.com/](http://www.sphinxsearch.com/). Once you
 get it installed, we can look at how to use it with Ruby.
 
-##### Problem {#ch12lev3sec13}
+##### Problem
 
 You need to do high-performance indexing and searching in our Rails
 application.
 
-##### Solution {#ch12lev3sec14}
+##### Solution
 
 The Ultrasphinx plugin by Evan Weaver is by far the best Sphinx
 interface for Ruby. It supports all the basic features of Sphinx (plus a
@@ -945,7 +955,7 @@ simple API that works with ActiveRecord.
 
 * * * * *
 
-##### Note {#ch12note02}
+##### Note
 
 If the Ultrasphinx syntax doesn’t work for you, try Thinking Sphinx. It
 offers nearly the same functionality with a different syntax. You can
@@ -966,10 +976,10 @@ Ultrasphinx requires the Chronic gem, so you’ll have to install it too:
 After you get that installed, copy the **default.base** file from the
 plugin’s examples directory to your config/ultrasphinx directory. Now we
 can add the Ultrasphinx calls to the models we want to index. [Listing
-12.11](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex11)
+12.11](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows a basic indexed model.
 
-##### Listing 12.11. A model that’s indexed with Ultrasphinx {#ch12ex11}
+##### Listing 12.11. A model that’s indexed with Ultrasphinx
 
 ``` {.code-area}
 1class Article < ActiveRecord::Base  is_indexed :fields => ['title', 'content', 'byline'] end
@@ -997,7 +1007,7 @@ daemon started.
 
 * * * * *
 
-##### Tip {#ch12note03}
+##### Tip
 
 You can also run rake ultrasphinx:bootstrap to do the same thing as the
 Rake commands.
@@ -1005,10 +1015,10 @@ Rake commands.
 * * * * *
 
 [Listing
-12.12](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex12)
+12.12](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows how to execute a search.
 
-##### Listing 12.12. Executing a full-text search with Ultrasphinx {#ch12ex12}
+##### Listing 12.12. Executing a full-text search with Ultrasphinx
 
 ``` {.code-area}
 1@search = Ultrasphinx::Search.new(:query => 'excellent food') @search.run @results = @search.results
@@ -1017,7 +1027,7 @@ shows how to execute a search.
 [copy **](javascript:void(0))
 
 After the search in [listing
-12.12](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex12)
+12.12](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 is run, the @results variable will have an enumerable collection of
 ActiveRecord objects returned for “excellent food”, and you can use them
 as you would anything else that includes Enumerable (e.g., \#each, \#[],
@@ -1035,7 +1045,7 @@ running the following Rake task:
 This will rotate the index leaving the daemon in its current state
 (started or stopped).
 
-##### Discussion {#ch12lev3sec15}
+##### Discussion
 
 We’ve just covered the basic case here, but there are a lot of useful
 options available in Ultrasphinx that go beyond a simple use case.
@@ -1146,14 +1156,14 @@ Next, we’re going to change gears significantly. We’ll move away from
 the dry, technical world of directly interfacing with indexing and
 querying routines and rely on more-automated indexing solutions.
 
-### 12.3. Integrating search with other technologies {#ch12lev1sec3}
+### 12.3. Integrating search with other technologies
 
 So far, we’ve focused on indexing and querying various collections of
 local data, but now we’re going to look at how we can use and integrate
 searching and indexing techniques with other technologies, such as the
 web and database-driven applications.
 
-#### 12.3.1. Web search using a basic API (Yahoo!) {#ch12lev2sec6}
+#### 12.3.1. Web search using a basic API (Yahoo!)
 
 In the eyes of many, search means Google. We know that there’s a lot
 more to search than that, but it’s impossible to escape the fact that,
@@ -1161,7 +1171,7 @@ to many people, “search” relates to the ability to search the web. This
 isn’t a bad assumption to make, because the web, coupled with search
 engines like Google and Yahoo!, provides a relatively device- and
 format-agnostic way to search large sets of data. In the rest of this
-chapter, we’re going to look at how you can perform your own web
+lab, we’re going to look at how you can perform your own web
 searches with Ruby on both Google and Yahoo! using two different
 techniques, a search API and “scraping.”
 
@@ -1171,25 +1181,25 @@ systems that provide basic APIs where the query can be specified on a
 URL and the results are returned in a structured format (such as
 searches made with Amazon.com’s developer APIs).
 
-##### Problem {#ch12lev3sec16}
+##### Problem
 
 You want to perform web searches using search engines, such as Yahoo!,
 that return structured data.
 
-##### Solution {#ch12lev3sec17}
+##### Solution
 
 We’ll use the Yahoo! Web Search API to search for the five top results
 for “ruby”; our implementation is in [listing
-12.13](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex13).
+12.13](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md).
 
-##### Listing 12.13. Searching for “ruby” using Yahoo!’s API {#ch12ex13}
+##### Listing 12.13. Searching for “ruby” using Yahoo!’s API
 
-![](./12_files/273fig01_alt.jpg)
+![](./images/273fig01_alt.jpg)
 
 Yahoo! provides access to its Web Search API via simple URLs. The first
 half of our program is concerned entirely with loading up the libraries
 we need to use (code omitted below) and building up one of these URLs
-![](./12_files/circle-1.jpg).
+![](./images/circle-1.jpg).
 
 The basic parameters required by Yahoo! are the number of results to
 return (in this case, 5), an application ID (YahooDemo), and a query (in
@@ -1217,7 +1227,7 @@ method to download the XML:
 
 The resulting XML is too long and complex to print in this book, but its
 format becomes apparent from the code we use to parse it
-![](./12_files/circle-2.jpg). This code uses Ruby’s standard XML process
+![](./images/circle-2.jpg). This code uses Ruby’s standard XML process
 library, REXML, to iterate over each Result element of the XML from
 Yahoo!, and then to print out the contents of the inner Title and Url
 elements in each case:
@@ -1228,7 +1238,7 @@ elements in each case:
 
 [copy **](javascript:void(0))
 
-##### Discussion {#ch12lev3sec18}
+##### Discussion
 
 The Yahoo! Web Search API represents, to us as programmers, an excellent
 web search API because the results are returned in a programmer-friendly
@@ -1247,7 +1257,7 @@ The results of running this program—a Yahoo! web search using the query
 Next, we’re going to move on to a rougher approach to searching—a Google
 “screen scraping” approach.
 
-#### 12.3.2. Web search using a scraping technique (Google) {#ch12lev2sec7}
+#### 12.3.2. Web search using a scraping technique (Google)
 
 Let’s face it, Google is the granddaddy of search, so it’s natural to
 want to be able to use its results in a programmatic fashion. Or how
@@ -1255,13 +1265,13 @@ about other sites, like the Internet Movie Database
 ([http://www.imdb.com](http://www.imdb.com/)) or a typical e-commerce
 site? Unfortunately, we need to resort to the dark magic of scraping.
 
-##### Problem {#ch12lev3sec19}
+##### Problem
 
 You want to perform web searches and extract data from search engines or
 other websites that don’t present their results in a structured way.
 This forces you to use a scraping technique.
 
-##### Solution {#ch12lev3sec20}
+##### Solution
 
 Until the end of 2006, Google provided access to a SOAP-based search
 API, but this has been withdrawn from use for all except existing users.
@@ -1298,12 +1308,12 @@ this if there is an error when running this solution):
 [copy **](javascript:void(0))
 
 Now, let’s get down to scraping. [Listing
-12.14](https://livebook.manning.com/book/ruby-in-practice/chapter-12/ch12ex14)
+12.14](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 shows how to fetch a Google results page and scrape the results from it.
 
-##### Listing 12.14. Scraping Google for results for “ruby” {#ch12ex14}
+##### Listing 12.14. Scraping Google for results for “ruby”
 
-![](./12_files/276fig01.jpg)
+![](./images/276fig01.jpg)
 
 The conciseness of the main part of our code emphasizes how easy
 scRUBYt! makes processing data on the web.
@@ -1314,19 +1324,19 @@ Scrubyt::Extractor class, and then the fun can begin.
 
 The first step of the extraction process is to fetch the
 [http://www.google.com](http://www.google.com/) homepage
-![](./12_files/circle-1.jpg). That done, we can fill out the search form
+![](./images/circle-1.jpg). That done, we can fill out the search form
 with our desired query and submit the form. In this case, it’s easy to
 see by looking at the source code that the Google search form uses a
 text field with a name of q to accept the user’s query, so we use
 fill\_textfield to do this job for us, and submit the form
-![](./12_files/circle-2.jpg).
+![](./images/circle-2.jpg).
 
 Once the form is submitted, a results page will be returned, and we need
 to define a pattern to match against each result. scRUBYt! is powerful
 enough to allow us to specify example results, obtained by hand, and
 then work out the XPath rules to scrape that data from a page. In this
 case, to ensure that the example works, I have specified the XPath rules
-explicitly ![](./12_files/circle-3.jpg).
+explicitly ![](./images/circle-3.jpg).
 
 The result block gives us access to each result (found with an XPath
 query of /html/body/div/div/div) and allows us to define which elements
@@ -1346,7 +1356,7 @@ using slightly different element names:
 [copy **](javascript:void(0))
 
 The resulting XML that comes from the final puts line
-![](./12_files/circle-4.jpg) can then be processed using any XML
+![](./images/circle-4.jpg) can then be processed using any XML
 library, such as REXML or SimpleXML.
 
 The results returned by this program, after a whole collection of raw
@@ -1358,7 +1368,7 @@ debugging information, should look something like this:
 
 [copy **](javascript:void(0))
 
-##### Discussion {#ch12lev3sec21}
+##### Discussion
 
 As Google doesn’t supply a programmer-friendly API, we had to resort to
 scraping Google’s data from the regular HTML pages. As explained
@@ -1369,9 +1379,9 @@ the scraping library, scRUBYt!, comes with many examples of using the
 library to scrape sites like IMDB, Yahoo! Finance, Amazon.com, and so
 on.
 
-### 12.4. Summary {#ch12lev1sec4}
+### 12.4. Summary
 
-This chapter has covered a tight niche, in terms of Ruby. As we’ve seen,
+This lab has covered a tight niche, in terms of Ruby. As we’ve seen,
 only a handful of search libraries and techniques have been developed in
 Ruby so far, but all of them are reasonably powerful and ready to be
 used in production scenarios.
@@ -1385,10 +1395,10 @@ search in your Rails applications using solutions like acts\_as\_ferret,
 acts\_as\_solr, and Ultrasphinx—plugins that bridge the gap between
 Rails applications and search libraries.
 
-Finally, this chapter has shown you how to get your bearings with the
+Finally, This lab has shown you how to get your bearings with the
 search technologies available to you in Ruby. It’s also shown you some
 further technologies and libraries you can explore and look out for in
 the future.
 
-In the next chapter, we’re going to move on to document processing and
+In the next lab, we’re going to move on to document processing and
 report generation. 

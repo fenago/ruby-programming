@@ -1,9 +1,10 @@
+<img align="right" src="../logo.png">
 
 
-Chapter 6. Automating communication {#ch06}
+Lab 6. Automating communication
 ===================================
 
-### This chapter covers {.intro-header}
+### This lab covers
 
 -   Sending email
 -   Processing email
@@ -21,14 +22,24 @@ might want to send out an email to 500 customers when their product has
 shipped. As invisible and minor as this software seems, it is a very big
 piece of the infrastructure of modern businesses.
 
-In this chapter, we’ll look at techniques for creating this sort of
+In This lab, we’ll look at techniques for creating this sort of
 software, looking at code examples extracted from real systems doing
 this sort of work every day. We’ll start by looking at email, discussing
 how to send, receive, and process it. Then we’ll take a look at some
 instant communication mediums, such as AOL Instant Messenger (AIM) and
 Jabber.
 
-### 6.1. Automating email {#ch06lev1sec1}
+
+#### Pre-reqs:
+- Google Chrome (Recommended)
+
+#### Lab Environment
+Al labs are ready to run. All packages have been installed. There is no requirement for any setup.
+
+All exercises are present in `~/work/ruby-programming/` folder.
+
+
+### 6.1. Automating email
 
 Email is one of the most popular technologies on the web today, but,
 thanks to spammers, the concept of “automated email dispersion” has bad
@@ -56,7 +67,7 @@ receiving, and then look at processing email with Ruby.
 Let’s first take a look at your options for sending email messages with
 Ruby.
 
-#### 6.1.1. Automating sending email {#ch06lev2sec1}
+#### 6.1.1. Automating sending email
 
 Ruby has a few options for sending email messages. First, there’s a
 built-in library, Net::SMTP, which is very flexible but also very
@@ -68,7 +79,7 @@ while requiring very little in the way of dependencies.
 
 * * * * *
 
-##### Testing SMTP {#ch06sb01}
+##### Testing SMTP
 
 If you don’t have an SMTP server like Sendmail handy, then Mailtrap is
 for you. Written by Matt Mowers, Mailtrap is a “fake” SMTP server that
@@ -79,12 +90,12 @@ download it and find out more at
 
 * * * * *
 
-##### Problem {#ch06lev3sec1}
+##### Problem
 
 You need to automate sending email from your Ruby application to alert
 your system administrators when Apache crashes.
 
-##### Solution {#ch06lev3sec2}
+##### Solution
 
 Ruby’s built-in SMTP library is fairly low-level, at least in the sense
 that it makes you feed it a properly formatted SMTP message rather than
@@ -95,12 +106,12 @@ send via the built-in SMTP library.
 Creating a message with MailFactory is as simple as creating a
 MailFactory object, setting the proper attributes, and then getting the
 object’s string value, a properly formatted SMTP message. [Listing
-6.1](https://livebook.manning.com/book/ruby-in-practice/chapter-6/ch06ex01)
+6.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md)
 shows a short example.
 
-##### Listing 6.1. Constructing a basic MailFactory object, attribute by attribute {#ch06ex01}
+##### Listing 6.1. Constructing a basic MailFactory object, attribute by attribute
 
-![](./1_files/128fig01.jpg)
+![](./images/128fig01.jpg)
 
 As you can see, setting up a MailFactory object is fairly
 straightforward: instantiate, populate, and output the message to a
@@ -111,28 +122,28 @@ send an email to your system administration team every time your Apache
 web server process crashes, you just need to build a MailFactory object,
 giving it a string of recipients, and then send it via Net::SMTP.
 [Listing
-6.2](https://livebook.manning.com/book/ruby-in-practice/chapter-6/ch06ex02)
+6.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md)
 shows our implementation.
 
-##### Listing 6.2. Sending email to administrators {#ch06ex02}
+##### Listing 6.2. Sending email to administrators
 
-![](./1_files/128fig02_alt.jpg)
+![](./images/128fig02_alt.jpg)
 
 First, we build an array of administrator email addresses
-![](./1_files/circle-1.jpg). Then we use this and other information to
-build the MailFactory object ![](./1_files/circle-2.jpg). Next, we
-constantly loop like a daemon ![](./1_files/circle-3.jpg) (we could also
+![](./images/circle-1.jpg). Then we use this and other information to
+build the MailFactory object ![](./images/circle-2.jpg). Next, we
+constantly loop like a daemon ![](./images/circle-3.jpg) (we could also
 take this out and run the script in a cron job or something like that),
-grabbing the output of ps ![](./1_files/circle-4.jpg) and checking it
+grabbing the output of ps ![](./images/circle-4.jpg) and checking it
 for the term “apache.” If it’s not found, we send a mail to the
-administrators using Net::SMTP ![](./1_files/circle-5.jpg). The start
+administrators using Net::SMTP ![](./images/circle-5.jpg). The start
 method takes parameters for the SMTP server address and port, the “from”
 domain, your username and password, and the authentication scheme (could
 be :plain, :login, or :cram\_md5). An SMTP object is then yielded to the
 block, which we can call methods on to send email messages (e.g.,
 send\_message).
 
-##### Discussion {#ch06lev3sec3}
+##### Discussion
 
 We like to use MailFactory to build the SMTP message like this, but it’s
 not required. If you’re comfortable building properly formatted messages
@@ -144,7 +155,7 @@ could just use a TCPSocket and talk SMTP directly!
 
 * * * * *
 
-##### SMS messages {#ch06sb02}
+##### SMS messages
 
 A lot of cell phone carriers let you send SMS messages via email. This
 is a cheap and efficient way to reach people instantly when one of the
@@ -164,16 +175,12 @@ just do a web search for them.
 
 If these approaches strike you as too low-level, then Action Mailer
 might be for you. Action Mailer is Ruby on Rails’ email library, and it
-offers a lot of niceties that other approaches don’t. This isn’t a book
-all about Rails, so we won’t go into Action Mailer here, but if you’re
-interested, you can check out a book dedicated to Rails or the Action
-Mailer documentation at
-[am.rubyonrails.org](http://am.rubyonrails.org/).
+offers a lot of niceties that other approaches don’t.
 
 Now that you’re familiar with sending email with Ruby, let’s take a look
 at receiving it.
 
-#### 6.1.2. Receiving email {#ch06lev2sec2}
+#### 6.1.2. Receiving email
 
 Ruby has built-in libraries for both POP3 and IMAP reception of
 messages, but unfortunately they’re not API-compatible with one another.
@@ -185,39 +192,39 @@ We’re going to concentrate on the POP3 library (Net::POP3), but if
 you’re interested, the example is available for the IMAP library in the
 downloadable source code for this book.
 
-##### Problem {#ch06lev3sec4}
+##### Problem
 
 You need to perform actions at a distance, like being able to restart
 the MySQL server when away from the office. You don’t always have SSH
 access, but you can always email from a cell phone.
 
-##### Solution {#ch06lev3sec5}
+##### Solution
 
 Ruby’s POP3 library, Net::POP3, is fairly simple to operate. To grab the
 messages from your inbox, you simply use the start method on the
 Net::POP3 class and manipulate the object given to its block. Check out
 the example in [listing
-6.3](https://livebook.manning.com/book/ruby-in-practice/chapter-6/ch06ex03).
+6.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md).
 
-##### Listing 6.3. Fetching email using POP3 {#ch06ex03}
+##### Listing 6.3. Fetching email using POP3
 
-![](./1_files/130fig01_alt.jpg)
+![](./images/130fig01_alt.jpg)
 
 Net::POP3, like Net::SMTP and all other Net modules, is part of the Ruby
 standard library, which ships with every Ruby implementation. Unlike
 core library modules (like String, Array, and File) you have to require
 standard library modules in order to use them
-![](./1_files/circle-1.jpg). Once you’ve gotten the library properly in
+![](./images/circle-1.jpg). Once you’ve gotten the library properly in
 place, you can take a few approaches to getting your mail. You could
 instantiate an object and work with it, but we think our approach here
 (using the class method and a block) is cleaner and more concise
-![](./1_files/circle-2.jpg). The parameters for the start method are the
+![](./images/circle-2.jpg). The parameters for the start method are the
 connection’s credentials: host, port, login, and password. Next, we
 interact with the object yielded to the block to see how many messages
 are present in the current fetch. If there are no email messages, we
-output a message indicating as much ![](./1_files/circle-3.jpg), but
+output a message indicating as much ![](./images/circle-3.jpg), but
 otherwise we output how many messages were found
-![](./1_files/circle-4.jpg).
+![](./images/circle-4.jpg).
 
 For this problem, we need to set up a system that will restart a MySQL
 server when a message is sent to a specific email address with the
@@ -225,25 +232,25 @@ subject “Restart MySQL.” To build a system like that, we need to grab
 the emails from the address’s inbox, iterate through them, and check
 each message for “Restart MySQL” in the subject. You can see our
 implementation in [listing
-6.4](https://livebook.manning.com/book/ruby-in-practice/chapter-6/ch06ex04).
+6.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md).
 
-##### Listing 6.4. Restarting MySQL via email {#ch06ex04}
+##### Listing 6.4. Restarting MySQL via email
 
-![](./1_files/131fig01_alt.jpg)
+![](./images/131fig01_alt.jpg)
 
 First, we set up a couple of constants: one for the email addresses that
-are authorized to restart MySQL ![](./1_files/circle-1.jpg), and one for
-the command we’ll use to restart MySQL ![](./1_files/circle-2.jpg).
+are authorized to restart MySQL ![](./images/circle-1.jpg), and one for
+the command we’ll use to restart MySQL ![](./images/circle-2.jpg).
 Next, we output a message telling how many messages we’ve received
-![](./1_files/circle-3.jpg). We then iterate through the messages
-![](./1_files/circle-4.jpg), checking for the proper subject
-![](./1_files/circle-5.jpg) and From address
-![](./1_files/circle-6.jpg). If the sender is authorized and the subject
+![](./images/circle-3.jpg). We then iterate through the messages
+![](./images/circle-4.jpg), checking for the proper subject
+![](./images/circle-5.jpg) and From address
+![](./images/circle-6.jpg). If the sender is authorized and the subject
 contains “Restart MySQL,” we run RESTART and MySQL is restarted. Having
 read the message, we discard it and sleep for 30 seconds before checking
 to see if another message is waiting for us.
 
-##### Discussion {#ch06lev3sec6}
+##### Discussion
 
 The production system that this solution is based on had a few more
 things that administrators could do via email, such as managing indexes
@@ -295,21 +302,21 @@ here, but as your needs get more complicated, the viability of this
 approach breaks down. In the next section, we’ll take a look at a much
 more robust solution to email processing: the TMail library.
 
-#### 6.1.3. Processing email {#ch06lev2sec3}
+#### 6.1.3. Processing email
 
 Now that you know how to send and receive email, you can start thinking
 about how to leverage these techniques to solve bigger problems. In this
 section, we’ll combine these two techniques and take a look at one
 subsystem in a production ticketing system.
 
-##### Problem {#ch06lev3sec7}
+##### Problem
 
 You have a ticketing system built with Rails. It’s running great, but
 creating tickets is a bit laborious, so you want to allow users to open
 tickets via email. You need to process and respond to ticket-creation
 email messages in your Ruby application.
 
-##### Solution {#ch06lev3sec8}
+##### Solution
 
 The smartest flow for the new ticket-creation system seems to be to
 receive an email, process its contents, put the relevant data in an
@@ -324,25 +331,25 @@ like the following:
 [copy **](javascript:void(0))
 
 [Listing
-6.5](https://livebook.manning.com/book/ruby-in-practice/chapter-6/ch06ex05)
+6.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md)
 shows our implementation of the mail-handling script. We’ll analyze it
 piece by piece.
 
-##### Listing 6.5. Creating tickets via email {#ch06ex05}
+##### Listing 6.5. Creating tickets via email
 
-![](./1_files/133fig01_alt.jpg)
+![](./images/133fig01_alt.jpg)
 
 In this implementation, we first receive our email messages using
-Net::POP3 ![](./1_files/circle-1.jpg). Then we iterate through the
-messages ![](./1_files/circle-2.jpg) and use TMail’s message-parsing
+Net::POP3 ![](./images/circle-1.jpg). Then we iterate through the
+messages ![](./images/circle-2.jpg) and use TMail’s message-parsing
 abilities to get a usable object with attributes
-![](./1_files/circle-3.jpg). We then create a new instance of our
-ActiveRecord model, Ticket ![](./1_files/circle-4.jpg), and populate it
+![](./images/circle-3.jpg). We then create a new instance of our
+ActiveRecord model, Ticket ![](./images/circle-4.jpg), and populate it
 with the data from the email. Finally, we use TMail to build a new email
 object (notice the API similarities to MailFactory)
-![](./1_files/circle-5.jpg), and send that email using Net::SMTP.
+![](./images/circle-5.jpg), and send that email using Net::SMTP.
 
-##### Discussion {#ch06lev3sec9}
+##### Discussion
 
 TMail is available as a standalone gem (gem install tmail), but you’ll
 also find it as part of the standard Rails distribution, included in the
@@ -355,7 +362,7 @@ template, and we chose to use TMail directly.
 
 * * * * *
 
-##### Note {#ch06note01}
+##### Note
 
 *Astrotrain* Jeremy’s coworkers at entp have written a great tool named
 Astrotrain, which turns emails into HTTP posts or Jabber messages for
@@ -371,7 +378,7 @@ Now that you have a solid grasp of automating email, let’s take a look
 at another problem domain in communication automation: instant
 messaging.
 
-### 6.2. Automating instant communication {#ch06lev1sec2}
+### 6.2. Automating instant communication
 
 Sometimes, email just isn’t quick enough. Thanks to technologies like
 online chat and instant messaging, we can now be connected directly with
@@ -384,7 +391,7 @@ from your continuous integration system, and so on.
 This section will concentrate on using two of the most popular options
 for instant communication: AIM and Jabber.
 
-#### 6.2.1. Sending messages with AIM {#ch06lev2sec4}
+#### 6.2.1. Sending messages with AIM
 
 Once released independently of the America Online dial-up client, the IM
 component of the AOL system quickly became one of the most popular
@@ -394,26 +401,26 @@ half the market share and is used for both personal and business
 accounts. Contacting users or employees through AIM is a good way to
 make sure your communication is heard as quickly as possible.
 
-##### Problem {#ch06lev3sec10}
+##### Problem
 
 You need to send server information via instant messages using AIM.
 
-##### Solution {#ch06lev3sec11}
+##### Solution
 
 The Net::TOC library (gem install net-toc) provides a very flexible API
 for interacting with the AIM service. The first approach you can take to
 using it is a simple, procedural connect/send/disconnect approach.
 [Listing
-6.6](https://livebook.manning.com/book/ruby-in-practice/chapter-6/ch06ex06)
+6.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md)
 shows an example of sending an IM.
 
-##### Listing 6.6. Sending an IM with Net::TOC {#ch06ex06}
+##### Listing 6.6. Sending an IM with Net::TOC
 
-![](./1_files/134fig01_alt.jpg)
+![](./images/134fig01_alt.jpg)
 
 First, we create an object and connect to the AIM service
-![](./1_files/circle-1.jpg). Then we find a user (in this case,
-“youraimuser”), send a simple message ![](./1_files/circle-2.jpg), and
+![](./images/circle-1.jpg). Then we find a user (in this case,
+“youraimuser”), send a simple message ![](./images/circle-2.jpg), and
 disconnect from AIM. This approach works well when you’re simply sending
 messages, but it gets awkward when you want to deal with incoming
 messages.
@@ -421,10 +428,10 @@ messages.
 Fortunately, Net::TOC has a nice callback mechanism that allows you to
 respond to events pretty easily. These events range from an IM being
 received to a user becoming available. See [table
-6.1](https://livebook.manning.com/book/ruby-in-practice/chapter-6/ch06table01)
+6.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md)
 for a full listing.
 
-##### Table 6.1. A full listing of the Net::TOC callbacks {#ch06table01}
+##### Table 6.1. A full listing of the Net::TOC callbacks
 
   Callback                                      Description
   --------------------------------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -436,24 +443,24 @@ These callbacks make interactions with users much cleaner than if you
 tried to shoehorn them into the sequential method. Let’s say you wanted
 to get information from a server simply by sending an IM to an AIM bot.
 [Listing
-6.7](https://livebook.manning.com/book/ruby-in-practice/chapter-6/ch06ex07)
+6.7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md)
 shows an implementation using Net::TOC’s callbacks.
 
-##### Listing 6.7. Sending the results of uptime over AIM {#ch06ex07}
+##### Listing 6.7. Sending the results of uptime over AIM
 
-![](./1_files/135fig01.jpg)
+![](./images/135fig01.jpg)
 
 To get the server information, we create a get\_server\_information
-method ![](./1_files/circle-1.jpg). Next, we use the on\_im callback to
-respond to any IMs we receive ![](./1_files/circle-2.jpg). The callbacks
+method ![](./images/circle-1.jpg). Next, we use the on\_im callback to
+respond to any IMs we receive ![](./images/circle-2.jpg). The callbacks
 basically function as a declarative way to define behavior when
 something happens, and, as you can see here, the block we provide will
 be called when an IM is received. When this happens, the buddy is found
 (to get a Net::TOC::Buddy object) and an IM is sent via the send\_im
 method. Finally, once the callback is set up, we connect and wait for
-IMs to come in to fire the callback ![](./1_files/circle-3.jpg).
+IMs to come in to fire the callback ![](./images/circle-3.jpg).
 
-##### Discussion {#ch06lev3sec12}
+##### Discussion
 
 Little bots and automations like this are becoming more and more
 popular. Developers are beginning to realize the potential uses for
@@ -485,7 +492,7 @@ number of chat protocols easily. If that doesn’t work for you, you can
 also use XMPP and Jabber to access other chat protocols. We’ll talk
 about Jabber next.
 
-#### 6.2.2. Automating Jabber {#ch06lev2sec5}
+#### 6.2.2. Automating Jabber
 
 Jabber is an open source IM platform. The great thing about Jabber is
 that you can have your own private Jabber server, which you can keep
@@ -498,12 +505,12 @@ can learn more about setting up and maintaining your own Jabber server
 from the Jabber website at
 [http://www.jabber.org/](http://www.jabber.org/).
 
-##### Problem {#ch06lev3sec13}
+##### Problem
 
 You want your administrators to be able to manage MySQL via Jabber
 messages sent from your Ruby application.
 
-##### Solution {#ch06lev3sec14}
+##### Solution
 
 Ruby has a number of Jabber libraries, but the most advanced and best
 maintained is xmpp4r. In this section, we’ll look at using a library
@@ -513,7 +520,7 @@ development of Jabber clients in Ruby. You’ll need to install both gems
 
 * * * * *
 
-##### Jabber and Rails {#ch06sb03}
+##### Jabber and Rails
 
 If you’re interested in using Jabber with Rails, take a look at Action
 Messenger, which is a framework like Action Mailer but for IM rather
@@ -525,12 +532,12 @@ than email. The Action Messenger home page is
 The process for interacting with Jabber is very similar to the process
 for interacting with AIM, but the API exposed in Jabber::Simple is
 slightly, well, simpler. Take a look at [listing
-6.8](https://livebook.manning.com/book/ruby-in-practice/chapter-6/ch06ex08)
+6.8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md)
 for an example.
 
-##### Listing 6.8. Building a simple Jabber::Simple object {#ch06ex08}
+##### Listing 6.8. Building a simple Jabber::Simple object
 
-![](./1_files/137fig01_alt.jpg)
+![](./images/137fig01_alt.jpg)
 
 First, we create a new Jabber::Simple object. When creating this object,
 you must provide your login credentials, and the account will be logged
@@ -542,7 +549,7 @@ account’s contact list.
 
 * * * * *
 
-##### Contact list authorization {#ch06sb04}
+##### Contact list authorization
 
 When you add someone to an account’s contact list, the person being
 added will have to authorize the addition of her account to your contact
@@ -556,39 +563,39 @@ Jabber::Simple doesn’t implement anything akin to the callbacks in
 Net::TOC, but the mechanism for receiving messages is fairly
 straightforward. As an example, let’s say you wanted to expand on our
 earlier MySQL control service (from [listing
-6.4](https://livebook.manning.com/book/ruby-in-practice/chapter-6/ch06ex04))
+6.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md)
 to allow your administrators to stop, start, or restart the server over
 IM. [Listing
-6.9](https://livebook.manning.com/book/ruby-in-practice/chapter-6/ch06ex09)
+6.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md)
 shows one implementation of this script.
 
-##### Listing 6.9. Managing MySQL via Jabber rather than email {#ch06ex09}
+##### Listing 6.9. Managing MySQL via Jabber rather than email
 
-![](./1_files/138fig01_alt.jpg)
+![](./images/138fig01_alt.jpg)
 
-We start off by defining a few constants ![](./1_files/circle-1.jpg):
+We start off by defining a few constants ![](./images/circle-1.jpg):
 AUTHORIZED is an Array of Jabber users that we permit to issue commands,
 and COMMANDS is a Hash of command sequences we’ll use to control the
 MySQL server. Next, we create our Jabber::Simple object
-![](./1_files/circle-2.jpg) and call the received\_messages method
-![](./1_files/circle-3.jpg). This method gives us an iterator that will
+![](./images/circle-2.jpg) and call the received\_messages method
+![](./images/circle-3.jpg). This method gives us an iterator that will
 yield each message received since the last received\_messages call.
 
 Now we need to figure out who sent us the message. The message.from
 attribute is actually a Jabber::JID object that gives us access to some
-of the internal Jabber data. Earlier in the chapter, we used email to
+of the internal Jabber data. Earlier in the lab, we used email to
 administer MySQL, and we had to worry about spoofing the sender’s
 address. XMPP uses server-to-server authentication to eliminate address
 spoofing, so we can trust the sender’s identity. Since we need to know
 only the username and domain, we extract that and build a usable string
-![](./1_files/circle-4.jpg). Next, we check to see if the user who sent
+![](./images/circle-4.jpg). Next, we check to see if the user who sent
 us the message (now in from) is authorized to be doing so, and if so, we
-try to issue the command ![](./1_files/circle-5.jpg). If they sent a bad
+try to issue the command ![](./images/circle-5.jpg). If they sent a bad
 command (i.e., not “start,” “stop,” or “restart”), we tell them so.
 Otherwise, we go to the next message or begin listening for new messages
 again.
 
-##### Discussion {#ch06lev3sec15}
+##### Discussion
 
 The Jabber::Simple library is nice, but if you like to get down to the
 bare metal, you could use xmpp4r directly. It offers a higher level API
@@ -597,10 +604,10 @@ you access to much of the underlying mechanics. This access could be
 useful if you’re building custom extensions to XMPP or you want to do
 some sort of filtering on the traffic.
 
-### 6.3. Summary {#ch06lev1sec3}
+### 6.3. Summary
 
 We’ve taken a look at a few approaches to communication automation in
-this chapter. Email automation has been in use for years in certain
+This lab. Email automation has been in use for years in certain
 arenas, but we are seeing it expand out into more business applications
 (some of which were discussed here) and into the consumer world (with
 things like Highrise from 37signals and Twitter). AIM bots have been

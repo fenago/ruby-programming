@@ -1,9 +1,10 @@
+<img align="right" src="../logo.png">
 
 
-Chapter 7. Asynchronous messaging {#ch07}
+Lab 7. Asynchronous messaging
 =================================
 
-### This chapter covers {.intro-header}
+### This lab covers
 
 -   Using ActiveMQ and Stomp
 -   Using reliable-msg
@@ -13,13 +14,22 @@ Asynchronous messaging is one of the most effective ways of building a
 loosely coupled system while maintaining a sense of coherence in the
 system. Coupling the publish/subscribe architecture with a reliable
 delivery broker gives you a solid architecture for integration with
-heterogeneous (or homogeneous) systems. In this chapter, we’ll look at a
+heterogeneous (or homogeneous) systems. In This lab, we’ll look at a
 few options for asynchronous messaging in Ruby, including how to
 integrate these solutions with Rails. We’ll start with two open source
 messaging servers, ActiveMQ and Ruby-native reliable-msg, before moving
 on to WMQ, the granddaddy of message-oriented middleware.
 
-### 7.1. Open source messaging servers {#ch07lev1sec1}
+#### Pre-reqs:
+- Google Chrome (Recommended)
+
+#### Lab Environment
+Al labs are ready to run. All packages have been installed. There is no requirement for any setup.
+
+All exercises are present in `~/work/ruby-programming/` folder.
+
+
+### 7.1. Open source messaging servers
 
 When building an application that requires asynchronous messaging, open
 source messaging servers are a compelling option. In this section, we’ll
@@ -33,16 +43,16 @@ second, reliable-msg, is a pure-Ruby implementation suitable for
 small-scale deployments.
 
 You can connect to ActiveMQ in a variety of ways, including REST and
-XMPP, both of which we covered in previous chapters, or through the JMS
+XMPP, both of which we covered in previous labs, or through the JMS
 API, an option that’s available when deploying on JRuby (see [appendix
 B](https://livebook.manning.com/book/ruby-in-practice/appendix-b/app02)).
-In this chapter, we’re going to use Stomp, the Streaming Text Orientated
+In This lab, we’re going to use Stomp, the Streaming Text Orientated
 Messaging Protocol. It’s an open protocol that supports a variety of
 messaging brokers and programming languages, and, in combination with
 StompConnect, any messaging broker that supports the Java Message
 Service (JMS) API.
 
-#### 7.1.1. Using ActiveMQ {#ch07lev2sec1}
+#### 7.1.1. Using ActiveMQ
 
 In this section, we’ll look at using ActiveMQ with the stomp gem, a
 library that gives you the ability to interface with services over the
@@ -63,13 +73,13 @@ You’ll want to use RubyGems to install the stomp library:
 
 [copy **](javascript:void(0))
 
-##### Problem {#ch07lev3sec1}
+##### Problem
 
 Your Ruby application needs to integrate with a monitoring service that
 uses a message broker to get information from the services it’s
 monitoring.
 
-##### Solution {#ch07lev3sec2}
+##### Solution
 
 The service we’re integrating with processes error messages from the
 /queue/errors queue. It receives XML messages in a simple format:
@@ -81,12 +91,12 @@ The service we’re integrating with processes error messages from the
 [copy **](javascript:void(0))
 
 We’re going to generate this XML document using Builder, which is the
-same library we used in [chapter
-5](https://livebook.manning.com/book/ruby-in-practice/chapter-5/ch05) to
+same library we used in [lab
+5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_5.md) to
 generate Atom feeds from a Rails application. Builder is available as a
 separate gem (gem install builder). You can see the method generating
 this XML document in [listing
-7.1](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex01).
+7.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md).
 
 ``` {.code-area}
 1def generate_xml(error_object)
@@ -94,38 +104,38 @@ this XML document in [listing
 
 [copy **](javascript:void(0))
 
-##### Listing 7.1. A method that takes a Ruby error object and generates XML from it {#ch07ex01}
+##### Listing 7.1. A method that takes a Ruby error object and generates XML from it
 
-![](./1_files/142fig01_alt.jpg)
+![](./images/142fig01_alt.jpg)
 
 Our generate\_xml method takes an error\_object as a parameter, from
 which we’ll grab information to generate the XML. First, we start a new
 Builder document by creating an instance of Builder::XmlMarkup and
-telling it to generate the XML declaration ![](./1_files/circle-1.jpg).
+telling it to generate the XML declaration ![](./images/circle-1.jpg).
 Then we build our document using methods on the builder object
-![](./1_files/circle-2.jpg).
+![](./images/circle-2.jpg).
 
 Now, what’s the best architecture for our error reporter? Since we’ll be
 catching exceptions and reporting them to the error-reporting service,
 it seems like a good idea to avoid creating an instance every time.
 We’ll probably want to build a class and use class methods to handle the
 functionality. [Listing
-7.2](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex02)
+7.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md)
 shows our implementation of this class.
 
-##### Listing 7.2. Implementing our error reporter {#ch07ex02}
+##### Listing 7.2. Implementing our error reporter
 
-![](./1_files/142fig02_alt.jpg)
+![](./images/142fig02_alt.jpg)
 
 Here you can see that we define a method called report!
-![](./1_files/circle-1.jpg), which takes an error\_object as a
+![](./images/circle-1.jpg), which takes an error\_object as a
 parameter, along with the name of the queue you want to push the
 messages to (defaulting to /queue/errors). Next, we create our
-Stomp::Client object ![](./1_files/circle-2.jpg) and tell it to send a
+Stomp::Client object ![](./images/circle-2.jpg) and tell it to send a
 message to the queue identified in the parameters with a payload
 containing XML from the generate\_xml method we created earlier
 ([listing
-7.1](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex01)).
+7.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md).
 
 Now, we just have to implement this in some code:
 
@@ -146,14 +156,14 @@ method, which allows you to define behavior for responding to messages
 being pushed to a queue. The behavior is defined by providing a block to
 the subscribe method; you can see a primitive example of this in
 [listing
-7.3](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex03).
+7.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md).
 
-##### Listing 7.3. Processing all messages from the queue {#ch07ex03}
+##### Listing 7.3. Processing all messages from the queue
 
-![](./1_files/143fig01_alt.jpg)
+![](./images/143fig01_alt.jpg)
 
 Running the code in [listing
-7.3](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex03),
+7.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md),
 then pushing messages into the /queue/testing queue will cause the
 payload of those messages to be printed to the console. The resulting
 message object is actually a Stomp::Message object, which also contains
@@ -166,16 +176,16 @@ So, to make a consumer for our error reporter, we’ll need to pop the
 messages off the queue and process the XML inside of our subscribe call.
 We’ll use REXML to parse the XML document and work with the elements
 tree. Our implementation is in [listing
-7.4](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex04).
+7.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md).
 
-##### Listing 7.4. Our testing consumer for the error reporter {#ch07ex04}
+##### Listing 7.4. Our testing consumer for the error reporter
 
-![](./1_files/143fig02_alt.jpg)
+![](./images/143fig02_alt.jpg)
 
 We create a Stomp::Client object and invoke subscribe. When a message is
 received, we push the message body over to REXML
-![](./1_files/circle-1.jpg) and pull attributes out to print them to the
-console ![](./1_files/circle-2.jpg). If you run this script and throw a
+![](./images/circle-1.jpg) and pull attributes out to print them to the
+console ![](./images/circle-2.jpg). If you run this script and throw a
 few errors to the error reporter, your console should look something
 like the following:
 
@@ -185,7 +195,7 @@ like the following:
 
 [copy **](javascript:void(0))
 
-##### Discussion {#ch07lev3sec3}
+##### Discussion
 
 In these examples, we’ve only shown you a few features of the stomp gem.
 To keep the examples short, we left many features out, but the library
@@ -230,7 +240,7 @@ by executing the following:
 
 * * * * *
 
-##### Stomp documentation {#ch07sb01}
+##### Stomp documentation
 
 The stomp gem doesn’t actually generate its documentation when it
 installs itself, so you’ll need to navigate to its directory and run
@@ -247,7 +257,7 @@ Although it is useful, stompserver isn’t the best pure-Ruby asynchronous
 messaging solution available. In the next section, we’ll take a look at
 the best pure-Ruby option we’ve found: Ruby Reliable Messaging.
 
-#### 7.1.2. Using reliable-msg {#ch07lev2sec2}
+#### 7.1.2. Using reliable-msg
 
 If your preference is to stay in Ruby rather than using a tool from
 another language, or if your requirements don’t allow for extraneous
@@ -277,7 +287,7 @@ broker, which is a daemon that exposes brokering over DRb:
 
 * * * * *
 
-##### DRb {#ch07sb02}
+##### DRb
 
 DRb (Distributed Ruby) is a standard library that you can use to write
 distributed applications. Using DRb, client applications can call Ruby
@@ -289,29 +299,29 @@ servers, its main benefits are speed and simplicity.
 
 * * * * *
 
-##### Problem {#ch07lev3sec4}
+##### Problem
 
 You want to utilize asynchronous messaging, but you need to stay in the
 Ruby language.
 
-##### Solution {#ch07lev3sec5}
+##### Solution
 
 The Reliable Messaging library functions primarily through the
 ReliableMsg::Queue class and its put and get methods. These obviously
 named methods will put messages into the queue and get them out.
 [Listing
-7.5](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex05)
+7.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md)
 shows an example.
 
-##### Listing 7.5. Demonstrating the Reliable Messaging library’s core functionality {#ch07ex05}
+##### Listing 7.5. Demonstrating the Reliable Messaging library’s core functionality
 
-![](./1_files/146fig01.jpg)
+![](./images/146fig01.jpg)
 
 You can see the simple API here. We create a ReliableMsg::Queue object
 and use the put method to place an object in the queue
-![](./1_files/circle-1.jpg). Next, we use the get method to pop the
+![](./images/circle-1.jpg). Next, we use the get method to pop the
 first object (the string we just created) off the queue
-![](./1_files/circle-2.jpg). Then we use the object method to get the
+![](./images/circle-2.jpg). Then we use the object method to get the
 object from the message and output it to the console (in this case, we
 just had a string). This simple API makes it very easy to focus more on
 the business logic around your messaging rather than the messaging
@@ -339,9 +349,9 @@ Let’s say you want to use a queue to pass work-order information from
 your Rails application to your Ruby application on a different host that
 processes and dispatches work orders. Your WorkOrderMessage class might
 look something like [listing
-7.6](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex06).
+7.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md).
 
-##### Listing 7.6. Passing data from a Rails application to a Ruby application {#ch07ex06}
+##### Listing 7.6. Passing data from a Rails application to a Ruby application
 
 ``` {.code-area}
 1class WorkOrderMessage  attr_accessor :requester, :requested_work, :date_due  def initialize(params)   raise "Invalid arguments provided." unless params.is_a?(Hash)   @requester = params[:requester]   @requested_work = params[:requested_work]   @date_due = params[:date_due]  end  def unique_id   "#{@requester.slice(0,5).strip.upcase}-" +   "#{@date_due.strftime('%m%d%y')}-#{@requested_work.hash}"  end  def report!   puts "Order #{unique_id} received."   puts "from #{@requester}, due #{@date_due.strftime('%D')}"   puts "Work requested:"   puts @requested_work   puts  end end
@@ -357,22 +367,22 @@ directly.
 
 In our Rails application, we then would have a create action like the
 one in [listing
-7.7](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex07).
+7.7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md).
 
-##### Listing 7.7. Creating a work order in the database and passing a message {#ch07ex07}
+##### Listing 7.7. Creating a work order in the database and passing a message
 
-![](./1_files/147fig01_alt.jpg)
+![](./images/147fig01_alt.jpg)
 
 First, we create an ActiveRecord object (WorkOrder) and save it to the
-database ![](./1_files/circle-1.jpg). If that’s successful, we proceed
+database ![](./images/circle-1.jpg). If that’s successful, we proceed
 to create our WorkOrderMessage object and place it in the queue
-![](./1_files/circle-2.jpg). The rest of the method will place a
+![](./images/circle-2.jpg). The rest of the method will place a
 confirmation message in the flash and redirect the user to the index of
 the work\_orders controller.
 
 * * * * *
 
-##### Blocking your Rails application {#ch07sb03}
+##### Blocking your Rails application
 
 The only downside to this approach is that it blocks your Rails
 application when placing the message in the queue, which means that if
@@ -386,21 +396,21 @@ avoid this.
 Now we need to create a message consumer for our Ruby application.
 Again, we’ll use the get method to grab the message from the queue and
 process it. See [listing
-7.8](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex08)
+7.8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md)
 for our implementation of a simple consumer.
 
-##### Listing 7.8. Consuming messages from the queue {#ch07ex08}
+##### Listing 7.8. Consuming messages from the queue
 
-![](./1_files/147fig02_alt.jpg)
+![](./images/147fig02_alt.jpg)
 
-First we create our Queue object ![](./1_files/circle-1.jpg), and then
+First we create our Queue object ![](./images/circle-1.jpg), and then
 we start looping so that the consumer is always available
-![](./1_files/circle-2.jpg). When we get a message
-![](./1_files/circle-3.jpg), we call its report! method to give us a
+![](./images/circle-2.jpg). When we get a message
+![](./images/circle-3.jpg), we call its report! method to give us a
 report of what its work order contains, then we tell our Processor class
 (assuming we have one) to process it.
 
-##### Discussion {#ch07lev3sec6}
+##### Discussion
 
 We said that the method we showed for Rails integration may cause
 problems if you have high traffic or big message objects. There are two
@@ -460,7 +470,7 @@ when you install the gem.
 
 * * * * *
 
-##### Viewing gem documentation {#ch07sb04}
+##### Viewing gem documentation
 
 If you want to view the documentation for gems on your system, run gem
 server from your favorite command line. This script will start a web
@@ -469,7 +479,7 @@ gems you have installed and their accompanying documentation.
 
 * * * * *
 
-### 7.2. WebSphere MQ {#ch07lev1sec2}
+### 7.2. WebSphere MQ
 
 What happens when you combine powerful message-oriented middleware with
 a powerful programming language? In the next two sections, we’re going
@@ -488,33 +498,33 @@ hashed arguments, blocks, and the each method. As you’ll see in the
 following example, it’s easy to get productive with RubyWMQ and to write
 code that’s simple, readable, and reliable. So let’s get started.
 
-#### 7.2.1. Queuing messages {#ch07lev2sec3}
+#### 7.2.1. Queuing messages
 
 We’re going to use WMQ for integration, and we’ll start by using Ruby as
-the message producer. For the rest of the chapter, we’ll be looking at
+the message producer. For the rest of the lab, we’ll be looking at
 an environment with several applications that invite people to register
 and create new accounts. To capture and handle all that information,
 we’re going to use WMQ as a message bus across all these applications.
 All our applications will use a common format (using XML) and a queue to
 collect all these messages. Now let’s put it to use.
 
-##### Problem {#ch07lev3sec7}
+##### Problem
 
 Your web application allows users to register and create new accounts.
 Whenever a user creates an account, you need to capture some of that
 account information, create an XML message, and push that message into
 the ACCOUNTS.CREATED queue.
 
-##### Solution {#ch07lev3sec8}
+##### Solution
 
-Since we covered Rails in previous chapters, we’re going to use it again
-in this chapter. We’re doing that so we can focus on RubyWMQ rather than
+Since we covered Rails in previous labs, we’re going to use it again
+in This lab. We’re doing that so we can focus on RubyWMQ rather than
 the details of building a web application. However, what you will learn
 here is not specific to Rails or web applications.
 
 * * * * *
 
-##### Installing gems with C extensions {#ch07sb05}
+##### Installing gems with C extensions
 
 RubyWMQ is Ruby code mixed with a native C library. There are other gems
 that mix Ruby code with C extensions, some of which we cover in this
@@ -540,10 +550,10 @@ A](https://livebook.manning.com/book/ruby-in-practice/appendix-a/app01).
 Let’s first have a look at our existing AccountsController. It has
 several actions, but we’re only interested in the create action that
 responds to POST requests and creates new accounts. [Listing
-7.9](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex09)
+7.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md)
 shows what this action looks like.
 
-##### Listing 7.9. AccountsController create action for creating a new account {#ch07ex09}
+##### Listing 7.9. AccountsController create action for creating a new account
 
 ``` {.code-area}
 1def create  @account = Account.new(params['account'])  if @account.save   # Created, send user back to main page.   redirect_to root_url  else   # Error, show the registration form with error message   render :action=>'new'  end end
@@ -607,15 +617,15 @@ example, we’ll use nonpersistent queues for development and testing. If
 you worked with Rails before, you know that it uses a YAML file to
 specify the database connection configuration—one for each environment.
 We’ll use a similar structure to configure RubyWMQ. [Listing
-7.10](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex10)
+7.10](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md)
 shows a sample wmq.yml configuration file.
 
-##### Listing 7.10. A config/wmq.yml configuration file {#ch07ex10}
+##### Listing 7.10. A config/wmq.yml configuration file
 
-![](./1_files/151fig01.jpg)
+![](./images/151fig01.jpg)
 
-Loading YAML files is a trivial matter (see [chapter
-11](https://livebook.manning.com/book/ruby-in-practice/chapter-11/ch11)
+Loading YAML files is a trivial matter (see [lab
+11](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 for a longer discussion about YAML and configuration). We need to pick
 the right configuration based on our current environment:
 
@@ -649,42 +659,42 @@ we put the message in the queue, so we can log it afterwards:
 Now let’s assemble all these pieces into working code. Since we might
 use RubyWMQ elsewhere in our application, we’ll handle the configuration
 in a single place that is shared by all controllers. [Listing
-7.11](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex11)
+7.11](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md)
 shows the ApplicationController and the method we added to load the
 right configuration.
 
-##### Listing 7.11. The app/controllers/application.rb file modified to read WMQ configuration {#ch07ex11}
+##### Listing 7.11. The app/controllers/application.rb file modified to read WMQ configuration
 
-![](./1_files/152fig01_alt.jpg)
+![](./images/152fig01_alt.jpg)
 
 [Listing
-7.12](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex12)
+7.12](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md)
 shows AccountsController with an action that creates new messages and
 the wmq\_account\_created method. Controllers expose all their public
 methods as actions, and since this method is not an action, we’ll make
 it private.
 
-##### Listing 7.12. AccountsController queues new accounts in ACCOUNTS.CREATED {#ch07ex12}
+##### Listing 7.12. AccountsController queues new accounts in ACCOUNTS.CREATED
 
-![](./1_files/152fig02_alt.jpg)
+![](./images/152fig02_alt.jpg)
 
 And we’re done. We just changed an existing controller to create XML
 messages and deliver them to other applications using WMQ.
 
-##### Discussion {#ch07lev3sec9}
+##### Discussion
 
 Writing the code was easy, but we sometimes make mistakes, and we can’t
 tell for sure this will work in production. Not without a test case. So
 let’s write a test case to make sure we’re sending the right information
 on the right queue. We test the controller in [listing
-7.13](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex13).
+7.13](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md).
 
-##### Listing 7.13. Test case for putting message in ACCOUNTS.CREATED {#ch07ex13}
+##### Listing 7.13. Test case for putting message in ACCOUNTS.CREATED
 
-![](./1_files/153fig01_alt.jpg)
+![](./images/153fig01_alt.jpg)
 
 The second half of [listing
-7.13](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex13)
+7.13](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md)
 is our test case, and it’s a very simple one. We POST to the create
 action with new account information, which pushes a new message to the
 queue. We then ask RubyWMQ to retrieve the new message, assert that the
@@ -706,7 +716,7 @@ explains why we need a separate queue manager for running tests.
 
 * * * * *
 
-##### Running WMQ commands {#ch07sb06}
+##### Running WMQ commands
 
 You can also use RubyWMQ to run commands and perform administrative
 tasks. For example, if you’re sharing this code with other developers,
@@ -724,7 +734,7 @@ queue manager. You can set it up with a simple script or a Rake task:
 So, now that we know the basics of producing messages, let’s look at
 another form of integration: consuming and processing messages.
 
-#### 7.2.2. Processing messages {#ch07lev2sec4}
+#### 7.2.2. Processing messages
 
 In this section, we’re going to use WMQ for integration by receiving and
 processing messages. If you recall from the previous section, we have
@@ -732,21 +742,21 @@ several applications that push account-creation messages to a single
 queue. In this section, we’re going to turn these messages into sale
 leads in a customer-relationship management (CRM) database.
 
-##### Problem {#ch07lev3sec10}
+##### Problem
 
 You have several applications through which users can create new
 accounts, and each of these applications pushes a message to the
 ACCOUNTS.CREATED queue. We want to batch process these messages and use
 them to create sale leads in our CRM database.
 
-##### Solution {#ch07lev3sec11}
+##### Solution
 
 We’re looking at batch processing messages here, so we’re going to
 develop a standalone program that we can schedule to run at night.
 
 We’ll start by reading the connection configuration, using the same YAML
 configuration file we specified in [listing
-7.10](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex10).
+7.10](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md).
 This time around, we’re not running inside Rails. Instead, we’ll pass
 the environment name using the WMQ\_ENV environment variable:
 
@@ -846,24 +856,24 @@ do is specify the class:
 
 So now let’s wrap this example into a single file we can run from the
 command line. [Listing
-7.14](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex14)
+7.14](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md)
 shows essentially the same code we developed so far, with the addition
 of error logging.
 
 When you look at [listing
-7.14](https://livebook.manning.com/book/ruby-in-practice/chapter-7/ch07ex14),
-you may notice this chapter’s key lesson. There are a handful of lines
+7.14](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md),
+you may notice This lab’s key lesson. There are a handful of lines
 dedicated to setting up the environment and to turning an XML document
 into an ActiveRecord. Yet, what we set out to show you in this
-chapter—how to easily build programs that can reliably retrieve and
+lab—how to easily build programs that can reliably retrieve and
 process messages—is captured in two lines of code: each and the
 following end. It really is that simple.
 
-##### Listing 7.14. Processing messages from WMQ to create new leads {#ch07ex14}
+##### Listing 7.14. Processing messages from WMQ to create new leads
 
-![](./1_files/157fig01_alt.jpg)
+![](./images/157fig01_alt.jpg)
 
-##### Discussion {#ch07lev3sec12}
+##### Discussion
 
 That’s really all there is to our solution. We wrote a simple program
 that can batch process messages and create new records in the database.
@@ -872,7 +882,7 @@ or it encounters an invalid message.
 
 * * * * *
 
-##### Integrating with WebSphere MQ and SalesForce {#ch07sb07}
+##### Integrating with WebSphere MQ and SalesForce
 
 Which database are we going to use? Tough call. How about SalesForce?
 Wouldn’t it be interesting if we could turn this example into one that
@@ -908,12 +918,12 @@ your SalesForce account.
 
 * * * * *
 
-### 7.3. Summary {#ch07lev1sec3}
+### 7.3. Summary
 
 Integrating with systems that are totally foreign to your development
 environment can be trying, but solutions like asynchronous messaging
 make it much easier. Fortunately Ruby has a number of mature libraries
-that work with a variety of messaging vendors. In this chapter, we
+that work with a variety of messaging vendors. In This lab, we
 looked at using RubyWMQ to work with WMQ. This solution works well for
 large-scale deployments, where WMQ is a requirement.
 

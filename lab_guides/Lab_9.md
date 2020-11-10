@@ -1,9 +1,10 @@
+<img align="right" src="../logo.png">
 
 
-Chapter 9. Database facilities and techniques {#ch09}
+Lab 9. Database facilities and techniques
 =============================================
 
-### This chapter covers {.intro-header}
+### This lab covers
 
 -   Using plain text data storage
 -   Automating contacts in an address book
@@ -11,7 +12,7 @@ Chapter 9. Database facilities and techniques {#ch09}
 -   Using relational databases
 
 So far we’ve taken a look at a number of technologies and how to use
-them with Ruby. This chapter will introduce key database tools available
+them with Ruby. This lab will introduce key database tools available
 with, and for, Ruby. We’ll take a broad view of what it means for
 something to be a database. Our working definition will be that a
 database is a storage unit external to your program where data can be
@@ -33,7 +34,7 @@ several flavors of the Berkeley database (DBM) system. We’ll also look
 at tools available for creating and manipulating relational databases in
 Ruby.
 
-Throughout the chapter, we’ll work with a specific example: the
+Throughout the lab, we’ll work with a specific example: the
 implementation of an API for storing personal contacts—an address book.
 We’re not so much concerned here with implementing the whole address
 book as with implementing the programming interface to the database
@@ -49,7 +50,16 @@ We’re going to start with YAML, a data-serialization tool that can, with
 a little assistance from Ruby, form the kernel of a simple
 data-persistence library.
 
-### 9.1. Using plain-text files for data persistence {#ch09lev1sec1}
+#### Pre-reqs:
+- Google Chrome (Recommended)
+
+#### Lab Environment
+Al labs are ready to run. All packages have been installed. There is no requirement for any setup.
+
+All exercises are present in `~/work/ruby-programming/` folder.
+
+
+### 9.1. Using plain-text files for data persistence
 
 Using YAML as a data-persistence tool is an example of the more general
 case of using plain-text files for this purpose. You’ll find other ways
@@ -71,11 +81,11 @@ data end and editability on the text end.
 
 * * * * *
 
-##### Note {#ch09note01}
+##### Note
 
 This example covers YAML persistence, but we also cover YAML elsewhere
-in more depth. See [chapter
-10](https://livebook.manning.com/book/ruby-in-practice/chapter-10/ch10)
+in more depth. See [lab
+10](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 for in-depth coverage of using YAML as a persistence mechanism.
 
 * * * * *
@@ -93,8 +103,8 @@ an irb session:
 [copy **](javascript:void(0))
 
 YAML is part of the Ruby standard library. You just have to load it
-![](./1_files/circle-1.jpg), and then your objects can be serialized to
-YAML using the to\_yaml method ![](./1_files/circle-2.jpg).
+![](./images/circle-1.jpg), and then your objects can be serialized to
+YAML using the to\_yaml method ![](./images/circle-2.jpg).
 
 Objects serialized to YAML can be read back into memory. Picking up from
 the last example:
@@ -115,14 +125,14 @@ plain-text, human-readable form. Part of the incentive behind the
 creation of YAML was to provide a plain-text format for representing
 nested data structures that wasn’t quite as visually busy as XML.
 
-#### Problem {#ch09lev2sec1}
+#### Problem
 
 You need a way to automate the storage and retrieval of professional and
 personal contacts (an address book), but you want it to be in plain text
 so that you can edit the entries in a text editor as well as alter them
 programmatically.
 
-#### Solution {#ch09lev2sec2}
+#### Solution
 
 We’ll write code that uses YAML, together with simple file I/O
 operations, to provide a programmatic interface to a plain text file
@@ -138,13 +148,13 @@ We’ll create two classes: Contact and ContactList. The initializer for
 Contact will take the contact’s name as the sole argument and will yield
 the new Contact instance back to the block, where it can be used to set
 more values. [Listing
-9.1](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex01)
+9.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
 shows the class declaration and setup method for the test suite—you can
 place this code in a file called contacts\_y\_test.rb (the “y” indicates
 that this is for the YAML implementation). Our API for the contact code
 has already started to take shape.
 
-##### Listing 9.1. Class declaration and setup method for testing the contact code {#ch09ex01}
+##### Listing 9.1. Class declaration and setup method for testing the contact code
 
 ``` {.code-area}
 1require "test/unit" require "contacts_y"     class TestContacts < Test::Unit::TestCase   def setup    @filename = "contacts"    @list = ContactList.new(@filename)       @contact = Contact.new("Joe Smith")       joe.email = "joe@somewhere.abc"        joe.home[:street1] = "123 Main Street"       joe.home[:city] = "Somewhere"    joe.work[:phone] = "(000) 123-4567"    joe.extras[:instrument] = "Cello"    @list << @contact      end end
@@ -153,23 +163,23 @@ has already started to take shape.
 [copy **](javascript:void(0))
 
 In addition to test/unit, we load what will eventually be our
-implementation file: contacts\_y.rb ![](./1_files/circle-1.jpg). After
+implementation file: contacts\_y.rb ![](./images/circle-1.jpg). After
 the loading preliminaries, we instantiate a contact list along with a
-filename ![](./1_files/circle-2.jpg), and a contact with a name
-![](./1_files/circle-3.jpg). In addition to the name, the contact has an
-email address ![](./1_files/circle-4.jpg), and several apparently deeper
+filename ![](./images/circle-2.jpg), and a contact with a name
+![](./images/circle-3.jpg). In addition to the name, the contact has an
+email address ![](./images/circle-4.jpg), and several apparently deeper
 hash-like data structures: home, work, and extras
-![](./1_files/circle-5.jpg). *The* ContactList object itself appears,
+![](./images/circle-5.jpg). *The* ContactList object itself appears,
 not surprisingly, to have an array-like interface, judging by the
-appearance of the append operator (\<\<) ![](./1_files/circle-6.jpg).
+appearance of the append operator (\<\<) ![](./images/circle-6.jpg).
 
 Now it’s time to write some tests for business logic. The setup method
 inserts one Contact object into the list. What about retrieving an
 object? [Listing
-9.2](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex02)
+9.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
 shows a method that does exactly that.
 
-##### Listing 9.2. Testing the removal of a Contact object from a ContactList object {#ch09ex02}
+##### Listing 9.2. Testing the removal of a Contact object from a ContactList object
 
 ``` {.code-area}
 1def test_retrieve_contact_from_list       contact = @list["Joe Smith"]   assert_equal("Joe Smith", contact.name)  end  def test_delete_contact_from_list       assert(!@list.empty?)   @list.delete(@contact.name)   assert(@list.empty?)  end end
@@ -178,10 +188,10 @@ shows a method that does exactly that.
 [copy **](javascript:void(0))
 
 [Listing
-9.2](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex02)
-includes a method that retrieves a contact ![](./1_files/circle-1.jpg)
+9.2](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
+includes a method that retrieves a contact ![](./images/circle-1.jpg)
 and one that removes a contact from the list
-![](./1_files/circle-2.jpg). These two methods go in the test file after
+![](./images/circle-2.jpg). These two methods go in the test file after
 the setup method. We’ll also close out the class so that we can write
 the implementation and get the test to pass.
 
@@ -193,18 +203,18 @@ removing contacts, and, of course, persisting contacts to a YAML file
 and reading contacts from a file.
 
 The initial implementation of ContactList is shown in [listing
-9.3](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex03).
+9.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md).
 We’re not using YAML yet, but we’ll need it, so it’s being loaded.
 (We’re also not yet using the contacts accessor methods, but we’ll use
 it a little later so it’s best to put it in now.) Most of the action is
 in the @contacts array, which is expected to contain Contact objects.
 The code in [listing
-9.3](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex03)
+9.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
 can be saved to contacts\_y.rb.
 
-##### Listing 9.3. Initial implementation of the ContactList class {#ch09ex03}
+##### Listing 9.3. Initial implementation of the ContactList class
 
-![](./1_files/187fig01.jpg)
+![](./images/187fig01.jpg)
 
 The @contacts array fields requests for array-like operations. Some of
 these operations work the way they do out of the box for any Ruby array
@@ -220,9 +230,9 @@ sets of data will be stored as a hash and accessed as an attribute of
 the Contact object. The name and email properties will be separate,
 stored as individual attributes rather than parts of any of the hashes,
 as shown in [listing
-9.4](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex04).
+9.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md).
 
-##### Listing 9.4. The Contact class we use to store contact records {#ch09ex04}
+##### Listing 9.4. The Contact class we use to store contact records
 
 ``` {.code-area}
 1class Contact  attr_reader :name, :email, :home, :work, :extras  attr_writer :name, :email  def initialize(name)   @name = name   @home = {}   @work = {}   @extras = {}  end end
@@ -244,11 +254,11 @@ Now let’s get to the YAML side of things. We want a ContactList object
 to know how to save itself, in YAML format, to a file, and we want the
 ContactList *class* to know how to load a YAML file into a new
 ContactList instance. [Listing
-9.5](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex05)
+9.5](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
 shows a test for these functions; you can paste this test into the
 existing test class.
 
-##### Listing 9.5. Saving and loading a ContactList object {#ch09ex05}
+##### Listing 9.5. Saving and loading a ContactList object
 
 ``` {.code-area}
 1def test_save_and_load_list  @list.save  relist = ContactList.load(@filename)  assert_equal(1,relist.size)  contact = relist["Joe Smith"]  assert_equal("Joe Smith", contact.name) end
@@ -258,9 +268,9 @@ existing test class.
 
 To get these new assertions to succeed, we have to add save and load
 methods to the ContactList class, as shown in [listing
-9.6](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex06).
+9.6](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md).
 
-##### Listing 9.6. Second set of methods for the ContactList class {#ch09ex06}
+##### Listing 9.6. Second set of methods for the ContactList class
 
 ``` {.code-area}
 1def save  File.open(@file, "w") do |fh|   fh.puts(@contacts.to_yaml)     end end def self.load(file)     list = new(file)  list.contacts = YAML.load(File.read(file))     list end
@@ -271,14 +281,14 @@ methods to the ContactList class, as shown in [listing
 These two methods can be pasted into the class definition for
 ContactList. Note that load is a class method, so it’s defined directly
 on the ContactList class object (represented in context by self
-![](./1_files/circle-2.jpg)).
+![](./images/circle-2.jpg)).
 
 It’s in the load and save methods that you can see the use of YAML, and
 it’s very simple. When you want to save the list, you convert its
 @contacts array to YAML and print the resulting string to the file
-![](./1_files/circle-1.jpg). When you want to read the list in, you use
+![](./images/circle-1.jpg). When you want to read the list in, you use
 the load class method of YAML, passing it a string consisting of the
-contents of the file ![](./1_files/circle-3.jpg). (You can also pass an
+contents of the file ![](./images/circle-3.jpg). (You can also pass an
 open File object to YAML.load.)
 
 The new tests pass. And so, with rather little fanfare, we have data
@@ -290,11 +300,11 @@ has rules you have to follow. But as long as you follow the YAML rules,
 you can make as many changes as you want to the file between reads.
 
 [Listing
-9.7](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex07)
+9.7](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
 shows the contacts file resulting from running the tests for the contact
 classes.
 
-##### Listing 9.7. The contacts output file, in YAML format {#ch09ex07}
+##### Listing 9.7. The contacts output file, in YAML format
 
 ``` {.code-area}
 1--- - !ruby/object:Contact  email: joe@somewhere.abc  extras:   :instrument: Cello  home:   :city: Somewhere   :street1: 123 Main Street  name: Joe Smith  work:   :phone: (000) 123-4567
@@ -307,7 +317,7 @@ But you can change the values of the strings, or add more data, and all
 your changes will be happily absorbed into the in-memory Contact objects
 next time you use the Contact class.
 
-#### Discussion {#ch09lev2sec3}
+#### Discussion
 
 YAML provides easy serialization of objects to strings, and it’s not
 much harder to save those strings to a file. Whether or not you decide
@@ -320,7 +330,7 @@ Still, plain-text files are far from the only game in town. We’ll look
 next at Ruby’s API for gdbm, the GNU version of the Berkeley DB database
 system.
 
-### 9.2. Using the (g)dbm API {#ch09lev1sec2}
+### 9.2. Using the (g)dbm API
 
 Ruby ships with wrappers for the DBM, gdbm, and sdbm database libraries.
 These libraries are a family, of which the original member is DBM. The
@@ -329,12 +339,12 @@ public-domain version based on the earlier ndbm (New Database Manager, a
 successor to DBM). We’ll focus on gdbm here, though the examples should
 work with any of the three \*dbm libraries included with Ruby.
 
-#### Problem {#ch09lev2sec4}
+#### Problem
 
 You want a simple contact manager, and you need to share the files with
 someone who may not have access to YAML.
 
-#### Solution {#ch09lev2sec5}
+#### Solution
 
 Our hypothetical YAML crisis provides a chance to look at a gdbm-based
 solution. We’ll aim for something that’s as close as possible to the
@@ -342,11 +352,11 @@ YAML version of the contact manager, and the best way to guarantee that
 closeness is to use a similar test suite.
 
 The tests are shown in [listing
-9.8](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex08).
+9.8](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md).
 Note that we’re loading contacts\_g, implying that the implementation of
 the two classes will be in contacts\_g.rb.
 
-##### Listing 9.8. The contact application tests {#ch09ex08}
+##### Listing 9.8. The contact application tests
 
 ``` {.code-area}
 1require 'test/unit' require 'contacts_g' Dir.mkdir("gdbm_contacts") unless File.exist?("gdbm_contacts")    class GDBMTest < Test::Unit::TestCase  def setup   @list = ContactList.new("gdbm_contacts")   @contact = Contact.new("Joe Smith")   @list << @contact                      @contact.home["street1"] = "123 Main Street"      @contact.home["city"] = "Somewhere"   @contact.work["phone"] = "(000) 123-4567"   @contact.extras["instrument"] = "Cello"   @contact.email = "joe@somewhere.abc"  end  def test_retrieving_a_contact_from_list   contact = @list["Joe Smith"]   assert_equal("Joe Smith", contact.name)  end  def test_delete_a_contact_from_list   assert(!@list.empty?)   @list.delete("Joe Smith")   assert(@list.empty?)   assert(@list.contact_cache.empty?)  end  def test_home   contact = @list["Joe Smith"]   assert_equal("123 Main Street", contact.home["street1"])  end  def test_email   contact = @list["Joe Smith"]   assert_equal("joe@somewhere.abc", contact.email)  end  def test_non_existent_contact_is_nil   assert_equal(nil, @list["Some Person"])  end  def teardown   @list.delete("Joe Smith") if @list["Joe Smith"]  end end
@@ -357,18 +367,18 @@ the two classes will be in contacts\_g.rb.
 The test suite for the gdbm implementation is similar to the one for the
 YAML implementation, but there are a few differences. One extra step
 here is creating the gdbm\_contacts directory, so that the tests will be
-able to find it ![](./1_files/circle-1.jpg). Also, some tests have been
+able to find it ![](./images/circle-1.jpg). Also, some tests have been
 replaced to show you some of what you might want to do specifically for
 gdbm (though neither test suite is exhaustive). It’s now necessary to
 add the contact to the list *before* setting any of the contact’s
-properties ![](./1_files/circle-2.jpg). The reason is the
+properties ![](./images/circle-2.jpg). The reason is the
 hash-to-database magic only works if the contact’s components—home,
 work, extras—are gdbm file handles. And that will only happen when the
 Contact objects become part of a ContactList; it’s the ContactList
 object that knows where the directory of gdbm files is.
 
 Another tweak is that all keys are now strings, instead of symbols
-![](./1_files/circle-3.jpg). gdbm doesn’t like symbols; it wants
+![](./images/circle-3.jpg). gdbm doesn’t like symbols; it wants
 everything to be strings. Nonetheless, the goal of preserving the API in
 the gdbm reimplementation has been largely met, assuming we can get the
 tests to pass. On now to the implementation itself.
@@ -436,9 +446,9 @@ subdirectory. It makes sense, then, for the Contact object to know the
 name of its directory.
 
 Let’s start this time with the Contact class. It’s shown in [listing
-9.9](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex09).
+9.9](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md).
 
-##### Listing 9.9. The Contact class for the gdbm implementation of the contacts library {#ch09ex09}
+##### Listing 9.9. The Contact class for the gdbm implementation of the contacts library
 
 ``` {.code-area}
 1class Contact  COMPONENTS = ["home", "extras", "work"]     attr_accessor :name, *COMPONENTS      attr_reader :dirname      def initialize(name)       @name = name   @dirname = @name.gsub(" ", "_")  end  def components      COMPONENTS.map {|comp_name| self.send(comp_name) }  end  def open   COMPONENTS.each do |component|    self.send(component + "=", GDBM.new(component))      end  end  def close   components.each do |component|    component.close unless component.closed?      end  end  def email          extras["email"]  end  def email=(e)   extras["email"] = e  end end
@@ -447,7 +457,7 @@ Let’s start this time with the Contact class. It’s shown in [listing
 [copy **](javascript:void(0))
 
 One addition to the Contact class is the COMPONENTS constant
-![](./1_files/circle-1.jpg), which contains an array of strings
+![](./images/circle-1.jpg), which contains an array of strings
 corresponding to the nested containers in the Contact objects. The point
 of having this constant is to encapsulate these names in one place. That
 way, both the Contact and ContactList objects can find all of them
@@ -457,7 +467,7 @@ each component is actually going to be the name of a gdbm database: one
 each for home, work, and extras.
 
 We want a read-write attribute for name, and one for each of the
-components ![](./1_files/circle-2.jpg). Using the unary \* operator on
+components ![](./images/circle-2.jpg). Using the unary \* operator on
 COMPONENTS has the effect of turning the array into a bare list, so it’s
 as if we’d written this:
 
@@ -468,26 +478,26 @@ as if we’d written this:
 [copy **](javascript:void(0))
 
 We also want each Contact object to have a reader attribute in which it
-can store the name of its directory ![](./1_files/circle-3.jpg), which
+can store the name of its directory ![](./images/circle-3.jpg), which
 will be a subdirectory of the master directory of the contact list to
 which the contact belongs.
 
 The initialize method preserves the name (which is the actual name of
 the person whose contact information this is), and also stores the
-directory name ![](./1_files/circle-4.jpg). The creation of the
+directory name ![](./images/circle-4.jpg). The creation of the
 directory name involves replacing spaces in the name with underscores.
 You can adjust this if you prefer a different munging algorithm, as long
 as the result is a valid directory name (and preferably a reasonably
 cross-platform one).
 
 The components method provides a translation from the component names to
-the actual components ![](./1_files/circle-5.jpg). This, in turn, allows
+the actual components ![](./images/circle-5.jpg). This, in turn, allows
 the close method to walk efficiently through all the components,
 performing a close operation on any that are not already closed.
 
 Speaking of the close method, the Contact class provides both open and
 close methods. The open method creates a new gdbm object for each
-component ![](./1_files/circle-6.jpg), assigning that new object to the
+component ![](./images/circle-6.jpg), assigning that new object to the
 relevant component attribute of the contact. If there’s already a file
 with the appropriate name (for example, “extras”), gdbm will open it for
 reading and writing; otherwise, it will be created. (There are some
@@ -498,10 +508,10 @@ only being accessed by one program at a time.)
 The close method goes through the components corresponding to the
 filenames in which the data is stored, and performs the gdbm close
 operation on each one. This terminates the database connection to each
-file ![](./1_files/circle-7.jpg).
+file ![](./images/circle-7.jpg).
 
 Finally, we include special methods for handling the contact’s email
-address ![](./1_files/circle-8.jpg). The email address gets stored in,
+address ![](./images/circle-8.jpg). The email address gets stored in,
 and retrieved from, the extras["email"] slot. The point of writing these
 methods is to enable us to set and retrieve the email address as if it
 were a simple attribute, even though storing it is a little bit
@@ -528,7 +538,7 @@ keep a cache of Contact objects on hand, so the search doesn’t have to
 be repeated if the same contact is requested twice.
 
 With that in mind, look at [listing
-9.10](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex10),
+9.10](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md),
 which shows the first segment of the ContactList class, including the
 initialize method, the [] method (which retrieves a Contact object by
 name), and a helper method called populate\_contact. You can add this
@@ -536,7 +546,7 @@ code to the top of the file containing the Contact class (or the bottom,
 though if you do that, it’s best to follow the convention of keeping the
 two require lines at the top of the file).
 
-##### Listing 9.10. The ContactList class for storing contact records {#ch09ex10}
+##### Listing 9.10. The ContactList class for storing contact records
 
 ``` {.code-area}
 1require 'gdbm' require 'fileutils'    class ContactList  attr_reader :contact_cache      def initialize(dir)       @dir = dir   @contact_cache = []  end  def [](name)   contact = @contact_cache.find {|c| c.name == name }      return contact if contact   contact = Contact.new(name)      Dir.chdir(@dir) do    if File.directory?(contact.dirname)        populate_contact(contact)             @contact_cache << contact        else     contact = nil    end   end   contact      end  def populate_contact(contact)   Dir.chdir(contact.dirname) do        contact.open   end  end
@@ -545,24 +555,24 @@ two require lines at the top of the file).
 [copy **](javascript:void(0))
 
 The fileutils extension is loaded for the sake of one or two utility
-methods to be used later ![](./1_files/circle-1.jpg).
+methods to be used later ![](./images/circle-1.jpg).
 
-Then, upon initialization ![](./1_files/circle-3.jpg), the list stores
+Then, upon initialization ![](./images/circle-3.jpg), the list stores
 its directory and creates an array that will serve to cache Contact
 objects. That array is available as a reader attribute
-![](./1_files/circle-2.jpg). When you try to retrieve a contact from the
+![](./images/circle-2.jpg). When you try to retrieve a contact from the
 list, the list object first checks the cache
-![](./1_files/circle-4.jpg). If the contact is there, it returns it. If
+![](./images/circle-4.jpg). If the contact is there, it returns it. If
 the contact isn’t there, the real fun starts.
 
-First, a new Contact object is created ![](./1_files/circle-5.jpg).
+First, a new Contact object is created ![](./images/circle-5.jpg).
 Then, the ContactList object switches to its own directory, where it
 looks for a subdirectory whose name is the same as the directory name
 reported by the Contact object—“Joe\_Smith” for the contact “Joe Smith,”
-for example ![](./1_files/circle-6.jpg). If such a directory exists, the
+for example ![](./images/circle-6.jpg). If such a directory exists, the
 contact’s components get initialized to a new gdbm database object,
-based on the component name ![](./1_files/circle-7.jpg). The contact is
-now added to the list’s contact cache ![](./1_files/circle-8.jpg), so
+based on the component name ![](./images/circle-7.jpg). The contact is
+now added to the list’s contact cache ![](./images/circle-8.jpg), so
 that the whole directory-based instantiation won’t have to be repeated
 during this session. If, however, the directory corresponding to the
 requested component name does not exist, the contact variable is reset
@@ -571,10 +581,10 @@ you’re just trying to fetch an existing contact, not create one.)
 
 Finally, the value of the contact variable—which is going to be either
 nil or a gdbm object—is returned from the method
-![](./1_files/circle-9.jpg). If it’s nil, you know that the contact you
+![](./images/circle-9.jpg). If it’s nil, you know that the contact you
 requested does not exist on this list. The populate\_contact utility
 method navigates from the top directory of the list down to the specific
-subdirectory for this contact ![](./1_files/circle-10.jpg). It then
+subdirectory for this contact ![](./images/circle-10.jpg). It then
 calls the open method on the contact—which, as you’ll recall, calls
 GDBM.new on each of the contact’s components, creating database handles
 on the relevant files.
@@ -589,11 +599,11 @@ list. We’re shooting for the same API as the YAML version:
 [copy **](javascript:void(0))
 
 As [listing
-9.11](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex11)
+9.11](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
 shows, these operations require attention to the filesystem and
 directory structure.
 
-##### Listing 9.11. Adding and removing a contact {#ch09ex11}
+##### Listing 9.11. Adding and removing a contact
 
 ``` {.code-area}
 1def <<(contact)  Dir.chdir(@dir) do   Dir.mkdir(contact.dirname) unless File.exists?(contact.dirname)      populate_contact(contact)  end @contact_cache << contact    end def delete(name)  contact = self[name]  return false unless contact     contact.close         Dir.chdir(@dir) do   FileUtils.rm_rf(contact.dirname)      end  contact_cache.delete_if {|c| c.name == name }     true    end
@@ -602,23 +612,23 @@ directory structure.
 [copy **](javascript:void(0))
 
 To add a contact, we need to create a new directory, unless one exists
-![](./1_files/circle-1.jpg) (which is possible; there could already be a
+![](./images/circle-1.jpg) (which is possible; there could already be a
 Contact object corresponding to this directory, even if it’s not part of
 a contact list). We also need to go into the directory and populate the
 contact’s components based on the gdbm files in the directory, creating
 them as necessary or just opening them for reading if they’re already
 there. Finally, we add the contact to the list’s contact cache
-![](./1_files/circle-2.jpg).
+![](./images/circle-2.jpg).
 
 Removing a contact involves several steps. First, we only want to delete
 contacts we actually have, so the method returns false if the contact is
-unknown ![](./1_files/circle-3.jpg). Second, we ask the contact to close
+unknown ![](./images/circle-3.jpg). Second, we ask the contact to close
 itself, which means walking through the components and closing each gdbm
-connection in turn ![](./1_files/circle-4.jpg). Then we use the
+connection in turn ![](./images/circle-4.jpg). Then we use the
 FileUtils.rm\_rf method to delete the contact’s directory
-![](./1_files/circle-5.jpg), remove it from the cache if it’s there
-![](./1_files/circle-6.jpg), and return true to indicate a successful
-deletion ![](./1_files/circle-7.jpg).
+![](./images/circle-5.jpg), remove it from the cache if it’s there
+![](./images/circle-6.jpg), and return true to indicate a successful
+deletion ![](./images/circle-7.jpg).
 
 Arguably, directory removal is a rather harsh step; it means that the
 information is really gone, not just hidden from the list. The
@@ -632,10 +642,10 @@ We can now add, remove, and retrieve contacts from the list. We just
 need a few query methods: directory\_names (the names of all the list’s
 directories, which will be the munged versions of the names of the
 contacts), empty?, and size. [Listing
-9.12](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex12)
+9.12](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
 shows the remaining code necessary to complete the ContactList class.
 
-##### Listing 9.12. The remaining methods for the ContactList class {#ch09ex12}
+##### Listing 9.12. The remaining methods for the ContactList class
 
 ``` {.code-area}
 1def directory_names   Dir["#{@dir}/*"]  end  def size   directory_names.size  end  def empty?   directory_names.empty?  end end
@@ -657,7 +667,7 @@ through explicitly, but which adds an extra level of nesting so that a
 Contact object can present us with what amounts to a collection of
 hashes.
 
-#### Discussion {#ch09lev2sec6}
+#### Discussion
 
 The gdbm version of the contact manager is a bit more sprawling, in
 terms of file space and directory structure, than the YAML version, and
@@ -707,7 +717,7 @@ different ways of doing the same thing.
 We’ll turn next to the Ruby MySQL module, which takes us into the realm
 of relational databases.
 
-### 9.3. The MySQL driver {#ch09lev1sec3}
+### 9.3. The MySQL driver
 
 We’ve now got enough usable code for manipulating contacts and contact
 lists to put it to some use. This will also allow us to delve into the
@@ -721,7 +731,7 @@ frontend to any of the DBD packages available.
 
 We’ll look at a use case for the “pure” MySQL driver here, and in
 [section
-9.4](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09lev1sec4)
+9.4](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
 we’ll do something with DBI. Unlike the YAML and gdbm examples, these
 examples will not involve writing an API for a contact list but, rather,
 moving contact list data around: *to* a MySQL database first, and *from*
@@ -730,12 +740,12 @@ situations where you’re moving data from one storage system to another.
 The nice thing about the facilities available in Ruby is that you can do
 quite a lot of this at a rather high level of abstraction.
 
-#### Problem {#ch09lev2sec7}
+#### Problem
 
 You’ve got a YAML file of contact information, and you want to store it
 in a relational database.
 
-#### Solution {#ch09lev2sec8}
+#### Solution
 
 Let’s tackle this problem by using the MySQL driver. This driver is
 available as a gem or as a non-gem Ruby package. To install it as a gem,
@@ -748,10 +758,10 @@ simply run the following command:
 [copy **](javascript:void(0))
 
 To get started, take a look at [listing
-9.13](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex13),
+9.13](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md),
 which shows several Contact objects in the YAML format.
 
-##### Listing 9.13. An example of a YAML file for contact records {#ch09ex13}
+##### Listing 9.13. An example of a YAML file for contact records
 
 ``` {.code-area}
 1--- !ruby/object:ContactList contacts: - !ruby/object:Contact  extras:    :sport: bowling    :car: Toyota    :pets: armadillo  home:    :postal: "12345"    :state: NJ    :country: USA    :street1: 123 Main    :city: Somewhere  name: David Black  work: {}  email: dblack@somewhere - !ruby/object:Contact  extras: {}  home:    :postal: "23456"    :state: AB    :country: USA    :street1: 234 Main    :city: Somewhere  name: David Smith  email: dsmith@somewhere  work:    :company: The Somewhere Consultants    :street1: 234 Main    :street2: Suite 33943    :city: Somewhere    :postal: "23456"    :state: AB    :country: USA - !ruby/object:Contact  extras:    :instrument: violin    :car: Honda    :pets: cat  home:    :postal: "00000"    :state: US    :country: USA    :street1: 9393 West Main    :city: Nowhere  name: Joe Smith  email: jsmith@somewhere  work: {} - !ruby/object:Contact  extras: {}  home:    :postal: "98765"    :state: HH    :country: USA    :street1: 8 North Main    :street2: Apt. 3    :city: Anywhere  name: John Smith  email: jsmith2@somewhere  work: {}
@@ -763,14 +773,14 @@ The first step in migrating these contacts to a MySQL database is
 designing and creating the database itself. We’ll use the contact’s
 email address as the primary key for the contacts table and as the
 foreign key for all the other tables. [Listing
-9.14](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex14)
+9.14](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
 contains SQL instructions suitable for creating this database in MySQL.
 Running [listing
-9.14](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex14)
+9.14](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
 as a MySQL script, with appropriate permissions, should create the
 database.
 
-##### Listing 9.14. SQL instructions for creating the contacts database {#ch09ex14}
+##### Listing 9.14. SQL instructions for creating the contacts database
 
 ``` {.code-area}
 1drop database contacts; create database contacts; use contacts; drop table if exists contacts; create table contacts (  name varchar(100),  email varchar(50),  primary key (email)) ENGINE=INNODB; drop table if exists home; create table home (  street1 varchar(100),  street2 varchar(100),  city varchar(50),  postal varchar(20),  state varchar(20),  country varchar(25),  contact_email varchar(50),  foreign key(contact_email)   references contacts(email)   on delete cascade) ENGINE=INNODB; drop table if exists work; create table work (  company varchar(100),  street1 varchar(100),  street2 varchar(100),  city varchar(50),  postal varchar(20),  state varchar(20),  country varchar(25),  contact_email varchar(50),  foreign key(contact_email)   references contacts(email)   on delete cascade) ENGINE=INNODB; drop table if exists extras; create table extras (  label varchar(50),  description varchar(150),  contact_email varchar(50),  foreign key(contact_email)   references contacts(email)   on delete cascade) ENGINE=INNODB; grant all on contacts.* to 'contacter'@'localhost' \  identified by 'secret'
@@ -833,9 +843,9 @@ and make connections on both the YAML side and the MySQL side:
 [copy **](javascript:void(0))
 
 The assignment to conn gives us a new Mysql object—essentially an
-addressable handle on a database connection ![](./1_files/circle-1.jpg).
+addressable handle on a database connection ![](./images/circle-1.jpg).
 Note the arguments given to Mysql.new: host, username, password, and
-database name. The variable list ![](./1_files/circle-2.jpg) will
+database name. The variable list ![](./images/circle-2.jpg) will
 contain the ContactList represented in the YAML file; this contact list,
 in turn, contains and manages the specific contacts.
 
@@ -879,14 +889,14 @@ database values. Here’s the code that will do this:
 
 The data object is the entire component hash; we acquire it by sending
 the name of the component (home or work) to the Contact object
-![](./1_files/circle-1.jpg). Then we isolate the keys, which will be
+![](./images/circle-1.jpg). Then we isolate the keys, which will be
 things like street1, street2, and phone, as items
-![](./1_files/circle-2.jpg). If we add the string "contact\_email" to
+![](./images/circle-2.jpg). If we add the string "contact\_email" to
 this list of items, we’ll have all the necessary column names for the
 relevant database table. (There’s no contact\_email field in the YAML
 version, so we have to shoehorn it in to please the MySQL database
 schema.) These field names get inserted into backticks and are strung
-together with commas ![](./1_files/circle-3.jpg). That will give us
+together with commas ![](./images/circle-3.jpg). That will give us
 something like this for the fields variable:
 
 ``` {.code-area}
@@ -900,10 +910,10 @@ themselves come from a similar, but not identical, mapping of the actual
 value for contact.email, plus the actual values for the items (as
 retrieved from the data hash). Here, we put the array together first,
 because that’s a somewhat longer operation, in this case
-![](./1_files/circle-4.jpg). Then the array gets mapped—map! ped,
+![](./images/circle-4.jpg). Then the array gets mapped—map! ped,
 actually, because the values get changed in place—and then joined with
 commas to make a values string out of the array
-![](./1_files/circle-5.jpg), ![](./1_files/circle-6.jpg).
+![](./images/circle-5.jpg), ![](./images/circle-6.jpg).
 
 The result will be something like this:
 
@@ -914,7 +924,7 @@ The result will be something like this:
 [copy **](javascript:void(0))
 
 Thus, the values string lines up nicely with the fields string, ready
-for insertion into the appropriate table ![](./1_files/circle-7.jpg).
+for insertion into the appropriate table ![](./images/circle-7.jpg).
 
 You may be wondering why it’s necessary to march through all the keys
 and dig out all the values for each hash, when there’s a values method
@@ -938,7 +948,7 @@ potentially create more records:
 
 * * * * *
 
-##### Encapsulating component references {#ch09sb01}
+##### Encapsulating component references
 
 You’ll recall that for the purpose of the gdbm contracts implementation,
 we neatened things up by setting a COMPONENTS constant inside the
@@ -963,7 +973,7 @@ foreign key (contact\_email) set to the current contact’s email field.
 And that last end tells you that the big loop—the loop through all the
 contacts—is finished.
 
-#### Discussion {#ch09lev2sec9}
+#### Discussion
 
 The MySQL API may seem a bit raw to you, especially if you’re used to a
 full-blown object-relational mapper (ORM) like ActiveRecord or Og. When
@@ -1019,7 +1029,7 @@ data out in order to store it in a different format. Moreover, we’ll
 take this opportunity to turn the corner to DBI, the high-level Ruby
 database interface library.
 
-### 9.4. Using DBI {#ch09lev1sec4}
+### 9.4. Using DBI
 
 DBI, Ruby’s database interface library, ships separately, and it
 provides a high-level interface that allows you to come about as close
@@ -1031,19 +1041,19 @@ advantage of features that one database has but others don’t.
 
 DBI rests on top of, and needs, one or more database driver (DBD)
 packages, such as the MySQL library we used in [section
-9.3](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09lev1sec3).
+9.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md).
 At time of writing, DBI supports 12 DBDs (plus a deprecated one). If you
 learn how to use DBI, it’s almost one-stop-shopping for database APIs.
 
-#### Problem {#ch09lev2sec10}
+#### Problem
 
 You need to read out some contact records from a relational database and
 save them to a gdbm database.
 
-#### Solution {#ch09lev2sec11}
+#### Solution
 
 We’re going to use the MySQL database from [section
-9.3](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09lev1sec3),
+9.3](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md),
 but this time we’ll address the database with DBI. The goal is to
 migrate the data to the gdbm-style contacts database. That means we’ll
 need to load contacts\_g.rb, as well as DBI. Loading contacts\_g.rb will
@@ -1089,12 +1099,12 @@ loop is another loop, which handles all the tables in the tables array.
 Finally, the data from the extras table is read and transferred.
 
 [Listing
-9.15](https://livebook.manning.com/book/ruby-in-practice/chapter-9/ch09ex15)
+9.15](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_9.md)
 shows the big loop, and what happens inside it.
 
-##### Listing 9.15. The loop through the contacts table {#ch09ex15}
+##### Listing 9.15. The loop through the contacts table
 
-![](./1_files/205fig01_alt.jpg)
+![](./images/205fig01_alt.jpg)
 
 The table names will match the relevant components of the gdbm contact:
 specifically, home and work.
@@ -1102,40 +1112,40 @@ specifically, home and work.
 As with the previous script, where we went from YAML to MySQL, we’re
 dealing with three major phases: creating the Contact objects, handling
 the miscellaneous tables, and handling the extras table. In preparation,
-we get hold of all the contact rows ![](./1_files/circle-1.jpg), and
+we get hold of all the contact rows ![](./images/circle-1.jpg), and
 store a WHERE clause that we’re going to use repeatedly
-![](./1_files/circle-2.jpg), just to save having to type it out.
+![](./images/circle-2.jpg), just to save having to type it out.
 
-Creating and storing a new contact is easy ![](./1_files/circle-3.jpg),
+Creating and storing a new contact is easy ![](./images/circle-3.jpg),
 thanks to the API we’ve already developed for the gdbm contacts
 database. After storing the contact, we set its email address, using the
 email= method, which transparently puts the email address into
-extras["email"] ![](./1_files/circle-4.jpg).
+extras["email"] ![](./images/circle-4.jpg).
 
 Then we go through the list of tables. For each table (remembering that
 we’ve subtracted extras and contacts from the list), we execute a query
-returning the relevant row for this contact ![](./1_files/circle-5.jpg).
+returning the relevant row for this contact ![](./images/circle-5.jpg).
 This request returns an object of class DBI::StatementHandle, which
 takes requests for actual delivery of the rows. The relevant request
-here is fetch\_hash ![](./1_files/circle-6.jpg), which returns the next
+here is fetch\_hash ![](./images/circle-6.jpg), which returns the next
 row in the form of a hash of column names against values. (A certain
 amount of error-checking has been left to the reader, including making
 sure that there is only one row returned per table for each contact!) We
 then cleanse the hash of the irrelevant contact\_email key, as well as
-any entries with nil values ![](./1_files/circle-7.jpg) (which gdbm
+any entries with nil values ![](./images/circle-7.jpg) (which gdbm
 doesn’t like; it only wants strings, and there’s not much point storing
 empty strings for nils). The hash of columns and values is then
 transferred to the relevant component of the contact
-![](./1_files/circle-8.jpg). The hash update method is effective because
+![](./images/circle-8.jpg). The hash update method is effective because
 the component is actually a gdbm object, and gdbm objects are programmed
 like hashes.
 
 Next comes the extras special case. Here we get all the extras records
-belonging to this contact ![](./1_files/circle-9.jpg), and make the
+belonging to this contact ![](./images/circle-9.jpg), and make the
 appropriate assignments in the extras component
-![](./1_files/circle-10.jpg).
+![](./images/circle-10.jpg).
 
-#### Discussion {#ch09lev2sec12}
+#### Discussion
 
 DBI is a great tool for addressing a variety of database systems. Like
 the individual drivers, it keeps you fairly close to the SQL, and like
@@ -1160,9 +1170,9 @@ around the different data-storage facilities available in Ruby (and, of
 course, not just in Ruby). The decisions you make about the shape of the
 containers are as important as any other feature of the storage process.
 
-### 9.5. Summary {#ch09lev1sec5}
+### 9.5. Summary
 
-In this chapter, we’ve looked at a representative set of database and
+In This lab, we’ve looked at a representative set of database and
 data-storage facilities in Ruby. We looked at YAML, the
 data-serialization format, as a kind of database tool, having the
 particular dual merit of allowing for direct storage of Ruby data
@@ -1173,7 +1183,7 @@ files and are programmed like Ruby hashes, making for another quick and
 easy data-storage tool.
 
 In both YAML and gdbm, we developed library code for creating and
-managing a list of contacts. The rest of the chapter involved using this
+managing a list of contacts. The rest of the lab involved using this
 code in the service of trying out the relational database facilities
 available for Ruby. We undertook the task of migrating a YAML database
 of contact objects to a MySQL database, and then we migrated the same
@@ -1187,6 +1197,6 @@ but you’ve seen enough to give you a toolset for writing your own
 scripts, and to give you your bearings as you explore some of the other
 available tools. You’ll likely find that these techniques have some very
 practical uses—if not every single day, then at critical junctures in
-data-migration and -reorganization projects. In the next chapter, we’ll
+data-migration and -reorganization projects. In the next lab, we’ll
 take these ideas further and look at handling structured data files more
 in depth.
