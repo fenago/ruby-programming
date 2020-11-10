@@ -97,7 +97,7 @@ API for it, but so do numerous other languages. Here’s a Ruby example in
 an irb session:
 
 ``` {.code-area}
-1>> hash = { :one => 1, :two => 2, :colors => ["red","green","blue"] }=> {:colors=>["red", "green", "blue"], :one=>1, :two=>2}>> require 'yaml'    => true>> puts hash.to_yaml    ---:colors:- red- green- blue:one: 1:two: 2
+>> hash = { :one => 1, :two => 2, :colors => ["red","green","blue"] }=> {:colors=>["red", "green", "blue"], :one=>1, :two=>2}>> require 'yaml'    => true>> puts hash.to_yaml    ---:colors:- red- green- blue:one: 1:two: 2
 ```
 
 [copy **](javascript:void(0))
@@ -110,7 +110,7 @@ Objects serialized to YAML can be read back into memory. Picking up from
 the last example:
 
 ``` {.code-area}
-1>> y_hash = hash.to_yaml=> "--- \n:colors: \n- red\n- green\n- blue\n:one: 1\n:two: 2\n">> new_hash = YAML.load(y_hash)=> {:colors=>["red", "green", "blue"], :one=>1, :two=>2}>> new_hash == hash=> true
+>> y_hash = hash.to_yaml=> "--- \n:colors: \n- red\n- green\n- blue\n:one: 1\n:two: 2\n">> new_hash = YAML.load(y_hash)=> {:colors=>["red", "green", "blue"], :one=>1, :two=>2}>> new_hash == hash=> true
 ```
 
 [copy **](javascript:void(0))
@@ -157,7 +157,7 @@ has already started to take shape.
 ##### Listing 9.1. Class declaration and setup method for testing the contact code
 
 ``` {.code-area}
-1require "test/unit" require "contacts_y"     class TestContacts < Test::Unit::TestCase   def setup    @filename = "contacts"    @list = ContactList.new(@filename)       @contact = Contact.new("Joe Smith")       joe.email = "joe@somewhere.abc"        joe.home[:street1] = "123 Main Street"       joe.home[:city] = "Somewhere"    joe.work[:phone] = "(000) 123-4567"    joe.extras[:instrument] = "Cello"    @list << @contact      end end
+require "test/unit" require "contacts_y"     class TestContacts < Test::Unit::TestCase   def setup    @filename = "contacts"    @list = ContactList.new(@filename)       @contact = Contact.new("Joe Smith")       joe.email = "joe@somewhere.abc"        joe.home[:street1] = "123 Main Street"       joe.home[:city] = "Somewhere"    joe.work[:phone] = "(000) 123-4567"    joe.extras[:instrument] = "Cello"    @list << @contact      end end
 ```
 
 [copy **](javascript:void(0))
@@ -182,7 +182,7 @@ shows a method that does exactly that.
 ##### Listing 9.2. Testing the removal of a Contact object from a ContactList object
 
 ``` {.code-area}
-1def test_retrieve_contact_from_list       contact = @list["Joe Smith"]   assert_equal("Joe Smith", contact.name)  end  def test_delete_contact_from_list       assert(!@list.empty?)   @list.delete(@contact.name)   assert(@list.empty?)  end end
+def test_retrieve_contact_from_list       contact = @list["Joe Smith"]   assert_equal("Joe Smith", contact.name)  end  def test_delete_contact_from_list       assert(!@list.empty?)   @list.delete(@contact.name)   assert(@list.empty?)  end end
 ```
 
 [copy **](javascript:void(0))
@@ -235,7 +235,7 @@ as shown in [listing
 ##### Listing 9.4. The Contact class we use to store contact records
 
 ``` {.code-area}
-1class Contact  attr_reader :name, :email, :home, :work, :extras  attr_writer :name, :email  def initialize(name)   @name = name   @home = {}   @work = {}   @extras = {}  end end
+class Contact  attr_reader :name, :email, :home, :work, :extras  attr_writer :name, :email  def initialize(name)   @name = name   @home = {}   @work = {}   @extras = {}  end end
 ```
 
 [copy **](javascript:void(0))
@@ -243,7 +243,7 @@ as shown in [listing
 Now, we can run the tests:
 
 ``` {.code-area}
-1$ ruby contacts_y_test.rbLoaded suite contacts_y_testStarted..Finished in 0.000594 seconds.2 tests, 3 assertions, 0 failures, 0 errors
+$ ruby contacts_y_test.rbLoaded suite contacts_y_testStarted..Finished in 0.000594 seconds.2 tests, 3 assertions, 0 failures, 0 errors
 ```
 
 [copy **](javascript:void(0))
@@ -261,7 +261,7 @@ existing test class.
 ##### Listing 9.5. Saving and loading a ContactList object
 
 ``` {.code-area}
-1def test_save_and_load_list  @list.save  relist = ContactList.load(@filename)  assert_equal(1,relist.size)  contact = relist["Joe Smith"]  assert_equal("Joe Smith", contact.name) end
+def test_save_and_load_list  @list.save  relist = ContactList.load(@filename)  assert_equal(1,relist.size)  contact = relist["Joe Smith"]  assert_equal("Joe Smith", contact.name) end
 ```
 
 [copy **](javascript:void(0))
@@ -273,7 +273,7 @@ methods to the ContactList class, as shown in [listing
 ##### Listing 9.6. Second set of methods for the ContactList class
 
 ``` {.code-area}
-1def save  File.open(@file, "w") do |fh|   fh.puts(@contacts.to_yaml)     end end def self.load(file)     list = new(file)  list.contacts = YAML.load(File.read(file))     list end
+def save  File.open(@file, "w") do |fh|   fh.puts(@contacts.to_yaml)     end end def self.load(file)     list = new(file)  list.contacts = YAML.load(File.read(file))     list end
 ```
 
 [copy **](javascript:void(0))
@@ -307,7 +307,7 @@ classes.
 ##### Listing 9.7. The contacts output file, in YAML format
 
 ``` {.code-area}
-1--- - !ruby/object:Contact  email: joe@somewhere.abc  extras:   :instrument: Cello  home:   :city: Somewhere   :street1: 123 Main Street  name: Joe Smith  work:   :phone: (000) 123-4567
+--- - !ruby/object:Contact  email: joe@somewhere.abc  extras:   :instrument: Cello  home:   :city: Somewhere   :street1: 123 Main Street  name: Joe Smith  work:   :phone: (000) 123-4567
 ```
 
 [copy **](javascript:void(0))
@@ -359,7 +359,7 @@ the two classes will be in contacts\_g.rb.
 ##### Listing 9.8. The contact application tests
 
 ``` {.code-area}
-1require 'test/unit' require 'contacts_g' Dir.mkdir("gdbm_contacts") unless File.exist?("gdbm_contacts")    class GDBMTest < Test::Unit::TestCase  def setup   @list = ContactList.new("gdbm_contacts")   @contact = Contact.new("Joe Smith")   @list << @contact                      @contact.home["street1"] = "123 Main Street"      @contact.home["city"] = "Somewhere"   @contact.work["phone"] = "(000) 123-4567"   @contact.extras["instrument"] = "Cello"   @contact.email = "joe@somewhere.abc"  end  def test_retrieving_a_contact_from_list   contact = @list["Joe Smith"]   assert_equal("Joe Smith", contact.name)  end  def test_delete_a_contact_from_list   assert(!@list.empty?)   @list.delete("Joe Smith")   assert(@list.empty?)   assert(@list.contact_cache.empty?)  end  def test_home   contact = @list["Joe Smith"]   assert_equal("123 Main Street", contact.home["street1"])  end  def test_email   contact = @list["Joe Smith"]   assert_equal("joe@somewhere.abc", contact.email)  end  def test_non_existent_contact_is_nil   assert_equal(nil, @list["Some Person"])  end  def teardown   @list.delete("Joe Smith") if @list["Joe Smith"]  end end
+require 'test/unit' require 'contacts_g' Dir.mkdir("gdbm_contacts") unless File.exist?("gdbm_contacts")    class GDBMTest < Test::Unit::TestCase  def setup   @list = ContactList.new("gdbm_contacts")   @contact = Contact.new("Joe Smith")   @list << @contact                      @contact.home["street1"] = "123 Main Street"      @contact.home["city"] = "Somewhere"   @contact.work["phone"] = "(000) 123-4567"   @contact.extras["instrument"] = "Cello"   @contact.email = "joe@somewhere.abc"  end  def test_retrieving_a_contact_from_list   contact = @list["Joe Smith"]   assert_equal("Joe Smith", contact.name)  end  def test_delete_a_contact_from_list   assert(!@list.empty?)   @list.delete("Joe Smith")   assert(@list.empty?)   assert(@list.contact_cache.empty?)  end  def test_home   contact = @list["Joe Smith"]   assert_equal("123 Main Street", contact.home["street1"])  end  def test_email   contact = @list["Joe Smith"]   assert_equal("joe@somewhere.abc", contact.email)  end  def test_non_existent_contact_is_nil   assert_equal(nil, @list["Some Person"])  end  def teardown   @list.delete("Joe Smith") if @list["Joe Smith"]  end end
 ```
 
 [copy **](javascript:void(0))
@@ -393,7 +393,7 @@ file—it will create a file called movies.db, so make sure you’re not
 clobbering one!
 
 ``` {.code-area}
-1require 'gdbm'movies = GDBM.new("movies.db")movies.update(      { "Vertigo" => "Alfred Hitchcock",        "In a Lonely Place" => "Nicholas Ray",        "Johnny Guitar" => "Nicholas Ray",        "Touch of Evil" => "Orson Welles",        "Psycho"  => "Alfred Hitchcock",         })movies.close
+require 'gdbm'movies = GDBM.new("movies.db")movies.update(      { "Vertigo" => "Alfred Hitchcock",        "In a Lonely Place" => "Nicholas Ray",        "Johnny Guitar" => "Nicholas Ray",        "Touch of Evil" => "Orson Welles",        "Psycho"  => "Alfred Hitchcock",         })movies.close
 ```
 
 [copy **](javascript:void(0))
@@ -402,7 +402,7 @@ Notice the use of the update method, which is familiar as a hash
 operation. Now, go into irb and do this:
 
 ``` {.code-area}
-1>> require "gdbm"=> true>> movies = GDBM.new("movies.db")=> #<GDBM:0xb7ef12cc>>> movies.values.uniq
+>> require "gdbm"=> true>> movies = GDBM.new("movies.db")=> #<GDBM:0xb7ef12cc>>> movies.values.uniq
 ```
 
 [copy **](javascript:void(0))
@@ -410,7 +410,7 @@ operation. Now, go into irb and do this:
 You’ll get a list of all the directors in your database:
 
 ``` {.code-area}
-1=> ["Orson Welles", "Nicholas Ray", "Alfred Hitchcock"]
+=> ["Orson Welles", "Nicholas Ray", "Alfred Hitchcock"]
 ```
 
 [copy **](javascript:void(0))
@@ -451,7 +451,7 @@ Let’s start this time with the Contact class. It’s shown in [listing
 ##### Listing 9.9. The Contact class for the gdbm implementation of the contacts library
 
 ``` {.code-area}
-1class Contact  COMPONENTS = ["home", "extras", "work"]     attr_accessor :name, *COMPONENTS      attr_reader :dirname      def initialize(name)       @name = name   @dirname = @name.gsub(" ", "_")  end  def components      COMPONENTS.map {|comp_name| self.send(comp_name) }  end  def open   COMPONENTS.each do |component|    self.send(component + "=", GDBM.new(component))      end  end  def close   components.each do |component|    component.close unless component.closed?      end  end  def email          extras["email"]  end  def email=(e)   extras["email"] = e  end end
+class Contact  COMPONENTS = ["home", "extras", "work"]     attr_accessor :name, *COMPONENTS      attr_reader :dirname      def initialize(name)       @name = name   @dirname = @name.gsub(" ", "_")  end  def components      COMPONENTS.map {|comp_name| self.send(comp_name) }  end  def open   COMPONENTS.each do |component|    self.send(component + "=", GDBM.new(component))      end  end  def close   components.each do |component|    component.close unless component.closed?      end  end  def email          extras["email"]  end  def email=(e)   extras["email"] = e  end end
 ```
 
 [copy **](javascript:void(0))
@@ -472,7 +472,7 @@ COMPONENTS has the effect of turning the array into a bare list, so it’s
 as if we’d written this:
 
 ``` {.code-area}
-1attr_accessor :name, :home, :work, :extras
+attr_accessor :name, :home, :work, :extras
 ```
 
 [copy **](javascript:void(0))
@@ -526,7 +526,7 @@ directories work. We want to be able to get a contact from a contact
 list:
 
 ``` {.code-area}
-1contact = @list["Joe Smith"]
+contact = @list["Joe Smith"]
 ```
 
 [copy **](javascript:void(0))
@@ -549,7 +549,7 @@ two require lines at the top of the file).
 ##### Listing 9.10. The ContactList class for storing contact records
 
 ``` {.code-area}
-1require 'gdbm' require 'fileutils'    class ContactList  attr_reader :contact_cache      def initialize(dir)       @dir = dir   @contact_cache = []  end  def [](name)   contact = @contact_cache.find {|c| c.name == name }      return contact if contact   contact = Contact.new(name)      Dir.chdir(@dir) do    if File.directory?(contact.dirname)        populate_contact(contact)             @contact_cache << contact        else     contact = nil    end   end   contact      end  def populate_contact(contact)   Dir.chdir(contact.dirname) do        contact.open   end  end
+require 'gdbm' require 'fileutils'    class ContactList  attr_reader :contact_cache      def initialize(dir)       @dir = dir   @contact_cache = []  end  def [](name)   contact = @contact_cache.find {|c| c.name == name }      return contact if contact   contact = Contact.new(name)      Dir.chdir(@dir) do    if File.directory?(contact.dirname)        populate_contact(contact)             @contact_cache << contact        else     contact = nil    end   end   contact      end  def populate_contact(contact)   Dir.chdir(contact.dirname) do        contact.open   end  end
 ```
 
 [copy **](javascript:void(0))
@@ -593,7 +593,7 @@ Now let’s look at adding an object to a list and removing one from the
 list. We’re shooting for the same API as the YAML version:
 
 ``` {.code-area}
-1@list << contact     # add a contact@list.delete(contact)  # delete a contact
+@list << contact     # add a contact@list.delete(contact)  # delete a contact
 ```
 
 [copy **](javascript:void(0))
@@ -606,7 +606,7 @@ directory structure.
 ##### Listing 9.11. Adding and removing a contact
 
 ``` {.code-area}
-1def <<(contact)  Dir.chdir(@dir) do   Dir.mkdir(contact.dirname) unless File.exists?(contact.dirname)      populate_contact(contact)  end @contact_cache << contact    end def delete(name)  contact = self[name]  return false unless contact     contact.close         Dir.chdir(@dir) do   FileUtils.rm_rf(contact.dirname)      end  contact_cache.delete_if {|c| c.name == name }     true    end
+def <<(contact)  Dir.chdir(@dir) do   Dir.mkdir(contact.dirname) unless File.exists?(contact.dirname)      populate_contact(contact)  end @contact_cache << contact    end def delete(name)  contact = self[name]  return false unless contact     contact.close         Dir.chdir(@dir) do   FileUtils.rm_rf(contact.dirname)      end  contact_cache.delete_if {|c| c.name == name }     true    end
 ```
 
 [copy **](javascript:void(0))
@@ -648,7 +648,7 @@ shows the remaining code necessary to complete the ContactList class.
 ##### Listing 9.12. The remaining methods for the ContactList class
 
 ``` {.code-area}
-1def directory_names   Dir["#{@dir}/*"]  end  def size   directory_names.size  end  def empty?   directory_names.empty?  end end
+def directory_names   Dir["#{@dir}/*"]  end  def size   directory_names.size  end  def empty?   directory_names.empty?  end end
 ```
 
 [copy **](javascript:void(0))
@@ -657,7 +657,7 @@ This class, along with the Contact class, now gives us all the
 functionality we need to make our tests pass.
 
 ``` {.code-area}
-1$ ruby contacts_g_test.rbLoaded suite contacts_g_testStarted.....Finished in 0.071413 seconds.5 tests, 7 assertions, 0 failures, 0 errors
+$ ruby contacts_g_test.rbLoaded suite contacts_g_testStarted.....Finished in 0.071413 seconds.5 tests, 7 assertions, 0 failures, 0 errors
 ```
 
 [copy **](javascript:void(0))
@@ -700,7 +700,7 @@ through the populate\_contact method. Would it be better to teach a
 contact how to populate itself, and then have the list call
 
 ``` {.code-area}
-1contact.populate
+contact.populate
 ```
 
 [copy **](javascript:void(0))
@@ -752,7 +752,7 @@ available as a gem or as a non-gem Ruby package. To install it as a gem,
 simply run the following command:
 
 ``` {.code-area}
-1gem install mysql
+gem install mysql
 ```
 
 [copy **](javascript:void(0))
@@ -764,7 +764,7 @@ which shows several Contact objects in the YAML format.
 ##### Listing 9.13. An example of a YAML file for contact records
 
 ``` {.code-area}
-1--- !ruby/object:ContactList contacts: - !ruby/object:Contact  extras:    :sport: bowling    :car: Toyota    :pets: armadillo  home:    :postal: "12345"    :state: NJ    :country: USA    :street1: 123 Main    :city: Somewhere  name: David Black  work: {}  email: dblack@somewhere - !ruby/object:Contact  extras: {}  home:    :postal: "23456"    :state: AB    :country: USA    :street1: 234 Main    :city: Somewhere  name: David Smith  email: dsmith@somewhere  work:    :company: The Somewhere Consultants    :street1: 234 Main    :street2: Suite 33943    :city: Somewhere    :postal: "23456"    :state: AB    :country: USA - !ruby/object:Contact  extras:    :instrument: violin    :car: Honda    :pets: cat  home:    :postal: "00000"    :state: US    :country: USA    :street1: 9393 West Main    :city: Nowhere  name: Joe Smith  email: jsmith@somewhere  work: {} - !ruby/object:Contact  extras: {}  home:    :postal: "98765"    :state: HH    :country: USA    :street1: 8 North Main    :street2: Apt. 3    :city: Anywhere  name: John Smith  email: jsmith2@somewhere  work: {}
+--- !ruby/object:ContactList contacts: - !ruby/object:Contact  extras:    :sport: bowling    :car: Toyota    :pets: armadillo  home:    :postal: "12345"    :state: NJ    :country: USA    :street1: 123 Main    :city: Somewhere  name: David Black  work: {}  email: dblack@somewhere - !ruby/object:Contact  extras: {}  home:    :postal: "23456"    :state: AB    :country: USA    :street1: 234 Main    :city: Somewhere  name: David Smith  email: dsmith@somewhere  work:    :company: The Somewhere Consultants    :street1: 234 Main    :street2: Suite 33943    :city: Somewhere    :postal: "23456"    :state: AB    :country: USA - !ruby/object:Contact  extras:    :instrument: violin    :car: Honda    :pets: cat  home:    :postal: "00000"    :state: US    :country: USA    :street1: 9393 West Main    :city: Nowhere  name: Joe Smith  email: jsmith@somewhere  work: {} - !ruby/object:Contact  extras: {}  home:    :postal: "98765"    :state: HH    :country: USA    :street1: 8 North Main    :street2: Apt. 3    :city: Anywhere  name: John Smith  email: jsmith2@somewhere  work: {}
 ```
 
 [copy **](javascript:void(0))
@@ -783,7 +783,7 @@ database.
 ##### Listing 9.14. SQL instructions for creating the contacts database
 
 ``` {.code-area}
-1drop database contacts; create database contacts; use contacts; drop table if exists contacts; create table contacts (  name varchar(100),  email varchar(50),  primary key (email)) ENGINE=INNODB; drop table if exists home; create table home (  street1 varchar(100),  street2 varchar(100),  city varchar(50),  postal varchar(20),  state varchar(20),  country varchar(25),  contact_email varchar(50),  foreign key(contact_email)   references contacts(email)   on delete cascade) ENGINE=INNODB; drop table if exists work; create table work (  company varchar(100),  street1 varchar(100),  street2 varchar(100),  city varchar(50),  postal varchar(20),  state varchar(20),  country varchar(25),  contact_email varchar(50),  foreign key(contact_email)   references contacts(email)   on delete cascade) ENGINE=INNODB; drop table if exists extras; create table extras (  label varchar(50),  description varchar(150),  contact_email varchar(50),  foreign key(contact_email)   references contacts(email)   on delete cascade) ENGINE=INNODB; grant all on contacts.* to 'contacter'@'localhost' \  identified by 'secret'
+drop database contacts; create database contacts; use contacts; drop table if exists contacts; create table contacts (  name varchar(100),  email varchar(50),  primary key (email)) ENGINE=INNODB; drop table if exists home; create table home (  street1 varchar(100),  street2 varchar(100),  city varchar(50),  postal varchar(20),  state varchar(20),  country varchar(25),  contact_email varchar(50),  foreign key(contact_email)   references contacts(email)   on delete cascade) ENGINE=INNODB; drop table if exists work; create table work (  company varchar(100),  street1 varchar(100),  street2 varchar(100),  city varchar(50),  postal varchar(20),  state varchar(20),  country varchar(25),  contact_email varchar(50),  foreign key(contact_email)   references contacts(email)   on delete cascade) ENGINE=INNODB; drop table if exists extras; create table extras (  label varchar(50),  description varchar(150),  contact_email varchar(50),  foreign key(contact_email)   references contacts(email)   on delete cascade) ENGINE=INNODB; grant all on contacts.* to 'contacter'@'localhost' \  identified by 'secret'
 ```
 
 [copy **](javascript:void(0))
@@ -837,7 +837,7 @@ necessary libraries, as well as our application code (contact\_y.rb),
 and make connections on both the YAML side and the MySQL side:
 
 ``` {.code-area}
-1require 'yaml'require 'mysql'require 'contact_y'conn = Mysql.new("localhost", "contacter", "secret", "contacts")    list = YAML.load(File.read("contacts.yml"))
+require 'yaml'require 'mysql'require 'contact_y'conn = Mysql.new("localhost", "contacter", "secret", "contacts")    list = YAML.load(File.read("contacts.yml"))
 ```
 
 [copy **](javascript:void(0))
@@ -854,7 +854,7 @@ the entry in the contacts table. Just for fun, here’s how to do it using
 Ruby’s % interpolation operator:
 
 ``` {.code-area}
-1list.contacts.each do |contact| conn.query "INSERT INTO contacts (`name`, `email`)  VALUES ('%s','%s')" % [contact.name, contact.email]
+list.contacts.each do |contact| conn.query "INSERT INTO contacts (`name`, `email`)  VALUES ('%s','%s')" % [contact.name, contact.email]
 ```
 
 [copy **](javascript:void(0))
@@ -882,7 +882,7 @@ uses them as field names, together with the component’s values as the
 database values. Here’s the code that will do this:
 
 ``` {.code-area}
-1%w{ home work }.each do |component| data = contact.send(component)     items = data.keys                fields = (["contact_email"] + items).map {|field|  "`#{field}`" }.join(",")       values = [contact.email] + items.map {|field| data[field]}     values.map! {|value| "'#{value}'"}       values = values.join(",")           conn.query("INSERT INTO #{component} (#{fields}) VALUES (#{values})")    end
+%w{ home work }.each do |component| data = contact.send(component)     items = data.keys                fields = (["contact_email"] + items).map {|field|  "`#{field}`" }.join(",")       values = [contact.email] + items.map {|field| data[field]}     values.map! {|value| "'#{value}'"}       values = values.join(",")           conn.query("INSERT INTO #{component} (#{fields}) VALUES (#{values})")    end
 ```
 
 [copy **](javascript:void(0))
@@ -900,7 +900,7 @@ together with commas ![](./images/circle-3.jpg). That will give us
 something like this for the fields variable:
 
 ``` {.code-area}
-1`contact_email`, `street1`, `street2`, `city`, etc.
+`contact_email`, `street1`, `street2`, `city`, etc.
 ```
 
 [copy **](javascript:void(0))
@@ -918,7 +918,7 @@ commas to make a values string out of the array
 The result will be something like this:
 
 ``` {.code-area}
-1'jsmith2@somewhere', '123 Main', '', 'Somewhere', etc.
+'jsmith2@somewhere', '123 Main', '', 'Somewhere', etc.
 ```
 
 [copy **](javascript:void(0))
@@ -941,7 +941,7 @@ than the handling of the home and work components, though it does
 potentially create more records:
 
 ``` {.code-area}
-1contact.extras.each do |label, description|  conn.query("INSERT INTO extras (`contact_email`, `label`,`description`) VALUES ('#{contact.email}', '#{label}','#{description}')") endend
+contact.extras.each do |label, description|  conn.query("INSERT INTO extras (`contact_email`, `label`,`description`) VALUES ('#{contact.email}', '#{label}','#{description}')") endend
 ```
 
 [copy **](javascript:void(0))
@@ -1001,7 +1001,7 @@ queries up as a transaction.
 To do this, you first need to turn off auto-commit mode:
 
 ``` {.code-area}
-1...conn = Mysql.new("localhost", "contacter", "secret", "contacts")list = YAML.load(File.read("contacts.yml"))conn.autocommit(false)
+...conn = Mysql.new("localhost", "contacter", "secret", "contacts")list = YAML.load(File.read("contacts.yml"))conn.autocommit(false)
 ```
 
 [copy **](javascript:void(0))
@@ -1011,7 +1011,7 @@ begin/rescue/end block, where rescuing from a Mysql::Error will result
 in a rollback:
 
 ``` {.code-area}
-1list.contacts.each do |contact| begin# rest of code, through the "extras" loop rescue Mysql::Error => e  puts "Problem with contact #{contact.name}: #{e}"  conn.rollback  next end conn.commitend
+list.contacts.each do |contact| begin# rest of code, through the "extras" loop rescue Mysql::Error => e  puts "Problem with contact #{contact.name}: #{e}"  conn.rollback  next end conn.commitend
 ```
 
 [copy **](javascript:void(0))
@@ -1061,7 +1061,7 @@ in turn cause the gdbm driver to be loaded. We also need to create the
 output directory, if it doesn’t exist already.
 
 ``` {.code-area}
-1require 'dbi'require 'contacts_g'Dir.mkdir("migrated_contacts") unless File.exist?("migrated_contacts")
+require 'dbi'require 'contacts_g'Dir.mkdir("migrated_contacts") unless File.exist?("migrated_contacts")
 ```
 
 [copy **](javascript:void(0))
@@ -1075,7 +1075,7 @@ list of all the tables in the database, *except* contacts and extras;
 those two tables require special handling.
 
 ``` {.code-area}
-1list = ContactList.new("migrated_contacts")conn = DBI.connect("DBI:Mysql:contacts", "contacter", "secret")tables = conn.select_all("show tables").          flatten - %w{ extras contacts }
+list = ContactList.new("migrated_contacts")conn = DBI.connect("DBI:Mysql:contacts", "contacter", "secret")tables = conn.select_all("show tables").          flatten - %w{ extras contacts }
 ```
 
 [copy **](javascript:void(0))

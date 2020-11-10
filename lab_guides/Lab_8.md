@@ -73,7 +73,7 @@ If you do not have RubyGems installed, we recommend downloading RubyGems
 the archive file and running the setup.rb file found there. For example:
 
 ``` {.code-area}
-1$ wget http://rubyforge.org/frs/download.php/38646/rubygems-1.2.0.tgz$ tar xzf rubygems-1.2.0.tgz$ cd rubygems-1.2.0$ sudo ruby setup.rb
+$ wget http://rubyforge.org/frs/download.php/38646/rubygems-1.2.0.tgz$ tar xzf rubygems-1.2.0.tgz$ cd rubygems-1.2.0$ sudo ruby setup.rb
 ```
 
 [copy **](javascript:void(0))
@@ -84,7 +84,7 @@ of RubyGems you have by running the command gem --version. To upgrade to
 the latest version, use this command:
 
 ``` {.code-area}
-1$ gem update --system
+$ gem update --system
 ```
 
 [copy **](javascript:void(0))
@@ -132,7 +132,7 @@ we’re going to use the --simple switch to tell newgem to generate only
 enough code to get us up and running. Here’s the command:
 
 ``` {.code-area}
-1newgem ruby_in_practice --simple
+newgem ruby_in_practice --simple
 ```
 
 [copy **](javascript:void(0))
@@ -156,7 +156,7 @@ specification. For instance, if you wanted to require hpricot 0.5 or
 higher, you would add this line:
 
 ``` {.code-area}
-1s.add_dependency "hpricot", ">= 0.5"
+s.add_dependency "hpricot", ">= 0.5"
 ```
 
 [copy **](javascript:void(0))
@@ -170,7 +170,7 @@ Your gem specification should look like the one in [listing
 ##### Listing 8.1. Gem specification
 
 ``` {.code-area}
-1GEM = "ruby_in_practice" VERSION = "0.1.0" AUTHOR = "Sample McSample" EMAIL = "sample@example.com" HOMEPAGE = "http://sample.example.com" SUMMARY = "A sample gem for Ruby in Practice" spec = Gem::Specification.new do |s|  s.name = GEM  s.version = VERSION  s.platform = Gem::Platform::RUBY  s.has_rdoc = true  s.extra_rdoc_files = ["README", "LICENSE", 'TODO']  s.summary = SUMMARY  s.description = s.summary  s.author = AUTHOR  s.email = EMAIL  s.homepage = HOMEPAGE  s.add_dependency "hpricot", ">= 0.5"  s.require_path = 'lib'  s.autorequire = GEM  s.files = %w(LICENSE README Rakefile TODO) + Dir.glob("{lib,specs}/**/*") end
+GEM = "ruby_in_practice" VERSION = "0.1.0" AUTHOR = "Sample McSample" EMAIL = "sample@example.com" HOMEPAGE = "http://sample.example.com" SUMMARY = "A sample gem for Ruby in Practice" spec = Gem::Specification.new do |s|  s.name = GEM  s.version = VERSION  s.platform = Gem::Platform::RUBY  s.has_rdoc = true  s.extra_rdoc_files = ["README", "LICENSE", 'TODO']  s.summary = SUMMARY  s.description = s.summary  s.author = AUTHOR  s.email = EMAIL  s.homepage = HOMEPAGE  s.add_dependency "hpricot", ">= 0.5"  s.require_path = 'lib'  s.autorequire = GEM  s.files = %w(LICENSE README Rakefile TODO) + Dir.glob("{lib,specs}/**/*") end
 ```
 
 [copy **](javascript:void(0))
@@ -194,7 +194,7 @@ additional files from the gem when it loads.
 ##### Listing 8.2. Requiring Ruby files from a gem
 
 ``` {.code-area}
-1require 'ruby_in_practice/parser' require 'ruby_in_practice/lexer' require 'ruby_in_practice/interactive'
+require 'ruby_in_practice/parser' require 'ruby_in_practice/lexer' require 'ruby_in_practice/interactive'
 ```
 
 [copy **](javascript:void(0))
@@ -237,7 +237,7 @@ inside the gem skeleton, and place your extconf.rb file and any required
 C files into it. Then, add the following line to the gem specification:
 
 ``` {.code-area}
-1s.extensions = "ext/extconf.rb"
+s.extensions = "ext/extconf.rb"
 ```
 
 [copy **](javascript:void(0))
@@ -294,7 +294,7 @@ like the one in [listing
 ##### Listing 8.3. Deployable binary
 
 ``` {.code-area}
-1#!/bin/env ruby require 'ruby_in_practice' RubyInPractice.start
+#!/bin/env ruby require 'ruby_in_practice' RubyInPractice.start
 ```
 
 [copy **](javascript:void(0))
@@ -336,7 +336,7 @@ shows some examples.
 ##### Listing 8.5. Using a custom repository with the gem command
 
 ``` {.code-area}
-1gem install rails --source=http://example.com:8808    gem list --source=http://example.com:8808          gem query -nrails --source=http://example.com:8808
+gem install rails --source=http://example.com:8808    gem list --source=http://example.com:8808          gem query -nrails --source=http://example.com:8808
 ```
 
 [copy **](javascript:void(0))
@@ -381,7 +381,7 @@ shows how to do this.
 ##### Listing 8.6. Using a custom location for gem server
 
 ``` {.code-area}
-1gem install rails -i ./gems   gem server -d ./gems --daemon
+gem install rails -i ./gems   gem server -d ./gems --daemon
 ```
 
 [copy **](javascript:void(0))
@@ -520,7 +520,7 @@ configure each of these environments. For example, to deploy to the
 staging server, you would run this command:
 
 ``` {.code-area}
-1$ cap staging deploy
+$ cap staging deploy
 ```
 
 [copy **](javascript:void(0))
@@ -528,7 +528,7 @@ staging server, you would run this command:
 To deploy to all the production servers, you’d run this command:
 
 ``` {.code-area}
-1$ cap production deploy
+$ cap production deploy
 ```
 
 [copy **](javascript:void(0))
@@ -607,7 +607,7 @@ We won’t discuss HighLine at length here, but we’ll show you a couple of
 examples:
 
 ``` {.code-area}
-1task "time" do Capistrano::CLI.ui.say("The time is <%= color(Time.now, BOLD) %>")endtask "nuke_everything" do if Capistrano::CLI.ui.ask("Nuke everything!?") == 'yes'  nuke! else  puts "Better safe then sorry." endend
+task "time" do Capistrano::CLI.ui.say("The time is <%= color(Time.now, BOLD) %>")endtask "nuke_everything" do if Capistrano::CLI.ui.ask("Nuke everything!?") == 'yes'  nuke! else  puts "Better safe then sorry." endend
 ```
 
 [copy **](javascript:void(0))
@@ -653,7 +653,7 @@ The starting point for Vlad is your existing Rakefile. To make use of
 Vlad, you must first require and load it:
 
 ``` {.code-area}
-1require 'vlad'Vlad.load
+require 'vlad'Vlad.load
 ```
 
 [copy **](javascript:void(0))
@@ -667,7 +667,7 @@ Mongrel recipes (these two are provided by Vlad).
 ##### Listing 8.9. Rakefile loading Vlad with Subversion and Mongrel recipes
 
 ``` {.code-area}
-1require 'vlad' Vlad.load :scm=>:subversion, :app=>:mongrel
+require 'vlad' Vlad.load :scm=>:subversion, :app=>:mongrel
 ```
 
 [copy **](javascript:void(0))
@@ -681,7 +681,7 @@ used Capistrano for earlier.
 ##### Listing 8.10. config/deploy.rb for Vlad the Deployer
 
 ``` {.code-area}
-1set :domain,        'rubyinpratice.com' set :deploy_to,      '/deploy/ruby_in_practice' set :repository,     'http://svn.rubyinpractice.com' role :app,         "prod1.#{domain}" role :app,         "prod2.#{domain}" role :app,         "prod3.#{domain}" role :app,         "prod4.#{domain}" namespace 'daemon' do  desc "Start daemon"  remote_task 'start' do   run "cd #{deploy_to} && daemon_ctl start"  end  desc "Stop daemon"  remote_task 'stop' do   run "cd #{deploy_to} && daemon_ctl stop"  end end namespace 'vlad' do  task 'update' => 'daemon:stop'  task 'start' do   task('daemon:start').invoke  end  task 'deploy' => ['update', 'migrate', 'start'] end
+set :domain,        'rubyinpratice.com' set :deploy_to,      '/deploy/ruby_in_practice' set :repository,     'http://svn.rubyinpractice.com' role :app,         "prod1.#{domain}" role :app,         "prod2.#{domain}" role :app,         "prod3.#{domain}" role :app,         "prod4.#{domain}" namespace 'daemon' do  desc "Start daemon"  remote_task 'start' do   run "cd #{deploy_to} && daemon_ctl start"  end  desc "Stop daemon"  remote_task 'stop' do   run "cd #{deploy_to} && daemon_ctl stop"  end end namespace 'vlad' do  task 'update' => 'daemon:stop'  task 'start' do   task('daemon:start').invoke  end  task 'deploy' => ['update', 'migrate', 'start'] end
 ```
 
 [copy **](javascript:void(0))
@@ -707,7 +707,7 @@ To deploy new code, automatically stopping and starting the daemon as
 necessary, run this command:
 
 ``` {.code-area}
-1$ rake vlad:deploy
+$ rake vlad:deploy
 ```
 
 [copy **](javascript:void(0))
@@ -876,7 +876,7 @@ shows how we can set up God to send emails.
 ##### Listing 8.12. Telling God.rb how to notify our team members
 
 ``` {.code-area}
-1God::Contacts::Email.message_settings = {  :from => 'daemon_master@example.com' } God::Contacts::Email.server_settings = {  :address => 'daemons.example.com',  :port => 25,  :domain => 'example.com',  :authentication => :plain,  :user_name => 'daemon_master',  :password => 't3hm4n' } {'lead' => 'lead@example.com',  'joe' => 'joesmith@example.com',  'john' => 'theman@example.com',  'mark' => 'marky@example.com' }.each do |name, email|  God.contact(:email) do |c|   c.name  = name   c.email = email   c.group = 'developers'  end end
+God::Contacts::Email.message_settings = {  :from => 'daemon_master@example.com' } God::Contacts::Email.server_settings = {  :address => 'daemons.example.com',  :port => 25,  :domain => 'example.com',  :authentication => :plain,  :user_name => 'daemon_master',  :password => 't3hm4n' } {'lead' => 'lead@example.com',  'joe' => 'joesmith@example.com',  'john' => 'theman@example.com',  'mark' => 'marky@example.com' }.each do |name, email|  God.contact(:email) do |c|   c.name  = name   c.email = email   c.group = 'developers'  end end
 ```
 
 [copy **](javascript:void(0))
@@ -916,7 +916,7 @@ Now that we have a configuration file, it’s time to use it. We’ll start
 by testing it out, and for that we’ll run God in the console:
 
 ``` {.code-area}
-1$ sudo god -c config.god -D
+$ sudo god -c config.god -D
 ```
 
 [copy **](javascript:void(0))
@@ -931,7 +931,7 @@ whatever works best in your environment. Here is an example of a cron
 task that runs God on every boot:
 
 ``` {.code-area}
-1@reboot god -c /etc/god/config.god
+@reboot god -c /etc/god/config.god
 ```
 
 [copy **](javascript:void(0))
@@ -939,7 +939,7 @@ task that runs God on every boot:
 You can then check whether God is running:
 
 ``` {.code-area}
-1$ sudo god statusmy-daemons: my-daemon_1: up my-daemon_2: up
+$ sudo god statusmy-daemons: my-daemon_1: up my-daemon_2: up
 ```
 
 [copy **](javascript:void(0))

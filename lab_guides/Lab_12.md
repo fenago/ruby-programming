@@ -193,7 +193,7 @@ the order that we supplied the documents. For example, the first
 solution performs a query of “test”, which nets the following results:
 
 ``` {.code-area}
-1Found test in document 0 (scoring 0.70710676908493)Found test in document 1 (scoring 0.5)
+Found test in document 0 (scoring 0.70710676908493)Found test in document 1 (scoring 0.5)
 ```
 
 [copy **](javascript:void(0))
@@ -250,7 +250,7 @@ If we run this example and provide it with a test query, we can see how
 the boosts affect the results:
 
 ``` {.code-area}
-1What do you want to search for?> documentFound 'Third Document' by 'Fred Bloggs' (score: 1.97577941417694)Found 'My Test Document' by 'Fred Bloggs' (score: 0.922030389308929)Found 'Irrelevant Title' by 'Anon' (score: 0.065859317779541)
+What do you want to search for?> documentFound 'Third Document' by 'Fred Bloggs' (score: 1.97577941417694)Found 'My Test Document' by 'Fred Bloggs' (score: 0.922030389308929)Found 'Irrelevant Title' by 'Anon' (score: 0.065859317779541)
 ```
 
 [copy **](javascript:void(0))
@@ -376,7 +376,7 @@ interface class.
 ##### Listing 12.5. Adding and indexing documents
 
 ``` {.code-area}
-1# Create an index object using the MySolr class index = MySolr.new("http://localhost:8983/solr/") # Add documents to the index index << { :id   => 1,         :name  => "My Test Document",         :text  => "This is a test to demonstrate Solr" } index << { :id   => 2,         :name  => "Irrelevant Title",         :text  => "Another test document" } # Commit the documents to the index index.commit
+# Create an index object using the MySolr class index = MySolr.new("http://localhost:8983/solr/") # Add documents to the index index << { :id   => 1,         :name  => "My Test Document",         :text  => "This is a test to demonstrate Solr" } index << { :id   => 2,         :name  => "Irrelevant Title",         :text  => "Another test document" } # Commit the documents to the index index.commit
 ```
 
 [copy **](javascript:void(0))
@@ -384,7 +384,7 @@ interface class.
 ##### Listing 12.6. Querying the index
 
 ``` {.code-area}
-1results = index.query('title') # Print the results puts "#{results['numFound']} result(s) found!" puts results['docs'].each do |result|  puts "Document ID: #{result['id']}"  puts "    Title: #{result['name']}\n\n" end
+results = index.query('title') # Print the results puts "#{results['numFound']} result(s) found!" puts results['docs'].each do |result|  puts "Document ID: #{result['id']}"  puts "    Title: #{result['name']}\n\n" end
 ```
 
 [copy **](javascript:void(0))
@@ -396,7 +396,7 @@ after the indexing routine in [listing
 should produce a result like the following:
 
 ``` {.code-area}
-11 result(s) found!Document ID: 2    Title: Irrelevant Title
+1 result(s) found!Document ID: 2    Title: Irrelevant Title
 ```
 
 [copy **](javascript:void(0))
@@ -404,7 +404,7 @@ should produce a result like the following:
 ##### Listing 12.7. Deleting items from the index
 
 ``` {.code-area}
-1index.delete(1) index.delete(2) index.commit
+index.delete(1) index.delete(2) index.commit
 ```
 
 [copy **](javascript:void(0))
@@ -441,7 +441,7 @@ different, as you can see in [listing
 Solr accepts queries over HTTP to a URL like so:
 
 ``` {.code-area}
-1http://hostname:port/solr/select?q=query
+http://hostname:port/solr/select?q=query
 ```
 
 [copy **](javascript:void(0))
@@ -452,7 +452,7 @@ makes Solr return the results in a Ruby-friendly format, by using a URL
 like this:
 
 ``` {.code-area}
-1http://hostname:port/solr/select?q=query&wt=ruby
+http://hostname:port/solr/select?q=query&wt=ruby
 ```
 
 [copy **](javascript:void(0))
@@ -463,7 +463,7 @@ when we put the URL together ![](./images/circle-1.jpg). Solr will
 return a string that can be evaled by Ruby:
 
 ``` {.code-area}
-1{'responseHeader'=>{'status'=>0,'QTime'=>0,'params'=>{'q'=>'title', 'wt'=>'ruby'}},'response'=>{'numFound'=>1,'start'=>0,'docs'=> [{'name'=>'Irrelevant Title','id'=>'2','sku'=>'2','popularity'=>0, 'timestamp'=>'2007-07-12T03:56:49.618Z'}]}}
+{'responseHeader'=>{'status'=>0,'QTime'=>0,'params'=>{'q'=>'title', 'wt'=>'ruby'}},'response'=>{'numFound'=>1,'start'=>0,'docs'=> [{'name'=>'Irrelevant Title','id'=>'2','sku'=>'2','popularity'=>0, 'timestamp'=>'2007-07-12T03:56:49.618Z'}]}}
 ```
 
 [copy **](javascript:void(0))
@@ -480,7 +480,7 @@ The information that gets returned to the main client is then a hash
 that looks like this:
 
 ``` {.code-area}
-1{'numFound'=>1,'start'=>0,'docs'=>[{'name'=>'Irrelevant Title','id'=> '2','sku'=>'2','popularity'=>0,'timestamp'=>'2007-07-12T03:56:49.618Z'}]}
+{'numFound'=>1,'start'=>0,'docs'=>[{'name'=>'Irrelevant Title','id'=> '2','sku'=>'2','popularity'=>0,'timestamp'=>'2007-07-12T03:56:49.618Z'}]}
 ```
 
 [copy **](javascript:void(0))
@@ -571,7 +571,7 @@ requires a manual installation. The library, in its current state, can
 be installed using the Darcs package manager (darcs.net/), like so:
 
 ``` {.code-area}
-1darcs get http://eigenclass.org/repos/ftsearch/head/
+darcs get http://eigenclass.org/repos/ftsearch/head/
 ```
 
 [copy **](javascript:void(0))
@@ -585,7 +585,7 @@ the C portion of the library. On most systems, this is as easy as
 running this command:
 
 ``` {.code-area}
-1cd ext/ftsearch && ruby extconf.rb && make
+cd ext/ftsearch && ruby extconf.rb && make
 ```
 
 [copy **](javascript:void(0))
@@ -643,7 +643,7 @@ is run, and a query of “Linus” is supplied, the results should look like
 this:
 
 ``` {.code-area}
-12 found2 documents foundResults:Document ID: 68    Score: 2  Filename: data/linux/kernel/vsprintf.cDocument ID: 28    Score: 1  Filename: data/linux/include/string.h
+2 found2 documents foundResults:Document ID: 68    Score: 2  Filename: data/linux/kernel/vsprintf.cDocument ID: 28    Score: 1  Filename: data/linux/include/string.h
 ```
 
 [copy **](javascript:void(0))
@@ -681,7 +681,7 @@ applications, instead leaving users to perform sloppy, non-portable SQL
 hacks like this (for MySQL):
 
 ``` {.code-area}
-1results = Post.find(:all, :conditions => "title LIKE '%search phrase%'")
+results = Post.find(:all, :conditions => "title LIKE '%search phrase%'")
 ```
 
 [copy **](javascript:void(0))
@@ -720,7 +720,7 @@ You will also need the **acts\_as\_ferret** Rails plugin, which can be
 installed simply:
 
 ``` {.code-area}
-1gem install acts_as_ferret
+gem install acts_as_ferret
 ```
 
 [copy **](javascript:void(0))
@@ -730,7 +730,7 @@ your **config/environment.rb** file, and the remainder of the solution
 will work:
 
 ``` {.code-area}
-1require 'acts_as_ferret'
+require 'acts_as_ferret'
 ```
 
 [copy **](javascript:void(0))
@@ -751,7 +751,7 @@ Querying the index is very simple and offers helpers that will work from
 models, controllers, and views:
 
 ``` {.code-area}
-1Post.find_by_contents("test").each do |post| result_title = post.title result_score = post.ferret_scoreend
+Post.find_by_contents("test").each do |post| result_title = post.title result_score = post.ferret_scoreend
 ```
 
 [copy **](javascript:void(0))
@@ -777,7 +777,7 @@ indexing by using the :store option, much as we did in [listing
 (by default, storing is off):
 
 ``` {.code-area}
-1acts_as_ferret :fields => {             :title   => { :boost => 10, :store => :yes },             :content => { }            }
+acts_as_ferret :fields => {             :title   => { :boost => 10, :store => :yes },             :content => { }            }
 ```
 
 [copy **](javascript:void(0))
@@ -786,7 +786,7 @@ Now let’s add posts to be indexed to our database (you can do this using
 the **script/console tool** to make it easier):
 
 ``` {.code-area}
-1Post.create(:title => "Test Post", :content => "A test document!")Post.create(:title => "Another Post", :content => "More test stuff!")Post.create(:title => "Third Post", :content => "End of testing")
+Post.create(:title => "Test Post", :content => "A test document!")Post.create(:title => "Another Post", :content => "More test stuff!")Post.create(:title => "Third Post", :content => "End of testing")
 ```
 
 [copy **](javascript:void(0))
@@ -797,7 +797,7 @@ find\_by\_contents method that acts\_as\_ferret adds to models it’s
 supporting:
 
 ``` {.code-area}
-1Post.find_by_contents("test").each do |post| puts "#{post.title} - #{post.ferret_score}"end
+Post.find_by_contents("test").each do |post| puts "#{post.title} - #{post.ferret_score}"end
 ```
 
 [copy **](javascript:void(0))
@@ -805,7 +805,7 @@ supporting:
 With our example data, we get these results:
 
 ``` {.code-area}
-1Test Post - 1.0Another Post - 0.025548005476594
+Test Post - 1.0Another Post - 0.025548005476594
 ```
 
 [copy **](javascript:void(0))
@@ -814,7 +814,7 @@ Naturally, more complex examples are possible, as you get the full range
 of Boolean, wildcard, and other searches that Ferret supports:
 
 ``` {.code-area}
-1Post.find_by_contents("te*").each { |p| puts p.title }
+Post.find_by_contents("te*").each { |p| puts p.title }
 ```
 
 [copy **](javascript:void(0))
@@ -824,7 +824,7 @@ object. This could be useful if you just wanted to count the number of
 results, do pagination, or get access to the metadata:
 
 ``` {.code-area}
-1Post.find_id_by_contents("test*")
+Post.find_id_by_contents("test*")
 ```
 
 [copy **](javascript:void(0))
@@ -832,7 +832,7 @@ results, do pagination, or get access to the metadata:
 The preceding search results in an array like the following:
 
 ``` {.code-area}
-1[3, [{:score=>1.0, :model=>"Post", :id=>"1", :data=>{}},     {:score=>0.0157371964305639, :model=>"Post", :id=>"2", :data=>{}},     {:score=>0.0157371964305639, :model=>"Post", :id=>"3", :data=>{}}]]
+[3, [{:score=>1.0, :model=>"Post", :id=>"1", :data=>{}},     {:score=>0.0157371964305639, :model=>"Post", :id=>"2", :data=>{}},     {:score=>0.0157371964305639, :model=>"Post", :id=>"3", :data=>{}}]]
 ```
 
 [copy **](javascript:void(0))
@@ -841,7 +841,7 @@ The preceding search results in an array like the following:
 features that will be familiar from other finders:
 
 ``` {.code-area}
-1Post.find_by_contents("*", :limit => 1, :offset => 1)
+Post.find_by_contents("*", :limit => 1, :offset => 1)
 ```
 
 [copy **](javascript:void(0))
@@ -866,7 +866,7 @@ plugins, using the **script/plugin** tool (which requires Subversion to
 be installed):
 
 ``` {.code-area}
-1ruby script/plugin install  svn://svn.railsfreaks.com/projects/acts_as_solr/trunk
+ruby script/plugin install  svn://svn.railsfreaks.com/projects/acts_as_solr/trunk
 ```
 
 [copy **](javascript:void(0))
@@ -878,7 +878,7 @@ previously) but it also comes with its own version of Solr, which makes
 things easier. To run it, type this:
 
 ``` {.code-area}
-1cd vendor/plugins/acts_as_solr/solr/java -jar start.jar
+cd vendor/plugins/acts_as_solr/solr/java -jar start.jar
 ```
 
 [copy **](javascript:void(0))
@@ -898,7 +898,7 @@ Changing the **Post** model from that in the Ferret example to using
 acts\_as\_solr, results in the following:
 
 ``` {.code-area}
-1class Post < ActiveRecord::Base has_many :comments belongs_to :user acts_as_solr :fields => [{:title => {:boost => 10}}, :content]end
+class Post < ActiveRecord::Base has_many :comments belongs_to :user acts_as_solr :fields => [{:title => {:boost => 10}}, :content]end
 ```
 
 [copy **](javascript:void(0))
@@ -908,7 +908,7 @@ options you might choose to use), but the technique is almost the same
 as for **acts\_as\_ferret.** For example, querying is very similar:
 
 ``` {.code-area}
-1Post.find_by_solr("test")
+Post.find_by_solr("test")
 ```
 
 [copy **](javascript:void(0))
@@ -916,7 +916,7 @@ as for **acts\_as\_ferret.** For example, querying is very similar:
 Or, if you’d like to get a full set of results:
 
 ``` {.code-area}
-1Post.find_by_solr("test").records.each { |p| puts p.title }
+Post.find_by_solr("test").records.each { |p| puts p.title }
 ```
 
 [copy **](javascript:void(0))
@@ -968,7 +968,7 @@ To get the Ultrasphinx plugin working, you’ll first need to install it.
 Ultrasphinx requires the Chronic gem, so you’ll have to install it too:
 
 ``` {.code-area}
-1sudo gem install chronicscript/plugin install –x svn://rubyforge.org/var/svn/fauna/ultrasphinx/trunk
+sudo gem install chronicscript/plugin install –x svn://rubyforge.org/var/svn/fauna/ultrasphinx/trunk
 ```
 
 [copy **](javascript:void(0))
@@ -982,7 +982,7 @@ shows a basic indexed model.
 ##### Listing 12.11. A model that’s indexed with Ultrasphinx
 
 ``` {.code-area}
-1class Article < ActiveRecord::Base  is_indexed :fields => ['title', 'content', 'byline'] end
+class Article < ActiveRecord::Base  is_indexed :fields => ['title', 'content', 'byline'] end
 ```
 
 [copy **](javascript:void(0))
@@ -997,7 +997,7 @@ Rails-specific options that need to stay the way they are for the plugin
 to work. To get everything set up, run the following Rake tasks:
 
 ``` {.code-area}
-1rake ultrasphinx:configurerake ultrasphinx:indexrake ultrasphinx:daemon:start
+rake ultrasphinx:configurerake ultrasphinx:indexrake ultrasphinx:daemon:start
 ```
 
 [copy **](javascript:void(0))
@@ -1021,7 +1021,7 @@ shows how to execute a search.
 ##### Listing 12.12. Executing a full-text search with Ultrasphinx
 
 ``` {.code-area}
-1@search = Ultrasphinx::Search.new(:query => 'excellent food') @search.run @results = @search.results
+@search = Ultrasphinx::Search.new(:query => 'excellent food') @search.run @results = @search.results
 ```
 
 [copy **](javascript:void(0))
@@ -1037,7 +1037,7 @@ When it comes times to rotate your Sphinx index, you can do so by
 running the following Rake task:
 
 ``` {.code-area}
-1rake ultrasphinx:index
+rake ultrasphinx:index
 ```
 
 [copy **](javascript:void(0))
@@ -1056,7 +1056,7 @@ Marohni? and P.J. Hyett. To get paginated results from your searches,
 you’ll first want to install **will\_paginate**:
 
 ``` {.code-area}
-1script/plugin install git://github.com/mislav/will_paginate.git
+script/plugin install git://github.com/mislav/will_paginate.git
 ```
 
 [copy **](javascript:void(0))
@@ -1065,7 +1065,7 @@ Then, in your controller, feed a page parameter to the initializer for
 Ultrasphinx:: Search. In this case, we’ll use params[:p] as the value:
 
 ``` {.code-area}
-1@search = Ultrasphinx::Search.new(:query => @query,:page => params[:p])
+@search = Ultrasphinx::Search.new(:query => @query,:page => params[:p])
 ```
 
 [copy **](javascript:void(0))
@@ -1073,7 +1073,7 @@ Ultrasphinx:: Search. In this case, we’ll use params[:p] as the value:
 Then, in your views, you’ll need to use the will\_paginate view helper.
 
 ``` {.code-area}
-1<%= will_paginate(@search) %>
+<%= will_paginate(@search) %>
 ```
 
 [copy **](javascript:void(0))
@@ -1086,7 +1086,7 @@ fields, you can tell Ultrasphinx to highlight matched sections by
 calling excerpt instead of run:
 
 ``` {.code-area}
-1@results = @search.excerpt
+@results = @search.excerpt
 ```
 
 [copy **](javascript:void(0))
@@ -1100,7 +1100,7 @@ the title and byline of an article to have more weight in the results
 than the body, we’d do something like this:
 
 ``` {.code-area}
-1@search = Ultrasphinx::Search.new(:query => @query, :weights => { [CA]'title' => 2.0, 'byline' => 2.0})
+@search = Ultrasphinx::Search.new(:query => @query, :weights => { [CA]'title' => 2.0, 'byline' => 2.0})
 ```
 
 [copy **](javascript:void(0))
@@ -1116,7 +1116,7 @@ last day, we could do something like the following in our **.base** file
 in **config/ultrasphinx/**:
 
 ``` {.code-area}
-1delta = <%= 1.day + 30.minutes %>
+delta = <%= 1.day + 30.minutes %>
 ```
 
 [copy **](javascript:void(0))
@@ -1125,7 +1125,7 @@ To tell Ultrasphinx that models should use the delta index, you’ll need
 to change the call to is\_indexed slightly to add :delta =\> true:
 
 ``` {.code-area}
-1is_indexed :fields => ['title', 'body'], :delta => true
+is_indexed :fields => ['title', 'body'], :delta => true
 ```
 
 [copy **](javascript:void(0))
@@ -1142,7 +1142,7 @@ you only want to index videos that have not been marked as “deleted,”
 you could do something like the following:
 
 ``` {.code-area}
-1class Video < ActiveRecord::Base is_indexed :fields => ['title', 'desc'], :conditions => "deleted = 0"end
+class Video < ActiveRecord::Base is_indexed :fields => ['title', 'desc'], :conditions => "deleted = 0"end
 ```
 
 [copy **](javascript:void(0))
@@ -1220,7 +1220,7 @@ After the URL has been put together, we use open-uri’s useful open
 method to download the XML:
 
 ``` {.code-area}
-1xml = open(url).read
+xml = open(url).read
 ```
 
 [copy **](javascript:void(0))
@@ -1233,7 +1233,7 @@ Yahoo!, and then to print out the contents of the inner Title and Url
 elements in each case:
 
 ``` {.code-area}
-1Ruby Programming Language => http://www.ruby-lang.org/enRuby (programming language) - Wikipedia, the free encyclopedia =>http://en.wikipedia.org/wiki/Ruby_programming_languageRuby Central => http://www.rubycentral.com/Ruby Annotation => http://www.w3.org/TR/ruby/Ruby Programming Language => http://ruby-lang.org/
+Ruby Programming Language => http://www.ruby-lang.org/enRuby (programming language) - Wikipedia, the free encyclopedia =>http://en.wikipedia.org/wiki/Ruby_programming_languageRuby Central => http://www.rubycentral.com/Ruby Annotation => http://www.w3.org/TR/ruby/Ruby Programming Language => http://ruby-lang.org/
 ```
 
 [copy **](javascript:void(0))
@@ -1249,7 +1249,7 @@ The results of running this program—a Yahoo! web search using the query
 “ruby”—will look something like this:
 
 ``` {.code-area}
-1Ruby Programming Language => http://www.ruby-lang.org/enRuby (programming language) - Wikipedia, the free encyclopedia =>http://en.wikipedia.org/wiki/Ruby_programming_languageRuby Central => http://www.rubycentral.com/Ruby Annotation => http://www.w3.org/TR/ruby/Ruby Programming Language => http://ruby-lang.org/
+Ruby Programming Language => http://www.ruby-lang.org/enRuby (programming language) - Wikipedia, the free encyclopedia =>http://en.wikipedia.org/wiki/Ruby_programming_languageRuby Central => http://www.rubycentral.com/Ruby Annotation => http://www.w3.org/TR/ruby/Ruby Programming Language => http://ruby-lang.org/
 ```
 
 [copy **](javascript:void(0))
@@ -1293,7 +1293,7 @@ data on the web. It is available as a gem and can be installed as
 follows:
 
 ``` {.code-area}
-1gem install scrubyt
+gem install scrubyt
 ```
 
 [copy **](javascript:void(0))
@@ -1302,7 +1302,7 @@ On some platforms, you may also need to install an extra gem (only do
 this if there is an error when running this solution):
 
 ``` {.code-area}
-1gem install ParseTreeReloaded
+gem install ParseTreeReloaded
 ```
 
 [copy **](javascript:void(0))
@@ -1350,7 +1350,7 @@ XML. For example, this code is as valid and would result in XML output
 using slightly different element names:
 
 ``` {.code-area}
-1result_title '/a[1]'result_url '/a/@href'
+result_title '/a[1]'result_url '/a/@href'
 ```
 
 [copy **](javascript:void(0))
@@ -1363,7 +1363,7 @@ The results returned by this program, after a whole collection of raw
 debugging information, should look something like this:
 
 ``` {.code-area}
-1<root> <result>  <link_title>Ruby Programming Language</link_title>  <link_url>http://www.ruby-lang.org/</link_url> </result> <result>  <link_title>Ruby Home Page - What's Ruby</link_title>  <link_url>http://www.ruby-lang.org/en/20020101.html</link_url> </result> <result>  <link_title>     Ruby (programming language) - Wikipedia, the free encyclopedia   </link_title>   <link_url>     http://en.wikipedia.org/wiki/Ruby_programming_language   </link_url> </result> <result>  <link_title>Ruby - Wikipedia, the free encyclopedia</link_title>  <link_url>http://en.wikipedia.org/wiki/Ruby</link_url> </result> [.. extra results removed to preserve space ..]</root>
+<root> <result>  <link_title>Ruby Programming Language</link_title>  <link_url>http://www.ruby-lang.org/</link_url> </result> <result>  <link_title>Ruby Home Page - What's Ruby</link_title>  <link_url>http://www.ruby-lang.org/en/20020101.html</link_url> </result> <result>  <link_title>     Ruby (programming language) - Wikipedia, the free encyclopedia   </link_title>   <link_url>     http://en.wikipedia.org/wiki/Ruby_programming_language   </link_url> </result> <result>  <link_title>Ruby - Wikipedia, the free encyclopedia</link_title>  <link_url>http://en.wikipedia.org/wiki/Ruby</link_url> </result> [.. extra results removed to preserve space ..]</root>
 ```
 
 [copy **](javascript:void(0))

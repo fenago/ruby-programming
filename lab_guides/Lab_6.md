@@ -291,7 +291,7 @@ on our previous example, the call to the start method would look
 something like this:
 
 ``` {.code-area}
-1Net::POP3.start('pop.yourhost.com', 110,             'cly6ruct1yit2d@yourco.com', 'dbMASTER', true)
+Net::POP3.start('pop.yourhost.com', 110,             'cly6ruct1yit2d@yourco.com', 'dbMASTER', true)
 ```
 
 [copy **](javascript:void(0))
@@ -325,7 +325,7 @@ front end with a web interface. So, we’ll assume you have a Ticket model
 like the following:
 
 ``` {.code-area}
-1class Ticket < ActiveRecord::Base has_many :responsesend
+class Ticket < ActiveRecord::Base has_many :responsesend
 ```
 
 [copy **](javascript:void(0))

@@ -68,7 +68,7 @@ You first need to get your ActiveMQ instance installed and configured
 You’ll want to use RubyGems to install the stomp library:
 
 ``` {.code-area}
-1$ gem install stomp
+$ gem install stomp
 ```
 
 [copy **](javascript:void(0))
@@ -85,7 +85,7 @@ The service we’re integrating with processes error messages from the
 /queue/errors queue. It receives XML messages in a simple format:
 
 ``` {.code-area}
-1<?xml version="1.0" encoding="UTF-8"?><error> <type>StandardError</type> <message>Something is broken.</message> <backtrace>  NameError: uninitialized constant X   from (irb):1 </backtrace></error>
+<?xml version="1.0" encoding="UTF-8"?><error> <type>StandardError</type> <message>Something is broken.</message> <backtrace>  NameError: uninitialized constant X   from (irb):1 </backtrace></error>
 ```
 
 [copy **](javascript:void(0))
@@ -99,7 +99,7 @@ this XML document in [listing
 7.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_7.md).
 
 ``` {.code-area}
-1def generate_xml(error_object)
+def generate_xml(error_object)
 ```
 
 [copy **](javascript:void(0))
@@ -140,7 +140,7 @@ containing XML from the generate\_xml method we created earlier
 Now, we just have to implement this in some code:
 
 ``` {.code-area}
-1def error_method FakeConstant.non_existent_method!rescue StandardError => error_obj ErrorReport.report! error_objend
+def error_method FakeConstant.non_existent_method!rescue StandardError => error_obj ErrorReport.report! error_objend
 ```
 
 [copy **](javascript:void(0))
@@ -190,7 +190,7 @@ few errors to the error reporter, your console should look something
 like the following:
 
 ``` {.code-area}
-1Error: NameErroruninitialized constant NonExistentConstantmy_script.rb:3:in `test_call'my_script.rb:12Error: NameErroruninitialized constant IDontExistapplication.rb:9:in `invoke!'application.rb:20
+Error: NameErroruninitialized constant NonExistentConstantmy_script.rb:3:in `test_call'my_script.rb:12Error: NameErroruninitialized constant IDontExistapplication.rb:9:in `invoke!'application.rb:20
 ```
 
 [copy **](javascript:void(0))
@@ -207,7 +207,7 @@ port 13333, we’d simply do something like the following when creating
 the Stomp::Client object:
 
 ``` {.code-area}
-1client = Stomp::Client.new('username', 'pass', 'localhost', 13333)
+client = Stomp::Client.new('username', 'pass', 'localhost', 13333)
 ```
 
 [copy **](javascript:void(0))
@@ -218,7 +218,7 @@ your authorization messages were being received. Your code, at its base
 level, might look something like the following:
 
 ``` {.code-area}
-1message = nilclient = Stomp::Client.newclient.send '/queue/rb', "Hi, Ruby!"client.subscribe('/queue/rb', :ack => 'client') { |msg| message = msg }client.acknowledge message
+message = nilclient = Stomp::Client.newclient.send '/queue/rb', "Hi, Ruby!"client.subscribe('/queue/rb', :ack => 'client') { |msg| message = msg }client.acknowledge message
 ```
 
 [copy **](javascript:void(0))
@@ -233,7 +233,7 @@ server. It’s available as a gem named stompserver, which you can install
 by executing the following:
 
 ``` {.code-area}
-1$ gem install stompserver
+$ gem install stompserver
 ```
 
 [copy **](javascript:void(0))
@@ -271,7 +271,7 @@ To get started, you’ll want to install the Ruby Reliable Messaging gem,
 which is named reliable-msg:
 
 ``` {.code-area}
-1$ gem install reliable-msg
+$ gem install reliable-msg
 ```
 
 [copy **](javascript:void(0))
@@ -280,7 +280,7 @@ Next, you’ll want to start the Reliable Messaging library’s message
 broker, which is a daemon that exposes brokering over DRb:
 
 ``` {.code-area}
-1$ queues manager start
+$ queues manager start
 ```
 
 [copy **](javascript:void(0))
@@ -333,7 +333,7 @@ from top to bottom: native object handling. When you place a message in
 the queue, the reliable-msg library does this:
 
 ``` {.code-area}
-1message = Marshal::dump(message)
+message = Marshal::dump(message)
 ```
 
 [copy **](javascript:void(0))
@@ -354,7 +354,7 @@ look something like [listing
 ##### Listing 7.6. Passing data from a Rails application to a Ruby application
 
 ``` {.code-area}
-1class WorkOrderMessage  attr_accessor :requester, :requested_work, :date_due  def initialize(params)   raise "Invalid arguments provided." unless params.is_a?(Hash)   @requester = params[:requester]   @requested_work = params[:requested_work]   @date_due = params[:date_due]  end  def unique_id   "#{@requester.slice(0,5).strip.upcase}-" +   "#{@date_due.strftime('%m%d%y')}-#{@requested_work.hash}"  end  def report!   puts "Order #{unique_id} received."   puts "from #{@requester}, due #{@date_due.strftime('%D')}"   puts "Work requested:"   puts @requested_work   puts  end end
+class WorkOrderMessage  attr_accessor :requester, :requested_work, :date_due  def initialize(params)   raise "Invalid arguments provided." unless params.is_a?(Hash)   @requester = params[:requester]   @requested_work = params[:requested_work]   @date_due = params[:date_due]  end  def unique_id   "#{@requester.slice(0,5).strip.upcase}-" +   "#{@date_due.strftime('%m%d%y')}-#{@requested_work.hash}"  end  def report!   puts "Order #{unique_id} received."   puts "from #{@requester}, due #{@date_due.strftime('%D')}"   puts "Work requested:"   puts @requested_work   puts  end end
 ```
 
 [copy **](javascript:void(0))
@@ -445,7 +445,7 @@ change the delivery behavior to repeat delivery six times, and if it
 fails, to place the message in the dead-letter queue:
 
 ``` {.code-area}
-1queue.put message, :delivery => :repeated
+queue.put message, :delivery => :repeated
 ```
 
 [copy **](javascript:void(0))
@@ -457,7 +457,7 @@ so that the behavior becomes the default for any message object passed
 to it:
 
 ``` {.code-area}
-1queue = Queue.new("my_queue", :delivery => :repeated)
+queue = Queue.new("my_queue", :delivery => :repeated)
 ```
 
 [copy **](javascript:void(0))
@@ -556,7 +556,7 @@ shows what this action looks like.
 ##### Listing 7.9. AccountsController create action for creating a new account
 
 ``` {.code-area}
-1def create  @account = Account.new(params['account'])  if @account.save   # Created, send user back to main page.   redirect_to root_url  else   # Error, show the registration form with error message   render :action=>'new'  end end
+def create  @account = Account.new(params['account'])  if @account.save   # Created, send user back to main page.   redirect_to root_url  else   # Error, show the registration form with error message   render :action=>'new'  end end
 ```
 
 [copy **](javascript:void(0))
@@ -572,7 +572,7 @@ record’s primary key, so we’ll be selective with the few attributes we
 want to share:
 
 ``` {.code-area}
-1attributes = account.attributes.slice('first_name', 'last_name',                           'company', 'email' }
+attributes = account.attributes.slice('first_name', 'last_name',                           'company', 'email' }
 ```
 
 [copy **](javascript:void(0))
@@ -583,7 +583,7 @@ to applications by their domain name, so we’ll use the domain name to
 set the value of this attribute:
 
 ``` {.code-area}
-1attributes.update(:application=>request.host)
+attributes.update(:application=>request.host)
 ```
 
 [copy **](javascript:void(0))
@@ -592,7 +592,7 @@ Now, let’s turn these attributes into an XML document with the root
 element “account”:
 
 ``` {.code-area}
-1xml = attributes.to_xml(:root=>'account')
+xml = attributes.to_xml(:root=>'account')
 ```
 
 [copy **](javascript:void(0))
@@ -600,7 +600,7 @@ element “account”:
 A typical message will look like this:
 
 ``` {.code-area}
-1<?xml version="1.0" encoding="UTF-8"?><account> <first-name>John</first-name> <last-name>Smith</last-name> <company>ACME Messaging</company> <email>john@example.com</email> <application>wmq-rails.example.com</application></account>
+<?xml version="1.0" encoding="UTF-8"?><account> <first-name>John</first-name> <last-name>Smith</last-name> <company>ACME Messaging</company> <email>john@example.com</email> <application>wmq-rails.example.com</application></account>
 ```
 
 [copy **](javascript:void(0))
@@ -630,7 +630,7 @@ for a longer discussion about YAML and configuration). We need to pick
 the right configuration based on our current environment:
 
 ``` {.code-area}
-1config_file = File.expand_path('config/wmq.yml', RAILS_ROOT)config = YAML.load(File.read(config_file))[RAILS_ENV].symbolize_keysWMQ::QueueManager.connect(config) do |qmgr| ...end
+config_file = File.expand_path('config/wmq.yml', RAILS_ROOT)config = YAML.load(File.read(config_file))[RAILS_ENV].symbolize_keysWMQ::QueueManager.connect(config) do |qmgr| ...end
 ```
 
 [copy **](javascript:void(0))
@@ -639,7 +639,7 @@ Now that we have an XML document and an open connection, it’s a simple
 matter of putting the message in the right queue:
 
 ``` {.code-area}
-1qmgr.put :q_name=>'ACCOUNTS.CREATED', :data=>xml
+qmgr.put :q_name=>'ACCOUNTS.CREATED', :data=>xml
 ```
 
 [copy **](javascript:void(0))
@@ -651,7 +651,7 @@ line to create a WMQ::Message object. The message identifier is set when
 we put the message in the queue, so we can log it afterwards:
 
 ``` {.code-area}
-1message = WMQ::Message.newmessage.data = xmlqmgr.put :q_name=>'ACCOUNTS.CREATED', :message=>messagelogger.info "WMQ.put: message #{message.descriptor[:msg_id]} in     ACCOUNTS.CREATED"
+message = WMQ::Message.newmessage.data = xmlqmgr.put :q_name=>'ACCOUNTS.CREATED', :message=>messagelogger.info "WMQ.put: message #{message.descriptor[:msg_id]} in     ACCOUNTS.CREATED"
 ```
 
 [copy **](javascript:void(0))
@@ -724,7 +724,7 @@ they will need the ACCOUNTS.CREATED queue in their development or test
 queue manager. You can set it up with a simple script or a Rake task:
 
 ``` {.code-area}
-1namespace :wmq do desc 'Creates WebSphere MQ queues on development and test environments' task :setup=>:environment do   wmq_configs = YAML.load(File.read(File.expand_path( 'config/wmq.yml', RAILS_ROOT)))   ['development', 'test'].each do |environment|    config = wmq_configs[environment].symbolize_keys    puts "Connecting to #{wmq_config[:q_mgr_name]}"    WMQ::QueueManager.connect(wmq_config) do |qmgr|     puts "Creating ACCOUNTS.CREATED queue"     qmgr.mqsc('define qlocal(ACCOUNTS.CREATED) defpsist(no)')    end  end endend
+namespace :wmq do desc 'Creates WebSphere MQ queues on development and test environments' task :setup=>:environment do   wmq_configs = YAML.load(File.read(File.expand_path( 'config/wmq.yml', RAILS_ROOT)))   ['development', 'test'].each do |environment|    config = wmq_configs[environment].symbolize_keys    puts "Connecting to #{wmq_config[:q_mgr_name]}"    WMQ::QueueManager.connect(wmq_config) do |qmgr|     puts "Creating ACCOUNTS.CREATED queue"     qmgr.mqsc('define qlocal(ACCOUNTS.CREATED) defpsist(no)')    end  end endend
 ```
 
 [copy **](javascript:void(0))
@@ -761,7 +761,7 @@ This time around, we’re not running inside Rails. Instead, we’ll pass
 the environment name using the WMQ\_ENV environment variable:
 
 ``` {.code-area}
-1ENV = ENV['WMQ_ENV']wmq_config = YAML.load(File.read('config/wmq.yml'))[WMQ_ENV].symbolize_keys
+ENV = ENV['WMQ_ENV']wmq_config = YAML.load(File.read('config/wmq.yml'))[WMQ_ENV].symbolize_keys
 ```
 
 [copy **](javascript:void(0))
@@ -770,7 +770,7 @@ Next, we’ll open a connection to the queue manager and open the queue
 for reading:
 
 ``` {.code-area}
-1WMQ::QueueManager.connect(wmq_config) do |qmgr| qmgr.open_queue(:q_name=>'ACCOUNTS.CREATED', :mode=>:input) do |queue|  ... endend
+WMQ::QueueManager.connect(wmq_config) do |qmgr| qmgr.open_queue(:q_name=>'ACCOUNTS.CREATED', :mode=>:input) do |queue|  ... endend
 ```
 
 [copy **](javascript:void(0))
@@ -783,7 +783,7 @@ cases in the previous section. We’re much more fond of using Ruby
 idioms, however, so let’s do that instead:
 
 ``` {.code-area}
-1queue.each(:sync=>true) do |message| ...end
+queue.each(:sync=>true) do |message| ...end
 ```
 
 [copy **](javascript:void(0))
@@ -810,7 +810,7 @@ for new messages. All we need to do is add option :wait=\>-1.
 We’re going to use REXML to parse the XML document in the message:
 
 ``` {.code-area}
-1xml = REXML::Document.new(message.data)
+xml = REXML::Document.new(message.data)
 ```
 
 [copy **](javascript:void(0))
@@ -825,7 +825,7 @@ to store as the lead source (the lead\_source column in the database).
 What we need here is a transformation. Let’s define that:
 
 ``` {.code-area}
-1transform = { :first_name=>'first-name',          :last_name=>'last-name',          :company=>'company',          :email=>'email',          :lead_source=>'application' }
+transform = { :first_name=>'first-name',          :last_name=>'last-name',          :company=>'company',          :email=>'email',          :lead_source=>'application' }
 ```
 
 [copy **](javascript:void(0))
@@ -838,7 +838,7 @@ target. We’ll use the XML Path Language (XPath) expressions to extract
 each value:
 
 ``` {.code-area}
-1attributes = transform.inject({}) { |hash, (target, source)| nodes = xml.get_text("/account/#{source}") hash.update(target=>nodes.to_s)}# And create the sale lead record in the database...Lead.create!(attributes)
+attributes = transform.inject({}) { |hash, (target, source)| nodes = xml.get_text("/account/#{source}") hash.update(target=>nodes.to_s)}# And create the sale lead record in the database...Lead.create!(attributes)
 ```
 
 [copy **](javascript:void(0))
@@ -849,7 +849,7 @@ to extract the class definition from the database schema, all we need to
 do is specify the class:
 
 ``` {.code-area}
-1class Lead < ActiveRecord::Baseend
+class Lead < ActiveRecord::Baseend
 ```
 
 [copy **](javascript:void(0))

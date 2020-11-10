@@ -77,7 +77,7 @@ Ultraviolet’s syntax is pretty nice, but we don’t want to put something
 like the following in our views or controllers if we can help it:
 
 ``` {.code-area}
-1result = Uv.parse(code, "xhtml", "ruby", false, "amy")
+result = Uv.parse(code, "xhtml", "ruby", false, "amy")
 ```
 
 [copy **](javascript:void(0))
@@ -98,7 +98,7 @@ To get started, we’ll first install Ultraviolet using RubyGems with a
 command something like the following:
 
 ``` {.code-area}
-1gem install ultraviolet
+gem install ultraviolet
 ```
 
 [copy **](javascript:void(0))
@@ -112,7 +112,7 @@ method, like highlighted\_code or simply code. Perhaps it should look
 something like the following:
 
 ``` {.code-area}
-1code("puts 'hello!' if code.ruby?")
+code("puts 'hello!' if code.ruby?")
 ```
 
 [copy **](javascript:void(0))
@@ -127,7 +127,7 @@ we recommend using this feature to manage your gems. Your
 config/environment.rb file will look like this:
 
 ``` {.code-area}
-1Rails::Initializer.run do |config| config.gem 'ultraviolet', :lib=>'uv' ...end
+Rails::Initializer.run do |config| config.gem 'ultraviolet', :lib=>'uv' ...end
 ```
 
 [copy **](javascript:void(0))
@@ -141,7 +141,7 @@ Now you can ask Rails to install the application’s gem dependencies by
 running Rake:
 
 ``` {.code-area}
-1rake gems:install
+rake gems:install
 ```
 
 [copy **](javascript:void(0))
@@ -153,7 +153,7 @@ by unpacking the gem dependencies into the application’s vendor/gems
 directory, using this command:
 
 ``` {.code-area}
-1rake gems:unpack
+rake gems:unpack
 ```
 
 [copy **](javascript:void(0))
@@ -166,7 +166,7 @@ application\_helper.rb in the app/helpers directory). Inside we need to
 define a code method (shown in Application-Helper here):
 
 ``` {.code-area}
-1require 'uv'module UvHelper def code(code) endend
+require 'uv'module UvHelper def code(code) endend
 ```
 
 [copy **](javascript:void(0))
@@ -180,7 +180,7 @@ Let’s create a method that requires just the code argument, but accepts
 all the remaining optional arguments:
 
 ``` {.code-area}
-1def code(code, format='xhtml', syntax='ruby',      line_numbers=false, theme='amy') Uv.parse(code, format, syntax, line_numbers, theme)end
+def code(code, format='xhtml', syntax='ruby',      line_numbers=false, theme='amy') Uv.parse(code, format, syntax, line_numbers, theme)end
 ```
 
 [copy **](javascript:void(0))
@@ -193,7 +193,7 @@ Now we need to create a controller, an action, and a view and place the
 following code inside the view.
 
 ``` {.code-area}
-1<html> <head><title>Syntax highlighting!</title></head> <body>  <%= code('@items.each {|item| puts item }') %> </body></html>
+<html> <head><title>Syntax highlighting!</title></head> <body>  <%= code('@items.each {|item| puts item }') %> </body></html>
 ```
 
 [copy **](javascript:void(0))
@@ -207,7 +207,7 @@ To do that, we’ll add a method to copy the CSS files from Ultraviolet to
 our application’s public/stylesheet directory:
 
 ``` {.code-area}
-1def copy_files Uv.copy_files 'xhtml', "#{RAILS_ROOT}/public/stylesheets" File.rename "#{RAILS_ROOT}/public/stylesheets/css/",         "#{RAILS_ROOT}/public/stylesheets/syntax/"end
+def copy_files Uv.copy_files 'xhtml', "#{RAILS_ROOT}/public/stylesheets" File.rename "#{RAILS_ROOT}/public/stylesheets/css/",         "#{RAILS_ROOT}/public/stylesheets/syntax/"end
 ```
 
 [copy **](javascript:void(0))
@@ -220,7 +220,7 @@ Now we need to go back and add a few lines to our code method. It should
 look something like the following:
 
 ``` {.code-area}
-1def code(code, format='xhtml', syntax='ruby',      line_numbers=false, theme='amy') unless File.exist?("#{RAILS_ROOT}/public/stylesheets/syntax")  copy_files end Uv.parse(code, format, syntax, line_numbers, theme)end
+def code(code, format='xhtml', syntax='ruby',      line_numbers=false, theme='amy') unless File.exist?("#{RAILS_ROOT}/public/stylesheets/syntax")  copy_files end Uv.parse(code, format, syntax, line_numbers, theme)end
 ```
 
 [copy **](javascript:void(0))
@@ -245,7 +245,7 @@ about which theme we were using. In the interest of abstraction and
 making our lives easier, we’ll create a custom method:
 
 ``` {.code-area}
-1def theme_stylesheet(theme='amy') stylesheet_link_tag "syntax/#{theme}"end
+def theme_stylesheet(theme='amy') stylesheet_link_tag "syntax/#{theme}"end
 ```
 
 [copy **](javascript:void(0))
@@ -265,7 +265,7 @@ The final version of our syntax highlighting helper is shown in [listing
 ##### Listing 4.1. The whole Ultraviolet helper
 
 ``` {.code-area}
-1require 'uv' module UvHelper  def code(code, format='xhtml', syntax='ruby',        line_numbers=false, theme='amy')   unless File.exist?("#{RAILS_ROOT}/public/stylesheets/syntax")    copy_files   end   Uv.parse(code, format, syntax, line_numbers, theme)  end private  def copy_files   Uv.copy_files 'xhtml', "#{RAILS_ROOT}/public/stylesheets"   File.rename "#{RAILS_ROOT}/public/stylesheets/css/",           "#{RAILS_ROOT}/public/stylesheets/syntax/"  end  def theme_stylesheet(theme='amy')   stylesheet_link_tag "syntax/#{theme}"  end end
+require 'uv' module UvHelper  def code(code, format='xhtml', syntax='ruby',        line_numbers=false, theme='amy')   unless File.exist?("#{RAILS_ROOT}/public/stylesheets/syntax")    copy_files   end   Uv.parse(code, format, syntax, line_numbers, theme)  end private  def copy_files   Uv.copy_files 'xhtml', "#{RAILS_ROOT}/public/stylesheets"   File.rename "#{RAILS_ROOT}/public/stylesheets/css/",           "#{RAILS_ROOT}/public/stylesheets/syntax/"  end  def theme_stylesheet(theme='amy')   stylesheet_link_tag "syntax/#{theme}"  end end
 ```
 
 [copy **](javascript:void(0))
@@ -330,7 +330,7 @@ pages. Your models just have a lot of fields that are URLs, and you need
 to validate the fields, so you write something like this:
 
 ``` {.code-area}
-1validates_presence_of :urlvalidates_length_of :url, :minimum => 12validates_format_of :url, :with => /^((http|https): (([A-Za-z0-9$_.+!*(),;\/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9] [a-zA-Z0-9$_.+!*(),;\/?:@&~=%-]*))?([A-Za-z0-9$_+!*();\/?:~-]))/, :message => "isn't a valid URL."
+validates_presence_of :urlvalidates_length_of :url, :minimum => 12validates_format_of :url, :with => /^((http|https): (([A-Za-z0-9$_.+!*(),;\/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9] [a-zA-Z0-9$_.+!*(),;\/?:@&~=%-]*))?([A-Za-z0-9$_+!*();\/?:~-]))/, :message => "isn't a valid URL."
 ```
 
 [copy **](javascript:void(0))
@@ -378,7 +378,7 @@ we’ll remove the older validations so they don’t look like the model in
 ##### Listing 4.3. Our model, pre-metaprogramming
 
 ``` {.code-area}
-1class Blog < ActiveRecord::Base  validates_presence_of :url  validates_length_of :url, :minimum => 12  validates_format_of :url, :with => /^((http|https):  (([A-Za-z0-9$_.+!*(),;\/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9]  [a-zA-Z0-9$_.+!*(),;\/?:@&~=%-]*))?([A-Za-z0-9$_+!*();\/?:~-]))/,    :message => "isn't a valid URL."   validates_presence_of :feed_url   validates_length_of :feed_url, :minimum => 12   validates_format_of :feed_url, :with => /^((http|https):  (([A-Za-z0-9$_.+!*(),;\/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9]  [a-zA-Z0-9$_.+!*(),;\/?:@&~=%-]*))?([A-Za-z0-9$_+!*();\/?:~-]))/,    :message => "isn't a valid URL." end
+class Blog < ActiveRecord::Base  validates_presence_of :url  validates_length_of :url, :minimum => 12  validates_format_of :url, :with => /^((http|https):  (([A-Za-z0-9$_.+!*(),;\/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9]  [a-zA-Z0-9$_.+!*(),;\/?:@&~=%-]*))?([A-Za-z0-9$_+!*();\/?:~-]))/,    :message => "isn't a valid URL."   validates_presence_of :feed_url   validates_length_of :feed_url, :minimum => 12   validates_format_of :feed_url, :with => /^((http|https):  (([A-Za-z0-9$_.+!*(),;\/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9]  [a-zA-Z0-9$_.+!*(),;\/?:@&~=%-]*))?([A-Za-z0-9$_+!*();\/?:~-]))/,    :message => "isn't a valid URL." end
 ```
 
 [copy **](javascript:void(0))
@@ -390,7 +390,7 @@ Instead, they’re cleaner and read much better, as you can see in
 ##### Listing 4.4. Our metaprogrammed model
 
 ``` {.code-area}
-1class Post < ActiveRecord::Base  validates_url  validates_url :feed_url end
+class Post < ActiveRecord::Base  validates_url  validates_url :feed_url end
 ```
 
 [copy **](javascript:void(0))
@@ -429,7 +429,7 @@ that we can distribute.
 First, generate a plugin using script/generate.
 
 ``` {.code-area}
-1$ script/generate plugin validates_url  create vendor/plugins/validates_url/lib  create vendor/plugins/validates_url/tasks  create vendor/plugins/validates_url/test  create vendor/plugins/validates_url/README  create vendor/plugins/validates_url/Rakefile  create vendor/plugins/validates_url/init.rb  .  .  .  create vendor/plugins/validates_url/test/validates_url_test.rb
+$ script/generate plugin validates_url  create vendor/plugins/validates_url/lib  create vendor/plugins/validates_url/tasks  create vendor/plugins/validates_url/test  create vendor/plugins/validates_url/README  create vendor/plugins/validates_url/Rakefile  create vendor/plugins/validates_url/init.rb  .  .  .  create vendor/plugins/validates_url/test/validates_url_test.rb
 ```
 
 [copy **](javascript:void(0))
@@ -526,7 +526,7 @@ see something like the following, you can pretty much guarantee it’s a
 problem area:
 
 ``` {.code-area}
-1Processing HomeController#home (for 127.0.0.1 at 2007-08-31 10:15:30) [GET] Session ID: 39ba59dc6b7a6eb672cf3a0e89bdc75d Parameters: {"action"=>"home", "controller"=>"home"}Rendering home/homeCompleted in 26.39205 (1 reqs/sec) | Rendering: 0.09310 (1%) | 200 OK[http://localhost/home/home]
+Processing HomeController#home (for 127.0.0.1 at 2007-08-31 10:15:30) [GET] Session ID: 39ba59dc6b7a6eb672cf3a0e89bdc75d Parameters: {"action"=>"home", "controller"=>"home"}Rendering home/homeCompleted in 26.39205 (1 reqs/sec) | Rendering: 0.09310 (1%) | 200 OK[http://localhost/home/home]
 ```
 
 [copy **](javascript:void(0))
@@ -549,7 +549,7 @@ Let’s say you thought your Order model’s cancel! method was getting out
 of hand. You could do something like this to find out:
 
 ``` {.code-area}
-1$ script/performance/benchmarker 'Order.find(:first).cancel!'
+$ script/performance/benchmarker 'Order.find(:first).cancel!'
 ```
 
 [copy **](javascript:void(0))
@@ -558,7 +558,7 @@ As a result, the script will give you a simple report of the
 measurements it took.
 
 ``` {.code-area}
-1user  system   total   real#1  0.000000  0.000000  0.000000 ( 0.017904)
+user  system   total   real#1  0.000000  0.000000  0.000000 ( 0.017904)
 ```
 
 [copy **](javascript:void(0))
@@ -579,7 +579,7 @@ blocks of code throughout an application. Let’s say we have a model
 method that looks like this:
 
 ``` {.code-area}
-1def create_council_members(members) members.each do |member|  new_member = Member.create(member[:attributes])  new_member.association = Club.find_by_associate(member[:friend])  new_member.unverified! if new_member.association.unverified? endend
+def create_council_members(members) members.each do |member|  new_member = Member.create(member[:attributes])  new_member.association = Club.find_by_associate(member[:friend])  new_member.unverified! if new_member.association.unverified? endend
 ```
 
 [copy **](javascript:void(0))
@@ -590,7 +590,7 @@ were to wrap that segment of code into a benchmark block, we could get a
 better idea of what’s going on:
 
 ``` {.code-area}
-1def create_council_members(members) members.each do |member|  Member.benchmark("Creating a member") do   new_member = Member.create(member[:attributes])  end  Club.benchmark("Associating a member") do   new_member.association = Club.find_by_associate(member[:friend])   new_member.unverified! if new_member.association.unverified?  end endend
+def create_council_members(members) members.each do |member|  Member.benchmark("Creating a member") do   new_member = Member.create(member[:attributes])  end  Club.benchmark("Associating a member") do   new_member.association = Club.find_by_associate(member[:friend])   new_member.unverified! if new_member.association.unverified?  end endend
 ```
 
 [copy **](javascript:void(0))
@@ -599,7 +599,7 @@ If we make a few requests and look inside the log file, we will see
 something like the following snippet:
 
 ``` {.code-area}
-1Creating a member (0.34019)Associating a member (0.90927)[...]Creating a member (0.29010)Associating a member (0.90902)[...]Creating a member (0.35069)Associating a member (1.0937)
+Creating a member (0.34019)Associating a member (0.90927)[...]Creating a member (0.29010)Associating a member (0.90902)[...]Creating a member (0.35069)Associating a member (1.0937)
 ```
 
 [copy **](javascript:void(0))
@@ -615,7 +615,7 @@ a similar manner. Views also have a benchmark method, as you can see in
 the following code.
 
 ``` {.code-area}
-1<% benchmark "Content tree menu" do %>  <%= build_content_tree %><% end %>
+<% benchmark "Content tree menu" do %>  <%= build_content_tree %><% end %>
 ```
 
 [copy **](javascript:void(0))
@@ -649,7 +649,7 @@ reservations in your hotel-courseing application. The following line would
 invoke the profiler with your confirm! method:
 
 ``` {.code-area}
-1$ script/performance/profiler 'Reservation.confirm!'
+$ script/performance/profiler 'Reservation.confirm!'
 ```
 
 [copy **](javascript:void(0))
@@ -658,7 +658,7 @@ Rails then produces a report to the console that includes *a lot* of
 information, some of which is actually useful:
 
 ``` {.code-area}
-1Loading Rails...Using the standard Ruby profiler.  %  cumulative   self         self    total time  seconds  seconds   calls  ms/call  ms/call name 12.20   0.10     0.10    188    0.53    0.64 Array#select... 5.12    0.82     0.04     1    1.00    0.98  Reservation#done!... 0.00    0.82     0.00    17     0.00   0.00  Proc#new 0.00    0.82     0.00     1    0.00  820.00  #toplevel
+Loading Rails...Using the standard Ruby profiler.  %  cumulative   self         self    total time  seconds  seconds   calls  ms/call  ms/call name 12.20   0.10     0.10    188    0.53    0.64 Array#select... 5.12    0.82     0.04     1    1.00    0.98  Reservation#done!... 0.00    0.82     0.00    17     0.00   0.00  Proc#new 0.00    0.82     0.00     1    0.00  820.00  #toplevel
 ```
 
 [copy **](javascript:void(0))
@@ -684,7 +684,7 @@ available). For example, if you want to generate an HTML report for a
 graph profile, you can do this:
 
 ``` {.code-area}
-1$ script/performance/profiler 'Reservation.confirm!' graph_html
+$ script/performance/profiler 'Reservation.confirm!' graph_html
 ```
 
 [copy **](javascript:void(0))

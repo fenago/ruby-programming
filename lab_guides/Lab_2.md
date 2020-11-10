@@ -278,7 +278,7 @@ a file (for example, my\_first\_test.rb) and run it. You should see
 output that looks something like this:
 
 ``` {.code-area}
-1Loaded suite my_first_testStarted.Finished in 0.00058 seconds.1 tests, 1 assertions, 0 failures, 0 errors
+Loaded suite my_first_testStarted.Finished in 0.00058 seconds.1 tests, 1 assertions, 0 failures, 0 errors
 ```
 
 [copy **](javascript:void(0))
@@ -345,7 +345,7 @@ building to generate departmental expense reports. One of these reports
 might look something like this:
 
 ``` {.code-area}
-1<payroll-report>  <department name="Graphics">    <employee name="Janice Partridge">     <week id="1">40</week>     <week id="2">38</week>     <week id="3">30</week>     <week id="4">40</week>    </employee>    <employee name="James Jones">     <week id="1">33</week>     <week id="2">23</week>     <week id="3">30</week>     <week id="4">25</week>    </employee>  </department>  <department name="IT">    <employee name="Andrea Lantz">     <week id="1">40</week>     <week id="2">41</week>     <week id="3">45</week>     <week id="4">39</week>    </employee>  </department></payroll-report>
+<payroll-report>  <department name="Graphics">    <employee name="Janice Partridge">     <week id="1">40</week>     <week id="2">38</week>     <week id="3">30</week>     <week id="4">40</week>    </employee>    <employee name="James Jones">     <week id="1">33</week>     <week id="2">23</week>     <week id="3">30</week>     <week id="4">25</week>    </employee>  </department>  <department name="IT">    <employee name="Andrea Lantz">     <week id="1">40</week>     <week id="2">41</week>     <week id="3">45</week>     <week id="4">39</week>    </employee>  </department></payroll-report>
 ```
 
 [copy **](javascript:void(0))
@@ -393,7 +393,7 @@ total work hours of an employee ![](./images/circle-5.jpg). Now we need
 to run the tests to ensure they pass.
 
 ``` {.code-area}
-1Loaded suite payroll_reporter_testStarted...Finished in 0.028279 seconds.3 tests, 8 assertions, 0 failures, 0 errors
+Loaded suite payroll_reporter_testStarted...Finished in 0.028279 seconds.3 tests, 8 assertions, 0 failures, 0 errors
 ```
 
 [copy **](javascript:void(0))
@@ -454,7 +454,7 @@ If this sounds a bit conceptual, don’t worry. In practice, it’s easy to
 do. A specification document may initially look something like this:
 
 ``` {.code-area}
-1describe "A new string" do it "should have a length of zero." it "should be empty."end
+describe "A new string" do it "should have a length of zero." it "should be empty."end
 ```
 
 [copy **](javascript:void(0))
@@ -635,7 +635,7 @@ actual output includes stack traces of all failing tests, which we
 haven’t included here.)
 
 ``` {.code-area}
-1FFFFFF...Finished in 0.002936 seconds4 specifications, 4 failures
+FFFFFF...Finished in 0.002936 seconds4 specifications, 4 failures
 ```
 
 [copy **](javascript:void(0))
@@ -650,7 +650,7 @@ somewhat different.
 ##### Listing 2.8. Our implementation of IntranetReader
 
 ``` {.code-area}
-1require 'rubygems' require 'simple-rss' require 'open-uri' class IntranetReader  def initialize(url)   @feed_url = url  end  def process   @raw = open(@feed_url).read   @rss = SimpleRSS.parse @raw  end  def entries   @rss.items if @rss  end  def empty?   @rss.nil? ? true : @rss.items.empty?  end  def raw   @raw  end end
+require 'rubygems' require 'simple-rss' require 'open-uri' class IntranetReader  def initialize(url)   @feed_url = url  end  def process   @raw = open(@feed_url).read   @rss = SimpleRSS.parse @raw  end  def entries   @rss.items if @rss  end  def empty?   @rss.nil? ? true : @rss.items.empty?  end  def raw   @raw  end end
 ```
 
 [copy **](javascript:void(0))
@@ -814,7 +814,7 @@ is shown in [listing
 ##### Listing 2.12. Building tests for our supplier class
 
 ``` {.code-area}
-1class TestSupplierInterface < Test::Unit::TestCase  def test_execute_purchase   data = [    {:item_name => 'Red Rug', :quantity => 2},    {:item_name => 'Set of Pens', :quantity => 17}   ]   my_supplier = MaterialSupplier.new   assert my_supplier.execute_purchase(data)  end end
+class TestSupplierInterface < Test::Unit::TestCase  def test_execute_purchase   data = [    {:item_name => 'Red Rug', :quantity => 2},    {:item_name => 'Set of Pens', :quantity => 17}   ]   my_supplier = MaterialSupplier.new   assert my_supplier.execute_purchase(data)  end end
 ```
 
 [copy **](javascript:void(0))
@@ -985,7 +985,7 @@ and the method tested ![](./images/circle-3.jpg). When this test suite
 is executed, you should see something like the following:
 
 ``` {.code-area}
-1Loaded suite purchasingStarted.Finished in 0.001637 seconds.1 tests, 6 assertions, 0 failures, 0 errors
+Loaded suite purchasingStarted.Finished in 0.001637 seconds.1 tests, 6 assertions, 0 failures, 0 errors
 ```
 
 [copy **](javascript:void(0))
@@ -1100,7 +1100,7 @@ coverage and quality. Let’s say you have the class in [listing
 ##### Listing 2.18. A simple class to Heckle
 
 ``` {.code-area}
-1class Customer  def initialize(name = nil)   @name = name  end  def tag   tag = "Customer: "   tag += @name.nil? ? "<unknown>" : @name   tag  end end
+class Customer  def initialize(name = nil)   @name = name  end  def tag   tag = "Customer: "   tag += @name.nil? ? "<unknown>" : @name   tag  end end
 ```
 
 [copy **](javascript:void(0))
@@ -1113,7 +1113,7 @@ shows a test for this class.
 ##### Listing 2.19. Our tests to Heckle
 
 ``` {.code-area}
-1require 'test/unit' require 'customer' class TestCustomer < Test::Unit::TestCase  def test_tag   @customer = Customer.new('Mike Stevens')   assert_equal 'Customer: Mike Stevens', @customer.tag  end end
+require 'test/unit' require 'customer' class TestCustomer < Test::Unit::TestCase  def test_tag   @customer = Customer.new('Mike Stevens')   assert_equal 'Customer: Mike Stevens', @customer.tag  end end
 ```
 
 [copy **](javascript:void(0))
@@ -1124,7 +1124,7 @@ we have 100 percent coverage, but if we run Heckle, we’ll see a
 different story:
 
 ``` {.code-area}
-1Initial tests pass. Let's rumble.*************************************************************************  Customer#tag loaded with 3 possible mutations**********************************************************************3 mutations remaining...2 mutations remaining...1 mutations remaining...The following mutations didn't cause test failures:def tag tag = "Customer: " tag = (tag + if @name.nil? then  "\037B\e|H\020B\027\022W3_q\027\025G\f?bZHJ&p/P&\nP\016\036-#\031" else  @name end) tagend
+Initial tests pass. Let's rumble.*************************************************************************  Customer#tag loaded with 3 possible mutations**********************************************************************3 mutations remaining...2 mutations remaining...1 mutations remaining...The following mutations didn't cause test failures:def tag tag = "Customer: " tag = (tag + if @name.nil? then  "\037B\e|H\020B\027\022W3_q\027\025G\f?bZHJ&p/P&\nP\016\036-#\031" else  @name end) tagend
 ```
 
 [copy **](javascript:void(0))
@@ -1140,7 +1140,7 @@ shows how we did it.
 ##### Listing 2.20. Our updated tests that can stand up to even a strong Heckling!
 
 ``` {.code-area}
-1class TestCustomer < Test::Unit::TestCase  def test_tag   @customer = Customer.new('James Litton')   assert_equal 'Customer: James Litton', @customer.tag  end  def test_tag_empty   @customer = Customer.new   assert_equal 'Customer: <unknown>', @customer.tag  end end
+class TestCustomer < Test::Unit::TestCase  def test_tag   @customer = Customer.new('James Litton')   assert_equal 'Customer: James Litton', @customer.tag  end  def test_tag_empty   @customer = Customer.new   assert_equal 'Customer: <unknown>', @customer.tag  end end
 ```
 
 [copy **](javascript:void(0))
@@ -1149,7 +1149,7 @@ We added a test to test for an empty name attribute, and if we run
 Heckle again, we should see a different result:
 
 ``` {.code-area}
-1Initial tests pass. Let's rumble.*************************************************************************  Customer#tag loaded with 3 possible mutations**********************************************************************3 mutations remaining...2 mutations remaining...1 mutations remaining...No mutants survived. Cool!
+Initial tests pass. Let's rumble.*************************************************************************  Customer#tag loaded with 3 possible mutations**********************************************************************3 mutations remaining...2 mutations remaining...1 mutations remaining...No mutants survived. Cool!
 ```
 
 [copy **](javascript:void(0))

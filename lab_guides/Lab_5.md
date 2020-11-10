@@ -86,7 +86,7 @@ So, to start, we’re going to construct a URL and use the open method to
 create a connection and read the data:
 
 ``` {.code-area}
-1url = "http://finance.google.com/finance/historical?q=NASDAQ:#{symbol}&  output=csv"data = open(url).read
+url = "http://finance.google.com/finance/historical?q=NASDAQ:#{symbol}&  output=csv"data = open(url).read
 ```
 
 [copy **](javascript:void(0))
@@ -99,7 +99,7 @@ Let’s parse the document into a set of rows, and convert each row into a
 hash:
 
 ``` {.code-area}
-1csv = FasterCSV.parse data, :headers=>true, :converters=>:numericcsv.map { |r| r.to_hash }
+csv = FasterCSV.parse data, :headers=>true, :converters=>:numericcsv.map { |r| r.to_hash }
 ```
 
 [copy **](javascript:void(0))
@@ -120,7 +120,7 @@ Here’s what we get when we run the program from the command line,
 showing one line from the actual result:
 
 ``` {.code-area}
-1$ ruby historical.rb GOOG=> {"High"=>522.07, "Open"=>521.28, "Close"=>514.48, "Date"=>"10-Sep-07","Volume"=>3225800, "Low"=>510.88}
+$ ruby historical.rb GOOG=> {"High"=>522.07, "Open"=>521.28, "Close"=>514.48, "Date"=>"10-Sep-07","Volume"=>3225800, "Low"=>510.88}
 ```
 
 [copy **](javascript:void(0))
@@ -143,7 +143,7 @@ The open-uri library adds a read method to HTTP and FTP URIs, so let’s
 see how we would use it:
 
 ``` {.code-area}
-1uri = URI("http://finance.google.com/finance/historical?output=csv")uri.query << "&q=NASDAQ:#{CGI.escape(ticker)}"data = uri.read
+uri = URI("http://finance.google.com/finance/historical?output=csv")uri.query << "&q=NASDAQ:#{CGI.escape(ticker)}"data = uri.read
 ```
 
 [copy **](javascript:void(0))
@@ -169,7 +169,7 @@ String object it returns. We can use that to access various HTTP
 headers, like this:
 
 ``` {.code-area}
-1puts "The actual URL after redirection: #{data.base_uri}"puts "Content type: #{data.content_type}"puts "Last modified: #{data.last_modified}"puts "The document: #{data}"
+puts "The actual URL after redirection: #{data.base_uri}"puts "Content type: #{data.content_type}"puts "Last modified: #{data.last_modified}"puts "The document: #{data}"
 ```
 
 [copy **](javascript:void(0))
@@ -181,7 +181,7 @@ default. So let’s use that to run our example from behind a proxy
 server:
 
 ``` {.code-area}
-1$ export HTTP_PROXY="http://myproxy:8080"$ ruby historical.rb GOOG
+$ export HTTP_PROXY="http://myproxy:8080"$ ruby historical.rb GOOG
 ```
 
 [copy **](javascript:void(0))
@@ -190,7 +190,7 @@ In the next example, we’ll use open-uri to access a local server,
 bypassing the proxy, and using HTTP Basic Authentication:
 
 ``` {.code-area}
-1open(url, :proxy=>nil, :http_basic_authentication=>["john", "secret"])
+open(url, :proxy=>nil, :http_basic_authentication=>["john", "secret"])
 ```
 
 [copy **](javascript:void(0))
@@ -225,7 +225,7 @@ For this simple example, we’re going to use the XmlSimple library, so
 let’s install it first:
 
 ``` {.code-area}
-1gem install xml-simple
+gem install xml-simple
 ```
 
 [copy **](javascript:void(0))
@@ -233,7 +233,7 @@ let’s install it first:
 We will use XmlSimple to convert a hash into an XML document:
 
 ``` {.code-area}
-1if Hash === data data = XmlSimple.xml_out(data, 'noattr'=>true, 'contentkey'=>'sku',   'xmldeclaration'=>true, 'rootname'=>'order')end
+if Hash === data data = XmlSimple.xml_out(data, 'noattr'=>true, 'contentkey'=>'sku',   'xmldeclaration'=>true, 'rootname'=>'order')end
 ```
 
 [copy **](javascript:void(0))
@@ -241,7 +241,7 @@ We will use XmlSimple to convert a hash into an XML document:
 The XML document we’re going to create will look like this:
 
 ``` {.code-area}
-1<?xml version='1.0' standalone='yes'?><order> <item>  <quantity>1</quantity>  <sku>123</sku> </item> <item>  <quantity>2</quantity>  <sku>456</sku> </item></order>
+<?xml version='1.0' standalone='yes'?><order> <item>  <quantity>1</quantity>  <sku>123</sku> </item> <item>  <quantity>2</quantity>  <sku>456</sku> </item></order>
 ```
 
 [copy **](javascript:void(0))
@@ -251,7 +251,7 @@ start by parsing the URL string into a URI object, and set up Net::HTTP
 to use either the HTTP or HTTPS protocol:
 
 ``` {.code-area}
-1uri = URI.parse(url)http = Net::HTTP.new(uri.host, uri.port)http.use_ssl = true if uri.scheme == 'https'
+uri = URI.parse(url)http = Net::HTTP.new(uri.host, uri.port)http.use_ssl = true if uri.scheme == 'https'
 ```
 
 [copy **](javascript:void(0))
@@ -263,7 +263,7 @@ measure, we’re going to use an MD5 hash to make sure the document is not
 corrupted:
 
 ``` {.code-area}
-1headers = { 'Content-Type'=>'application/xml', 'Content-Length'=>data.size.to_s, 'Content-MD5'=>Digest::MD5.hexdigest(data) }
+headers = { 'Content-Type'=>'application/xml', 'Content-Length'=>data.size.to_s, 'Content-MD5'=>Digest::MD5.hexdigest(data) }
 ```
 
 [copy **](javascript:void(0))
@@ -272,7 +272,7 @@ In this example, we make a single request, so we’ll let Net::HTTP deal
 with opening and closing the connection:
 
 ``` {.code-area}
-1post = Net::HTTP::Post.new(uri.path, headers)post.basic_auth uri.user, uri.password if uri.userresponse = http.request post, data
+post = Net::HTTP::Post.new(uri.path, headers)post.basic_auth uri.user, uri.password if uri.userresponse = http.request post, data
 ```
 
 [copy **](javascript:void(0))
@@ -287,7 +287,7 @@ new resource, but we’ll also respond favorably to any other 2xx status
 code. All other responses are treated as error conditions:
 
 ``` {.code-area}
-1case response when Net::HTTPCreated; response['Location'] when Net::HTTPSuccess; nil else response.error!end
+case response when Net::HTTPCreated; response['Location'] when Net::HTTPSuccess; nil else response.error!end
 ```
 
 [copy **](javascript:void(0))
@@ -304,7 +304,7 @@ Now let’s see how we can send a new order with three lines of code (four
 if you count the print statement):
 
 ``` {.code-area}
-1order = { 'item'=>[ { 'sku'=>'123', 'quantity'=>1 },               { 'sku'=>'456', 'quantity'=>2 } ] }url = send_order('https://order.server/create', order)puts "Our new order at: #{url}" if url
+order = { 'item'=>[ { 'sku'=>'123', 'quantity'=>1 },               { 'sku'=>'456', 'quantity'=>2 } ] }url = send_order('https://order.server/create', order)puts "Our new order at: #{url}" if url
 ```
 
 [copy **](javascript:void(0))
@@ -344,7 +344,7 @@ create a TCP connection for each request, and it gives us better
 latency. We can do this:
 
 ``` {.code-area}
-1http.start do |conn| response = conn.request post, dataend
+http.start do |conn| response = conn.request post, dataend
 ```
 
 [copy **](javascript:void(0))
@@ -409,7 +409,7 @@ In this example, we’ll use Mongrel as a standalone server, and we’ll
 start by installing it:
 
 ``` {.code-area}
-1gem install mongrel
+gem install mongrel
 ```
 
 [copy **](javascript:void(0))
@@ -419,7 +419,7 @@ method called process, which handles the HTTP request and sets the
 response:
 
 ``` {.code-area}
-1class LogService < Mongrel::HttpHandler def process(request, response)  ... endend
+class LogService < Mongrel::HttpHandler def process(request, response)  ... endend
 ```
 
 [copy **](javascript:void(0))
@@ -429,7 +429,7 @@ that particular day. A request that ends with /last retrieves the last
 set of log files, which happens to be yesterday’s date:
 
 ``` {.code-area}
-1case request.params['PATH_INFO'] when /^\/(\d{4}-\d{2}-\d{2})$/  package $1, response when '/last'  package (Date.today - 1).to_s, response else response.start 404 do |head, out|  head['Content-Type'] = 'text/html'  script = request.params['SCRIPT_NAME']  out.write "<h1>Request URL should be #{script}/last "\         " or#{script}/[yyyy]-[mm]-[dd]</h1>" endend
+case request.params['PATH_INFO'] when /^\/(\d{4}-\d{2}-\d{2})$/  package $1, response when '/last'  package (Date.today - 1).to_s, response else response.start 404 do |head, out|  head['Content-Type'] = 'text/html'  script = request.params['SCRIPT_NAME']  out.write "<h1>Request URL should be #{script}/last "\         " or#{script}/[yyyy]-[mm]-[dd]</h1>" endend
 ```
 
 [copy **](javascript:void(0))
@@ -443,7 +443,7 @@ The package method will handle all valid requests, so let’s look at it
 next. We’re going to use the RubyZip library:
 
 ``` {.code-area}
-1gem install rubyzip
+gem install rubyzip
 ```
 
 [copy **](javascript:void(0))
@@ -454,7 +454,7 @@ client. We’re going to decide on the zip filename first, and we’ll make
 sure to use a distinct filename for each day:
 
 ``` {.code-area}
-1zip_filename = "logs-#{date}.zip"
+zip_filename = "logs-#{date}.zip"
 ```
 
 [copy **](javascript:void(0))
@@ -464,7 +464,7 @@ coming at the same time, attempting to write into the same zip file at
 once. Not good. So instead, we’ll create a temporary file:
 
 ``` {.code-area}
-1tmp_file = Tempfile.open(zip_filename)
+tmp_file = Tempfile.open(zip_filename)
 ```
 
 [copy **](javascript:void(0))
@@ -472,7 +472,7 @@ once. Not good. So instead, we’ll create a temporary file:
 Next, we’ll use RubyZip to add the log files:
 
 ``` {.code-area}
-1Zip::ZipOutputStream.open(tmp_file.path) do |zip| Dir.glob("#{@path}/*-#{date}.log").each do |filename|  zip.put_next_entry File.basename(filename)  zip << File.read(filename) endend
+Zip::ZipOutputStream.open(tmp_file.path) do |zip| Dir.glob("#{@path}/*-#{date}.log").each do |filename|  zip.put_next_entry File.basename(filename)  zip << File.read(filename) endend
 ```
 
 [copy **](javascript:void(0))
@@ -488,7 +488,7 @@ as errors-2007-10-05.log.
 Once we have created the zip file, we’ll return it to the client:
 
 ``` {.code-area}
-1response.start 200 do |head, out| head['Content-Type'] = 'application/zip' head['Content-Length'] = File.size(tmp_file.path) head['Content-Disposition'] = %{attachment; filename="#{zip_filename}"} while buffer = tmp_file.read(4096)  out.write buffer endend
+response.start 200 do |head, out| head['Content-Type'] = 'application/zip' head['Content-Length'] = File.size(tmp_file.path) head['Content-Disposition'] = %{attachment; filename="#{zip_filename}"} while buffer = tmp_file.read(4096)  out.write buffer endend
 ```
 
 [copy **](javascript:void(0))
@@ -506,7 +506,7 @@ Instead we’ll make it possible to run this service from the command
 line:
 
 ``` {.code-area}
-1service = LogService.new(path)puts "Starting Mongrel on port #{port}, serving log files from '#{path}'"mongrel = Mongrel::HttpServer.new('0.0.0.0', port)mongrel.register '/logs', servicemongrel.run.join
+service = LogService.new(path)puts "Starting Mongrel on port #{port}, serving log files from '#{path}'"mongrel = Mongrel::HttpServer.new('0.0.0.0', port)mongrel.register '/logs', servicemongrel.run.join
 ```
 
 [copy **](javascript:void(0))
@@ -519,7 +519,7 @@ localhost (127.0.0.1).
 Let’s run the server:
 
 ``` {.code-area}
-1ruby log_service.rb ~/logsStarting Mongrel on port 3000, serving log files from '/home/assaf/logs'
+ruby log_service.rb ~/logsStarting Mongrel on port 3000, serving log files from '/home/assaf/logs'
 ```
 
 [copy **](javascript:void(0))
@@ -647,7 +647,7 @@ thing we’ll do is define the resource so Rails can map incoming requests
 to the right controller. We do that in the config/routes.rb file:
 
 ``` {.code-area}
-1ActionController::Routing::Routes.draw do |map| # Tasks resources handled by TasksController map.resources :tasksend
+ActionController::Routing::Routes.draw do |map| # Tasks resources handled by TasksController map.resources :tasksend
 ```
 
 [copy **](javascript:void(0))
@@ -656,7 +656,7 @@ Retrieving the list of all tasks in the collection is done by the index
 action:
 
 ``` {.code-area}
-1class TasksController < ApplicationController # GET on /tasks # View: tasks/index.html.erb def index   @tasks = Task.for_user(@user_id) end ...end
+class TasksController < ApplicationController # GET on /tasks # View: tasks/index.html.erb def index   @tasks = Task.for_user(@user_id) end ...end
 ```
 
 [copy **](javascript:void(0))
@@ -665,7 +665,7 @@ For individual tasks, we’re going to use the show action when the client
 asks to retrieve that one task:
 
 ``` {.code-area}
-1# GET on /tasks/{id}# View: tasks/show.html.erbdef show @task = Task.find(params[:id])end
+# GET on /tasks/{id}# View: tasks/show.html.erbdef show @task = Task.find(params[:id])end
 ```
 
 [copy **](javascript:void(0))
@@ -677,7 +677,7 @@ update the task, and DELETE to discard it. So let’s add two more actions
 that operate on a member task:
 
 ``` {.code-area}
-1# PUT on /tasks/{id}def update @task = Task.find(params[:id]) @task.update_attributes! params[:task] respond_to do |format|  format.html { redirect_to:action=>'edit', :id=>task.id }  format.xml { render :xml=>task } endend# DELETE on /tasks/{id}def destroy Task.find (params[:id]).destroy head :no_contentend
+# PUT on /tasks/{id}def update @task = Task.find(params[:id]) @task.update_attributes! params[:task] respond_to do |format|  format.html { redirect_to:action=>'edit', :id=>task.id }  format.xml { render :xml=>task } endend# DELETE on /tasks/{id}def destroy Task.find (params[:id]).destroy head :no_contentend
 ```
 
 [copy **](javascript:void(0))
@@ -689,7 +689,7 @@ its own resource, we’re going to use HTTP POST to create a new task in
 the collection:
 
 ``` {.code-area}
-1# POST on /tasksdef create task = Task.create!(params[:task]) respond_to do |format|  format.html { redirect_to:action=>'show', :id=>task.id}  format.xml { render :xml=>@task, :status=>:created,    :location=>url_for(:action=>'show', :id=>task.id) } endend
+# POST on /tasksdef create task = Task.create!(params[:task]) respond_to do |format|  format.html { redirect_to:action=>'show', :id=>task.id}  format.xml { render :xml=>@task, :status=>:created,    :location=>url_for(:action=>'show', :id=>task.id) } endend
 ```
 
 [copy **](javascript:void(0))
@@ -720,7 +720,7 @@ we’ll associate each individual task with a URL for viewing and editing
 it:
 
 ``` {.code-area}
-1# GET on /tasks/new# View: tasks/new.html.erbdef new @task = Task.newend# GET on /tasks/{id}/edit# View: tasks/edit.html.erbdef edit @task = Task.find(params[:id])end
+# GET on /tasks/new# View: tasks/new.html.erbdef new @task = Task.newend# GET on /tasks/{id}/edit# View: tasks/edit.html.erbdef edit @task = Task.find(params[:id])end
 ```
 
 [copy **](javascript:void(0))
@@ -783,7 +783,7 @@ Let’s add these two resources together and create the routes shown in
 ##### Listing 5.4. Defining our task manager resources in config/routes.rb
 
 ``` {.code-area}
-1ActionController::Routing::Routes.draw do |map|  # Tasks resources handled by TasksController  map.resources :tasks,    :collection => { :completed=>:get },    :member => { :priority=>:put } end
+ActionController::Routing::Routes.draw do |map|  # Tasks resources handled by TasksController  map.resources :tasks,    :collection => { :completed=>:get },    :member => { :priority=>:put } end
 ```
 
 [copy **](javascript:void(0))
@@ -791,7 +791,7 @@ Let’s add these two resources together and create the routes shown in
 Next, let’s add the controller actions to TaskController:
 
 ``` {.code-area}
-1# GET on /tasks/completed# View: tasks/completed.html.erbdef completed @tasks = Task.completed_for_user(@user_id)end# PUT on /tasks/{id}/prioritydef priority @task = Task.find(params[:id]) @task.update_attributes! :priority=>request.body.to_i head :okend
+# GET on /tasks/completed# View: tasks/completed.html.erbdef completed @tasks = Task.completed_for_user(@user_id)end# PUT on /tasks/{id}/prioritydef priority @task = Task.find(params[:id]) @task.update_attributes! :priority=>request.body.to_i head :okend
 ```
 
 [copy **](javascript:void(0))
@@ -803,7 +803,7 @@ intended. So let’s investigate our route definitions using the routes
 task:
 
 ``` {.code-area}
-1$ rake routes
+$ rake routes
 ```
 
 [copy **](javascript:void(0))
@@ -814,7 +814,7 @@ The output should look something like [listing
 ##### Listing 5.5. Routes for our RESTful tasks list
 
 ``` {.code-area}
-1completed_tasks GET    /tasks/completed    {:action=>"completed"}        tasks GET    /tasks           {:action=>"index"}            POST    /tasks           {:action=>"create"}      new_task GET    /tasks/new        {:action=>"new"} completion_task PUT    /tasks/:id/completion {:action=>"completion"}     edit_task GET    /tasks/:id/edit     {:action=>"edit"}         task GET    /tasks/:id        {:action=>"show"}         PUT    /tasks/:id            {:action=>"update"}         DELETE /tasks/:id             {:action=>"destroy"}
+completed_tasks GET    /tasks/completed    {:action=>"completed"}        tasks GET    /tasks           {:action=>"index"}            POST    /tasks           {:action=>"create"}      new_task GET    /tasks/new        {:action=>"new"} completion_task PUT    /tasks/:id/completion {:action=>"completion"}     edit_task GET    /tasks/:id/edit     {:action=>"edit"}         task GET    /tasks/:id        {:action=>"show"}         PUT    /tasks/:id            {:action=>"update"}         DELETE /tasks/:id             {:action=>"destroy"}
 ```
 
 [copy **](javascript:void(0))
@@ -832,7 +832,7 @@ catch-all url\_for. For example, since our tasks list needs a link to
 the URL for the task-creation form, we can write this:
 
 ``` {.code-area}
-1<%= link_to "Create new task",    url_for(:controller=>'tasks', :action=>'new') %>
+<%= link_to "Create new task",    url_for(:controller=>'tasks', :action=>'new') %>
 ```
 
 [copy **](javascript:void(0))
@@ -840,7 +840,7 @@ the URL for the task-creation form, we can write this:
 Or, using the named-route method, we can shorten it to this:
 
 ``` {.code-area}
-1<%= link_to "Create new task", new_task_url %>
+<%= link_to "Create new task", new_task_url %>
 ```
 
 [copy **](javascript:void(0))
@@ -849,7 +849,7 @@ Likewise, we could have the task list link to each task’s individual
 page:
 
 ``` {.code-area}
-1<%= link_to task.title, task_url(task) %>
+<%= link_to task.title, task_url(task) %>
 ```
 
 [copy **](javascript:void(0))
@@ -857,7 +857,7 @@ page:
 Or we can include a link for the task-editing form:
 
 ``` {.code-area}
-1<%= link_to "Edit this task", edit_task_url(task) %>
+<%= link_to "Edit this task", edit_task_url(task) %>
 ```
 
 [copy **](javascript:void(0))
@@ -956,7 +956,7 @@ One common mistake web developers make is storing a copy of an object in
 the session, like this:
 
 ``` {.code-area}
-1Task.find_by_user(session[:user])
+Task.find_by_user(session[:user])
 ```
 
 [copy **](javascript:void(0))
@@ -968,7 +968,7 @@ which doesn’t change, and access the record as necessary. The common
 alternative looks like this:
 
 ``` {.code-area}
-1Task.find_by_user_id(session[:user_id])
+Task.find_by_user_id(session[:user_id])
 ```
 
 [copy **](javascript:void(0))
@@ -1031,7 +1031,7 @@ let’s start with a simple action that displays the current task list in
 one of several formats:
 
 ``` {.code-area}
-1def index @tasks = Task.for_user(@user_id)end
+def index @tasks = Task.for_user(@user_id)end
 ```
 
 [copy **](javascript:void(0))
@@ -1065,7 +1065,7 @@ we’ll let ActiveRecord do a trivial transformation of our records into
 an XML document or a JSON object:
 
 ``` {.code-area}
-1def index @tasks = Task.for_user(@user_id) case request.format when Mime::XML  response.content_type = Mime::XML  render :text=>@tasks.to_xml when Mime::JSON  response.content_type = Mime::JSON  render :text=>@tasks.to_json when Mime::HTML, Mime::ATOM  # Let Rails find the view and render it. else  # Unsupported content format: 406  head :not_acceptable endend
+def index @tasks = Task.for_user(@user_id) case request.format when Mime::XML  response.content_type = Mime::XML  render :text=>@tasks.to_xml when Mime::JSON  response.content_type = Mime::JSON  render :text=>@tasks.to_json when Mime::HTML, Mime::ATOM  # Let Rails find the view and render it. else  # Unsupported content format: 406  head :not_acceptable endend
 ```
 
 [copy **](javascript:void(0))
@@ -1152,7 +1152,7 @@ You’ll notice that in [listing
 when we wrote an action to create a new task, we did this:
 
 ``` {.code-area}
-1Task.create!(params[:task])
+Task.create!(params[:task])
 ```
 
 [copy **](javascript:void(0))
@@ -1174,7 +1174,7 @@ document or the submission of an HTML form.
 It helps that we’re using Rails’ form helper methods:
 
 ``` {.code-area}
-1<% form_for @task do |f| %>  <%= f.text_field :title %>  <%= f.text_field :priority %><% end %>
+<% form_for @task do |f| %>  <%= f.text_field :title %>  <%= f.text_field :priority %><% end %>
 ```
 
 [copy **](javascript:void(0))
@@ -1236,7 +1236,7 @@ add a link that users can use to subscribe to the Atom feed, using a
 named route:
 
 ``` {.code-area}
-1<%= link_to "Subscribe", formatted_tasks_url(:atom) %>
+<%= link_to "Subscribe", formatted_tasks_url(:atom) %>
 ```
 
 [copy **](javascript:void(0))
@@ -1293,7 +1293,7 @@ task manager service. We’ll start by writing a class to represent the
 resources for handling a task list and individual tasks:
 
 ``` {.code-area}
-1class Task < ActiveResource::Base self.site = 'https://john:secret@taskmanager.example.com/'end
+class Task < ActiveResource::Base self.site = 'https://john:secret@taskmanager.example.com/'end
 ```
 
 [copy **](javascript:void(0))
@@ -1309,7 +1309,7 @@ let’s first see what we can do with it. Let’s start by creating a new
 task:
 
 ``` {.code-area}
-1task = Task.create(:title=>'Read about ActiveResource', :priority=>1)puts 'Created task #{task.id}'=> 'Created task 1'
+task = Task.create(:title=>'Read about ActiveResource', :priority=>1)puts 'Created task #{task.id}'=> 'Created task 1'
 ```
 
 [copy **](javascript:void(0))
@@ -1321,7 +1321,7 @@ the previous section, where we used ActiveRecord to access the database.
 Let’s see what happens behind the scenes of the create method:
 
 ``` {.code-area}
-1task = Task.newtask.title = 'Read about ActiveResource'task.priority = 1task.save
+task = Task.newtask.title = 'Read about ActiveResource'task.priority = 1task.save
 ```
 
 [copy **](javascript:void(0))
@@ -1338,7 +1338,7 @@ task resource is, which is all our ActiveResource needs to know.
 Let’s follow up by updating the task:
 
 ``` {.code-area}
-1task.title << ' and try this example'task.save
+task.title << ' and try this example'task.save
 ```
 
 [copy **](javascript:void(0))
@@ -1348,7 +1348,7 @@ resource and updated it. So we can create and update resources. We can
 also read and delete them:
 
 ``` {.code-area}
-1task = Task.find(1)task.deletetasks = Task.find(:all)Task.delete(tasks.first.id)
+task = Task.find(1)task.deletetasks = Task.find(:all)Task.delete(tasks.first.id)
 ```
 
 [copy **](javascript:void(0))
@@ -1362,7 +1362,7 @@ assumed it uses XML by default, but is there a way to find out for sure?
 Let’s try the equivalent of the rake routes task:
 
 ``` {.code-area}
-1puts Task.collection_path=> /tasks.xmlputs Task.element_path(1)=> /tasks/1.xml
+puts Task.collection_path=> /tasks.xmlputs Task.element_path(1)=> /tasks/1.xml
 ```
 
 [copy **](javascript:void(0))
@@ -1373,7 +1373,7 @@ for listing all the completed tasks, and we’ll want to use that from our
 client as well. Let’s list those tasks:
 
 ``` {.code-area}
-1Task.find(:all, :from=>:completed)
+Task.find(:all, :from=>:completed)
 ```
 
 [copy **](javascript:void(0))
@@ -1384,7 +1384,7 @@ the task priority, which we designed to support our AJAX controls. Let’s
 try to use that as well:
 
 ``` {.code-area}
-1task.put(:priority, nil, 5)
+task.put(:priority, nil, 5)
 ```
 
 [copy **](javascript:void(0))
@@ -1411,7 +1411,7 @@ service. The result is shown in [listing
 Now let’s try it out by running this snippet using script/console:
 
 ``` {.code-area}
-1Task.site.user_info = 'john:secret'puts 'Completed tasks'Task.completed.map { |task| task.id }.to_sentence=> "1, 2 and 3"puts 'Changing priority for task 123'Task.update_priority(123, 5)Task.find(123).priority=> 5
+Task.site.user_info = 'john:secret'puts 'Completed tasks'Task.completed.map { |task| task.id }.to_sentence=> "1, 2 and 3"puts 'Changing priority for task 123'Task.update_priority(123, 5)Task.find(123).priority=> 5
 ```
 
 [copy **](javascript:void(0))
@@ -1527,7 +1527,7 @@ given in [listing
 ##### Listing 5.10. WSDL describing our task manager service
 
 ``` {.code-area}
-1<?xml version="1.0" encoding="utf-8"?> <definitions name='taskService'   targetNamespace='http://example.com/taskManager'   xmlns='http://schemas.xmlsoap.org/wsdl/'   xmlns:tns='http://example.com/taskManager'   xmlns:xsd='http://www.w3.org/2001/XMLSchema'   xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'>   <types>    <xsd:schema elementFormDefault='unqualified'       targetNamespace='http://example.com/taskManager'>     <xsd:element name='createTask'>      <xsd:complexType>       <xsd:sequence>        <xsd:element name='title' type='xsd:string'/>        <xsd:element name='priority' type='xsd:int' minOccurs='0'/>       </xsd:sequence>      </xsd:complexType>     </xsd:element>     <xsd:element name='createTaskResponse'>      <xsd:complexType>       <xsd:sequence>       <xsd:element name='id' type='xsd:string'/>      </xsd:sequence>     </xsd:complexType>    </xsd:element>   </xsd:schema>  </types>  <message name='createTask'>    <part name='task' element='tns:createTask'/>  </message>  <message name='createTaskResponse'>    <part name='task' element='tns:createTaskResponse'/>  </message>  <portType name='taskManagement'>   <operation name='createTask'>    <input message='tns:createTask'/>    <output message='tns:createTaskResponse'/>   </operation>  </portType>  <binding name='taskManagementDocLit' type='tns:taskManagement'>   <soap:binding transport='http://schemas.xmlsoap.org/soap/http'        style='document' />   <operation name='createTask'>    <soap:operation style='document' />    <input>     <soap:body use='literal'/>    </input>    <output>     <soap:body use='literal'/>    </output>   </operation>  </binding>  <service name='taskService'>   <port name='docLit' binding='tns:taskManagementDocLit'>     <soap:address location='http://localhost:8080/'/>   </port>  </service> </definitions>
+<?xml version="1.0" encoding="utf-8"?> <definitions name='taskService'   targetNamespace='http://example.com/taskManager'   xmlns='http://schemas.xmlsoap.org/wsdl/'   xmlns:tns='http://example.com/taskManager'   xmlns:xsd='http://www.w3.org/2001/XMLSchema'   xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'>   <types>    <xsd:schema elementFormDefault='unqualified'       targetNamespace='http://example.com/taskManager'>     <xsd:element name='createTask'>      <xsd:complexType>       <xsd:sequence>        <xsd:element name='title' type='xsd:string'/>        <xsd:element name='priority' type='xsd:int' minOccurs='0'/>       </xsd:sequence>      </xsd:complexType>     </xsd:element>     <xsd:element name='createTaskResponse'>      <xsd:complexType>       <xsd:sequence>       <xsd:element name='id' type='xsd:string'/>      </xsd:sequence>     </xsd:complexType>    </xsd:element>   </xsd:schema>  </types>  <message name='createTask'>    <part name='task' element='tns:createTask'/>  </message>  <message name='createTaskResponse'>    <part name='task' element='tns:createTaskResponse'/>  </message>  <portType name='taskManagement'>   <operation name='createTask'>    <input message='tns:createTask'/>    <output message='tns:createTaskResponse'/>   </operation>  </portType>  <binding name='taskManagementDocLit' type='tns:taskManagement'>   <soap:binding transport='http://schemas.xmlsoap.org/soap/http'        style='document' />   <operation name='createTask'>    <soap:operation style='document' />    <input>     <soap:body use='literal'/>    </input>    <output>     <soap:body use='literal'/>    </output>   </operation>  </binding>  <service name='taskService'>   <port name='docLit' binding='tns:taskManagementDocLit'>     <soap:address location='http://localhost:8080/'/>   </port>  </service> </definitions>
 ```
 
 [copy **](javascript:void(0))
@@ -1543,7 +1543,7 @@ We’ll start by creating a working directory for the server side, and run
 the wsdl2ruby.rb command-line tool to create the service skeleton files:
 
 ``` {.code-area}
-1$ mkdir server$ cd server$ wsdl2ruby.rb --wsdl ../taskService.wsdl --type server --module TaskManager
+$ mkdir server$ cd server$ wsdl2ruby.rb --wsdl ../taskService.wsdl --type server --module TaskManager
 ```
 
 [copy **](javascript:void(0))
@@ -1610,7 +1610,7 @@ configuration. We’ll do that in a separate file called database.yaml,
 which for our database setup looks like this:
 
 ``` {.code-area}
-1adapter: mysqlhost:  localhostusername: devpassword: devdatabase: task
+adapter: mysqlhost:  localhostusername: devpassword: devdatabase: task
 ```
 
 [copy **](javascript:void(0))
@@ -1632,7 +1632,7 @@ configure the database connection.
 Now let’s start the server:
 
 ``` {.code-area}
-1$ ruby server.rb
+$ ruby server.rb
 ```
 
 [copy **](javascript:void(0))
@@ -1728,7 +1728,7 @@ Since we already have a WSDL service definition, we’ll use
 WSDLDriverFactory to create a new driver for the task manager service:
 
 ``` {.code-area}
-1wsdl = File.expand_path('taskService.wsdl')SOAP::WSDLDriverFactory.new(wsdl).create_rpc_driver
+wsdl = File.expand_path('taskService.wsdl')SOAP::WSDLDriverFactory.new(wsdl).create_rpc_driver
 ```
 
 [copy **](javascript:void(0))
@@ -1739,7 +1739,7 @@ bindings, so we can immediately begin using it. Messages are mapped from
 their internal SOAP representation to Ruby hashes:
 
 ``` {.code-area}
-1response = driver.createTask(:title=>'Learn SOAP4R', :priority=>1)puts "Created task #{response['id']}"
+response = driver.createTask(:title=>'Learn SOAP4R', :priority=>1)puts "Created task #{response['id']}"
 ```
 
 [copy **](javascript:void(0))
@@ -1760,7 +1760,7 @@ so the next step is to generate these mappings. Instead of doing it
 ourselves, we’ll turn again to the wsdl2ruby.rb command-line tool:
 
 ``` {.code-area}
-1$ mkdir client$ cd client$ wsdl2ruby.rb --wsdl ../taskService.wsdl --type client --module TaskManager
+$ mkdir client$ cd client$ wsdl2ruby.rb --wsdl ../taskService.wsdl --type client --module TaskManager
 ```
 
 [copy **](javascript:void(0))

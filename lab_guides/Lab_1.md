@@ -195,7 +195,7 @@ for Ruby), and RMagick (ImageMagick bindings for Ruby, required by
 Scruffy). Let’s do that using the RubyGems utility:
 
 ``` {.code-area}
-1gem install active_recordgem install rmagickgem install scruffy
+gem install active_recordgem install rmagickgem install scruffy
 ```
 
 [copy **](javascript:void(0))
@@ -231,7 +231,7 @@ tool), or you can use the SQL in [listing
 ##### Listing 1.1. SQL for graph example database
 
 ``` {.code-area}
-1CREATE DATABASE `paper`; CREATE TABLE `products` (  `id` int NOT NULL auto_increment,  `name` text,  PRIMARY KEY  (`id`) ); CREATE TABLE `purchases` (  `id` int NOT NULL auto_increment,  `product_id` int default NULL,  `store_id` int default NULL,  PRIMARY KEY  (`id`) ); CREATE TABLE `stores` (  `id` int NOT NULL auto_increment,  `location` text,  PRIMARY KEY  (`id`) );
+CREATE DATABASE `paper`; CREATE TABLE `products` (  `id` int NOT NULL auto_increment,  `name` text,  PRIMARY KEY  (`id`) ); CREATE TABLE `purchases` (  `id` int NOT NULL auto_increment,  `product_id` int default NULL,  `store_id` int default NULL,  PRIMARY KEY  (`id`) ); CREATE TABLE `stores` (  `id` int NOT NULL auto_increment,  `location` text,  PRIMARY KEY  (`id`) );
 ```
 
 [copy **](javascript:void(0))
@@ -264,7 +264,7 @@ source code to generate some for you), and run the script. You should
 see something like the following output:
 
 ``` {.code-area}
-1[#<Product:0x639e30 @attributes={"name"=>"Envelopes", "id"=>"1"}>, #<Product:0x639e08 @attributes={"name"=>"Paper", "id"=>"2"}>, #<Product:0x639c00 @attributes={"name"=>"Folders", "id"=>"3"}>, #<Product:0x639bb0 @attributes={"name"=>"Cardstock", "id"=>"4"}>]
+[#<Product:0x639e30 @attributes={"name"=>"Envelopes", "id"=>"1"}>, #<Product:0x639e08 @attributes={"name"=>"Paper", "id"=>"2"}>, #<Product:0x639c00 @attributes={"name"=>"Folders", "id"=>"3"}>, #<Product:0x639bb0 @attributes={"name"=>"Cardstock", "id"=>"4"}>]
 ```
 
 [copy **](javascript:void(0))
@@ -396,7 +396,7 @@ arguments. But it’s hard to understand exactly what criteria it’s using
 if your code looks like this:
 
 ``` {.code-area}
-1find_products nil, nil, nil, nil, 5, 50, 250
+find_products nil, nil, nil, nil, 5, 50, 250
 ```
 
 [copy **](javascript:void(0))
@@ -414,7 +414,7 @@ simulate named arguments. Instead of method overloading and populating
 objects, you can write something like this:
 
 ``` {.code-area}
-1find_products :category => 5, :price => 50..250
+find_products :category => 5, :price => 50..250
 ```
 
 [copy **](javascript:void(0))
@@ -423,7 +423,7 @@ Duck typing even makes it possible to call the following line and let
 the method extract the identifier from the storage object:
 
 ``` {.code-area}
-1find_products :category => storage, :price => 50..250
+find_products :category => storage, :price => 50..250
 ```
 
 [copy **](javascript:void(0))
@@ -492,7 +492,7 @@ look at a piece of code to explain it. Let’s say we have a method that
 calls size and returns it in a friendly message.
 
 ``` {.code-area}
-1def print_size(item) puts "The item's size is #{item.size}."end
+def print_size(item) puts "The item's size is #{item.size}."end
 ```
 
 [copy **](javascript:void(0))
@@ -501,7 +501,7 @@ Our method calls size on the object without regard for its class, so if
 you feed it an object that responds to the size method, it will work.
 
 ``` {.code-area}
-1mystring = "This is a string."print_size(mystring)          # => The item's size is 17.myarray = [1,2,3,4,5]print_size(myarray)          # => The item's size is 5.myfile = File::Stat.new("readme.txt")print_size(myfile)          # => The item's size is 432.
+mystring = "This is a string."print_size(mystring)          # => The item's size is 17.myarray = [1,2,3,4,5]print_size(myarray)          # => The item's size is 5.myfile = File::Stat.new("readme.txt")print_size(myfile)          # => The item's size is 432.
 ```
 
 [copy **](javascript:void(0))
@@ -535,7 +535,7 @@ that will respond true or false depending on whether or not that object
 will respond to the method indicated:
 
 ``` {.code-area}
-13.respond_to?(:to_s)      # => true3.respond_to?(:im_fake)    # => false"string".respond_to?(:gsub) # => true
+3.respond_to?(:to_s)      # => true3.respond_to?(:im_fake)    # => false"string".respond_to?(:gsub) # => true
 ```
 
 [copy **](javascript:void(0))
@@ -545,7 +545,7 @@ object’s identity if you need it. This is also useful if you want to
 branch depending on the parameter given to the method:
 
 ``` {.code-area}
-1if param.respond_to?(:convert) param.convertelse MyClass.from_object(param)end
+if param.respond_to?(:convert) param.convertelse MyClass.from_object(param)end
 ```
 
 [copy **](javascript:void(0))
@@ -614,7 +614,7 @@ unnecessary cruft.
 ##### Listing 1.5. A small example of DRY syntax
 
 ``` {.code-area}
-1# The long way record = Hash.new record[:name]  = "Dave" record[:email] = "admin@net.com" record[:phone] = "555-1235" return record # The Ruby way return { :name=>"Dave", :email=>"admin@net.com", :phone=>"555-1235" }
+# The long way record = Hash.new record[:name]  = "Dave" record[:email] = "admin@net.com" record[:phone] = "555-1235" return record # The Ruby way return { :name=>"Dave", :email=>"admin@net.com", :phone=>"555-1235" }
 ```
 
 [copy **](javascript:void(0))
@@ -663,7 +663,7 @@ often done using the inject method.
 ##### Listing 1.6. Map is one way Ruby uses functional programming for parallelism
 
 ``` {.code-area}
-1# Code that iterates in order to map one array to another application_names = [] for application in applications  application_names << application.visible_name end # Code that maps one array to another applications.map { |application| application.visible_name } # An even shorter way to express it in Rails and Ruby 1.9 applications.map &:visible_name
+# Code that iterates in order to map one array to another application_names = [] for application in applications  application_names << application.visible_name end # Code that maps one array to another applications.map { |application| application.visible_name } # An even shorter way to express it in Rails and Ruby 1.9 applications.map &:visible_name
 ```
 
 [copy **](javascript:void(0))
@@ -827,7 +827,7 @@ shows how we use it.
 ##### Listing 1.9. Using ActsAsTaggable to get a lot of features in one line of code
 
 ``` {.code-area}
-1class Project < ActiveRecord::Base  acts_as_taggable end
+class Project < ActiveRecord::Base  acts_as_taggable end
 ```
 
 [copy **](javascript:void(0))
@@ -870,7 +870,7 @@ projects) using XML::Builder. Take a look at [listing
 ##### Listing 1.10. Building an RSS feed for our projects
 
 ``` {.code-area}
-1xml = XML::Builder.new xml.rss "version"=>"2.0" do  xml.channel do   xml.title "Projects"   xml.pubDate CGI.rfc1123_date(Time.now)   xml.description "List of all our projects"   for project in projects do    xml.item do     xml.title project.name     xml.guid project_url(project), :permalink=>true     xml.pubDate CGI.rfc1123_date(project.created_on)     xml.description project.details    end   end  end end
+xml = XML::Builder.new xml.rss "version"=>"2.0" do  xml.channel do   xml.title "Projects"   xml.pubDate CGI.rfc1123_date(Time.now)   xml.description "List of all our projects"   for project in projects do    xml.item do     xml.title project.name     xml.guid project_url(project), :permalink=>true     xml.pubDate CGI.rfc1123_date(project.created_on)     xml.description project.details    end   end  end end
 ```
 
 [copy **](javascript:void(0))
@@ -955,7 +955,7 @@ could come up with something that looks like [listing
 ##### Listing 1.12. A validation domain-specific language example
 
 ``` {.code-area}
-1contact_information_verification do |the_persons|  the_persons.name.is_required  the_persons.address.is_required  the_persons.address.must_be(10).characters_long  the_persons.phone.must_be(10).characters_long  the_persons.im_handle.must_not_be(in_existing_accounts) end
+contact_information_verification do |the_persons|  the_persons.name.is_required  the_persons.address.is_required  the_persons.address.must_be(10).characters_long  the_persons.phone.must_be(10).characters_long  the_persons.im_handle.must_not_be(in_existing_accounts) end
 ```
 
 [copy **](javascript:void(0))

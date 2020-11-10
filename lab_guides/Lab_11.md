@@ -118,7 +118,7 @@ included in Ruby’s standard library are SHA256, SHA384, and SHA512. Here
 is some sample usage:
 
 ``` {.code-area}
-1require 'digest/sha1'puts Digest::SHA256.hexdigest("Please hash me.")puts Digest::SHA384.hexdigest("Please hash me.")puts Digest::SHA512.hexdigest("Please hash me.")
+require 'digest/sha1'puts Digest::SHA256.hexdigest("Please hash me.")puts Digest::SHA384.hexdigest("Please hash me.")puts Digest::SHA512.hexdigest("Please hash me.")
 ```
 
 [copy **](javascript:void(0))
@@ -175,7 +175,7 @@ controller that handles authentication, where password is the name of
 your password parameter:
 
 ``` {.code-area}
-1class UsersController < ApplicationController filter_parameter_logging :password ...end
+class UsersController < ApplicationController filter_parameter_logging :password ...end
 ```
 
 [copy **](javascript:void(0))
@@ -212,7 +212,7 @@ shows an implementation of LDAP authentication with Ruby.
 ##### Listing 11.3. Authenticating with ruby-net-ldap
 
 ``` {.code-area}
-1require 'net/ldap' def valid_user?(username, password)  ldap = initialize_ldap(username, password)  ldap.bind end def initialize_ldap(username, password)  Net::LDAP.new(:base => 'dc=example,dc=com',                :host => 'your-ldap-server',                :auth => {:username => "uid=#{username},cn=users",                       :password => password,                       :method => :simple}) end
+require 'net/ldap' def valid_user?(username, password)  ldap = initialize_ldap(username, password)  ldap.bind end def initialize_ldap(username, password)  Net::LDAP.new(:base => 'dc=example,dc=com',                :host => 'your-ldap-server',                :auth => {:username => "uid=#{username},cn=users",                       :password => password,                       :method => :simple}) end
 ```
 
 [copy **](javascript:void(0))
@@ -236,7 +236,7 @@ same way that ActiveRecord maps database rows to objects. Here is an
 example of defining a User class using ActiveLdap:
 
 ``` {.code-area}
-1class User < ActiveLdap::Base ldap_mapping :dn_attribute => 'uid', :prefix => 'cn=users',          :classes => ['top','account'] belongs_to :groups, :class => 'Group', :many => 'memberUid',         :foreign_key => 'uid'end
+class User < ActiveLdap::Base ldap_mapping :dn_attribute => 'uid', :prefix => 'cn=users',          :classes => ['top','account'] belongs_to :groups, :class => 'Group', :many => 'memberUid',         :foreign_key => 'uid'end
 ```
 
 [copy **](javascript:void(0))
@@ -275,7 +275,7 @@ for an example.
 ##### Listing 11.4. Authenticating against Active Directory using ruby-net-ldap
 
 ``` {.code-area}
-1equire 'net/ldap' def valid_user?(username, password)  ldap = initialize_ldap(username, password)  ldap.bind end def initialize_ldap(username, password)  Net::LDAP.new(:base => 'dc=example,dc=corp',            :host => 'exampledomaincontroller',            :auth => {:username => "#{username}@example.corp",                    :password => password,                    :method => :simple}) end
+equire 'net/ldap' def valid_user?(username, password)  ldap = initialize_ldap(username, password)  ldap.bind end def initialize_ldap(username, password)  Net::LDAP.new(:base => 'dc=example,dc=corp',            :host => 'exampledomaincontroller',            :auth => {:username => "#{username}@example.corp",                    :password => password,                    :method => :simple}) end
 ```
 
 [copy **](javascript:void(0))
@@ -306,7 +306,7 @@ thing to a simple username attribute in Active Directory’s schema.
 Here’s an example:
 
 ``` {.code-area}
-1def valid_app_user?(username, password) ldap = initialize_ldap(username, password) entries = ldap.search :filter => "sAMAccountName=#{username}" return false unless entries && !entries.empty? return member_of_ad_group?("G-MyAppUsers", entries.first)enddef member_of_ad_group?(group, ldap_entry) group_names = ldap_entry[:memberof] # returns a collection of fully-                           # qualified Active Directory groups group_names.any?{|name| name.include? 'CN=#{group},' }end
+def valid_app_user?(username, password) ldap = initialize_ldap(username, password) entries = ldap.search :filter => "sAMAccountName=#{username}" return false unless entries && !entries.empty? return member_of_ad_group?("G-MyAppUsers", entries.first)enddef member_of_ad_group?(group, ldap_entry) group_names = ldap_entry[:memberof] # returns a collection of fully-                           # qualified Active Directory groups group_names.any?{|name| name.include? 'CN=#{group},' }end
 ```
 
 [copy **](javascript:void(0))
@@ -316,7 +316,7 @@ Directory LDAP entry contains the distinguished name of the groups.
 Something like this:
 
 ``` {.code-area}
-1CN=G-MyAppUsers,OU=Groups Security,OU=Example,DC=example,DC=corp
+CN=G-MyAppUsers,OU=Groups Security,OU=Example,DC=example,DC=corp
 ```
 
 [copy **](javascript:void(0))
@@ -331,7 +331,7 @@ and Computers. The ActiveDirectory::User authenticate method will
 validate a particular user’s password. Using it is straightforward:
 
 ``` {.code-area}
-1require 'activedirectory'def valid_user?(username, password) user = ActiveDirectory::User.find('jdoe') user.authenticate(password)end
+require 'activedirectory'def valid_user?(username, password) user = ActiveDirectory::User.find('jdoe') user.authenticate(password)end
 ```
 
 [copy **](javascript:void(0))

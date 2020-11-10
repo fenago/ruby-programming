@@ -100,7 +100,7 @@ calculator is shown in [listing
 ##### Listing 10.1. Our calculator’s XML configuration file
 
 ``` {.code-area}
-1<?xml version="1.0" encoding="ISO-8859-15"?> <calculator>  <startup mode="standard" precision="2" />  <memory type="float">16.24</memory>  <keyboard type="Macintosh">   <numeric-keypad enter="=" clear="C" />   <max-fkey>F16</max-fkey>  </keyboard> </calculator>
+<?xml version="1.0" encoding="ISO-8859-15"?> <calculator>  <startup mode="standard" precision="2" />  <memory type="float">16.24</memory>  <keyboard type="Macintosh">   <numeric-keypad enter="=" clear="C" />   <max-fkey>F16</max-fkey>  </keyboard> </calculator>
 ```
 
 [copy **](javascript:void(0))
@@ -123,7 +123,7 @@ to see how natural the implementation is.
 ##### Listing 10.2. Getting our XML into Ruby with REXML
 
 ``` {.code-area}
-1require 'rexml/document' include REXML module Calculator   class Config    def initialize(memory, startup, keyboard)     @memory = memory, @mode = mode, @keyboard = keyboard    end   end   class Keyboard    def initialize(type, numeric_keypad, max_fkey)     @type = type, @numeric_keypad = numeric_keypad,  @max_fkey = max_fkey   end  end end string = File.read("calculator.xml") calculator = Document.new(string) root = calculator.root memory = root.elements["memory"] memory = memory.text.send("to_#{memory.attributes['type'][0.1]}") startup = {:mode => root.elements["startup"].attributes["mode"],  :precision => root.elements["startup"].attributes["precision"]} keyboard = root.elements["keyboard"] keyboard_type = keyboard.attributes["type"] numeric_keypad = keyboard.elements["numeric-keypad"].attributes max_fkey = keyboard.elements["max-fkey"].text keyboard = Calculator::Keyboard.new(keyboard_type,  numeric_keypad, max_fkey) config = Calculator::Config.new(memory, startup, keyboard)
+require 'rexml/document' include REXML module Calculator   class Config    def initialize(memory, startup, keyboard)     @memory = memory, @mode = mode, @keyboard = keyboard    end   end   class Keyboard    def initialize(type, numeric_keypad, max_fkey)     @type = type, @numeric_keypad = numeric_keypad,  @max_fkey = max_fkey   end  end end string = File.read("calculator.xml") calculator = Document.new(string) root = calculator.root memory = root.elements["memory"] memory = memory.text.send("to_#{memory.attributes['type'][0.1]}") startup = {:mode => root.elements["startup"].attributes["mode"],  :precision => root.elements["startup"].attributes["precision"]} keyboard = root.elements["keyboard"] keyboard_type = keyboard.attributes["type"] numeric_keypad = keyboard.elements["numeric-keypad"].attributes max_fkey = keyboard.elements["max-fkey"].text keyboard = Calculator::Keyboard.new(keyboard_type,  numeric_keypad, max_fkey) config = Calculator::Config.new(memory, startup, keyboard)
 ```
 
 [copy **](javascript:void(0))
@@ -335,7 +335,7 @@ for our implementation; the CSS is in [listing
 ##### Listing 10.4. A simple postprocessing filter
 
 ``` {.code-area}
-1class ApplicationController < ActionController::Base  after_filter :zebra  def zebra    doc = Hpricot(response.body)    doc.search("table.zebra tbody  tr:nth-child(even)").add_class("even")    response.body = doc.to_s  end end
+class ApplicationController < ActionController::Base  after_filter :zebra  def zebra    doc = Hpricot(response.body)    doc.search("table.zebra tbody  tr:nth-child(even)").add_class("even")    response.body = doc.to_s  end end
 ```
 
 [copy **](javascript:void(0))
@@ -343,7 +343,7 @@ for our implementation; the CSS is in [listing
 ##### Listing 10.5. The associated CSS
 
 ``` {.code-area}
-1.zebra .even {   background-color: #ddf; }
+.zebra .even {   background-color: #ddf; }
 ```
 
 [copy **](javascript:void(0))
@@ -419,7 +419,7 @@ example of a typical post can be seen in [listing
 ##### Listing 10.6. A sample blog entry
 
 ``` {.code-area}
-1<h3>Open Thread </h3> <p class="byline"><i>by</i> <a href="http://foo.com/">Mr. Foo</a>, Fri Aug 17, 2007 at 11:15:45 PM EST</p> <div class="story_summary"> <p>Some Text Here</p> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <p> </div> <p class="byline story_trail"> <br><a href="/story/2007/8/17/55555/5555">Permalink</a>  :: 5 <a href="/story/2007/8/17/55555/5555#commenttop">Comments</a> <br>Tags: <a href="http://www.myblog.com/tag/foo%20tag">  foo tag   </a>  (<a href="http://www.myblog.com/tag">all tags</a>) <br> </p>
+<h3>Open Thread </h3> <p class="byline"><i>by</i> <a href="http://foo.com/">Mr. Foo</a>, Fri Aug 17, 2007 at 11:15:45 PM EST</p> <div class="story_summary"> <p>Some Text Here</p> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p> <p> </div> <p class="byline story_trail"> <br><a href="/story/2007/8/17/55555/5555">Permalink</a>  :: 5 <a href="/story/2007/8/17/55555/5555#commenttop">Comments</a> <br>Tags: <a href="http://www.myblog.com/tag/foo%20tag">  foo tag   </a>  (<a href="http://www.myblog.com/tag">all tags</a>) <br> </p>
 ```
 
 [copy **](javascript:void(0))
@@ -587,7 +587,7 @@ still pass.
 ##### Listing 10.8. Redone Config\#to\_xml
 
 ``` {.code-area}
-1def to_xml   doc = Hpricot.XML("<?xml version='1.0' encoding='ISO-8859-    15'?><calculator/>")   (doc/"calculator").append("<startup/>").    search("startup").attr(@startup)   (doc/"calculator").append("<memory>#{@memory.to_s}</memory>").    search("memory").attr("type" => @memory.class.to_s.slice(0,1).downcase)   (doc/"calculator").append(keyboard.to_xml)   doc.to_s end
+def to_xml   doc = Hpricot.XML("<?xml version='1.0' encoding='ISO-8859-    15'?><calculator/>")   (doc/"calculator").append("<startup/>").    search("startup").attr(@startup)   (doc/"calculator").append("<memory>#{@memory.to_s}</memory>").    search("memory").attr("type" => @memory.class.to_s.slice(0,1).downcase)   (doc/"calculator").append(keyboard.to_xml)   doc.to_s end
 ```
 
 [copy **](javascript:void(0))
@@ -595,7 +595,7 @@ still pass.
 ##### Listing 10.9. Redone Keyboard\#to\_xml
 
 ``` {.code-area}
-1def to_xml  el = Hpricot.XML("<keyboard/>")  (el/"keyboard").attr("type" => @type).   append("<numeric-keypad/>").   append("<max-fkey>#{@max_fkey}</max-fkey>").   search("numeric-keypad").attr(@numeric_keypad)  el.to_s end
+def to_xml  el = Hpricot.XML("<keyboard/>")  (el/"keyboard").attr("type" => @type).   append("<numeric-keypad/>").   append("<max-fkey>#{@max_fkey}</max-fkey>").   search("numeric-keypad").attr(@numeric_keypad)  el.to_s end
 ```
 
 [copy **](javascript:void(0))
@@ -680,7 +680,7 @@ show our implementation of a simple RSS feed reader.
 ##### Listing 10.10. A simple RSS parser
 
 ``` {.code-area}
-1require 'rss' require 'open-uri' require 'rubygems' require 'hpricot' module RubyInPractice  class RssParser   attr_accessor :rss   def initialize(file, options = {})    f = open(file)    s = f.read    @rss = RSS::Parser.parse(s)    @options = {:truncate => 500}.merge(options)   end   def titles    @rss.items.map {|x| x.title}   end   def short_info    @rss.items.map {|x| [x.title, Hpricot(x.description).  inner_text[0..100] + "..."]}   end   def details    @rss.items.map do |item|      [item.title,       item.pubDate,       item.link,       Hpricot(item.description).   inner_text[0..@options[:truncate]] + "..."      ]     end    end    def to_html     @rss.items.map do |item|      %{       <h3><a href="#{item.link}">#{item.title}</a></h3>       <h4>#{item.pubDate}</h4>       <div class="body">#{item.description}</div>      }     end    end   end  end
+require 'rss' require 'open-uri' require 'rubygems' require 'hpricot' module RubyInPractice  class RssParser   attr_accessor :rss   def initialize(file, options = {})    f = open(file)    s = f.read    @rss = RSS::Parser.parse(s)    @options = {:truncate => 500}.merge(options)   end   def titles    @rss.items.map {|x| x.title}   end   def short_info    @rss.items.map {|x| [x.title, Hpricot(x.description).  inner_text[0..100] + "..."]}   end   def details    @rss.items.map do |item|      [item.title,       item.pubDate,       item.link,       Hpricot(item.description).   inner_text[0..@options[:truncate]] + "..."      ]     end    end    def to_html     @rss.items.map do |item|      %{       <h3><a href="#{item.link}">#{item.title}</a></h3>       <h4>#{item.pubDate}</h4>       <div class="body">#{item.description}</div>      }     end    end   end  end
 ```
 
 [copy **](javascript:void(0))
@@ -688,7 +688,7 @@ show our implementation of a simple RSS feed reader.
 ##### Listing 10.11. A small command-line script for running the RSS parser
 
 ``` {.code-area}
-1#!/usr/bin/env ruby require 'optparse' require 'rss_parser.rb' module RubyInPractice  class RssRunner    def self.parse_options     @config = {}     OptionParser.new do |opts|      opts.banner = "Usage: rss_parser [options]"      opts.separator ""      opts.on "-f", "--file [FILE]",  "the file or URL you wish to load in" do |file|        @config[:file] = file      end      opts.on "-t", "--titles", "specify titles only" do |titles|        @config[:titles] = true      end      opts.on "-s", "--short",  "show a short version of the feed" do |short|        @config[:short] = true      end      opts.on "-r", "--truncate [NUMBER]",  "the number of characters to truncate the long  version to (defaults to 500)" do |trunc|        @config[:truncate] = trunc.to_i      end     end.parse!    end    def self.run     parse_options     file = @config.delete(:file)     r = RubyInPractice::RssParser.new(file, @config)     if !@config[:titles] && !@config[:short]      r.details.each do |item|       puts "\"#{item[0]}\" published at #{item[1]}"       puts "Available at #{item[2]}"       puts       puts item[3]       puts       puts      end     elsif !@config[:titles]      r.short_info.each do |item|       puts "\"#{item[0]}\""       puts item[1]       puts      end     else      puts r.titles.join("\n")     end    end  end end RubyInPractice::RssRunner.run
+#!/usr/bin/env ruby require 'optparse' require 'rss_parser.rb' module RubyInPractice  class RssRunner    def self.parse_options     @config = {}     OptionParser.new do |opts|      opts.banner = "Usage: rss_parser [options]"      opts.separator ""      opts.on "-f", "--file [FILE]",  "the file or URL you wish to load in" do |file|        @config[:file] = file      end      opts.on "-t", "--titles", "specify titles only" do |titles|        @config[:titles] = true      end      opts.on "-s", "--short",  "show a short version of the feed" do |short|        @config[:short] = true      end      opts.on "-r", "--truncate [NUMBER]",  "the number of characters to truncate the long  version to (defaults to 500)" do |trunc|        @config[:truncate] = trunc.to_i      end     end.parse!    end    def self.run     parse_options     file = @config.delete(:file)     r = RubyInPractice::RssParser.new(file, @config)     if !@config[:titles] && !@config[:short]      r.details.each do |item|       puts "\"#{item[0]}\" published at #{item[1]}"       puts "Available at #{item[2]}"       puts       puts item[3]       puts       puts      end     elsif !@config[:titles]      r.short_info.each do |item|       puts "\"#{item[0]}\""       puts item[1]       puts      end     else      puts r.titles.join("\n")     end    end  end end RubyInPractice::RssRunner.run
 ```
 
 [copy **](javascript:void(0))
@@ -770,7 +770,7 @@ version of our arguments code from [listing
 10.11](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md):
 
 ``` {.code-area}
-1require 'trollop'opts = Trollop::options do banner "Usage: rss_parser [options]" opt :file, "the file or URL you wish to load in" opt :titles, "specify titles only" opt :short, "show a short version of the feed" opt :truncate,"the number of characters to truncate            the long version to (defaults to 500)",            :type => :int,            :short => "r"end
+require 'trollop'opts = Trollop::options do banner "Usage: rss_parser [options]" opt :file, "the file or URL you wish to load in" opt :titles, "specify titles only" opt :short, "show a short version of the feed" opt :truncate,"the number of characters to truncate            the long version to (defaults to 500)",            :type => :int,            :short => "r"end
 ```
 
 [copy **](javascript:void(0))
@@ -816,7 +816,7 @@ trivial to extend this wrapper to provide additional functionality.
 First, you’ll need to install the feedtools gem:
 
 ``` {.code-area}
-1gem install feedtools
+gem install feedtools
 ```
 
 [copy **](javascript:void(0))
@@ -845,7 +845,7 @@ create a new Feed object with the feed’s ID set to
 one-liner:
 
 ``` {.code-area}
-1RubyInPractice::Feeds::Feed.new(:id => "http://www.manning.com")
+RubyInPractice::Feeds::Feed.new(:id => "http://www.manning.com")
 ```
 
 [copy **](javascript:void(0))
@@ -855,7 +855,7 @@ created a similar API for adding new entries. Once you have your wrapper
 object (let’s call it feed), you would call add\_entry:
 
 ``` {.code-area}
-1feed.add_entry(:id       => "http://www.manning.com/foo",          :title     => "NEW!",          :abstract   => "Brand new feed entry",          :description => "This is the first feed entry for our feed",          :content    => "Some longer content would go here")
+feed.add_entry(:id       => "http://www.manning.com/foo",          :title     => "NEW!",          :abstract   => "Brand new feed entry",          :description => "This is the first feed entry for our feed",          :content    => "Some longer content would go here")
 ```
 
 [copy **](javascript:void(0))
@@ -875,7 +875,7 @@ FeedTools::Link object by simply passing in a hash of href =\> title
 pairs. You would do something like this:
 
 ``` {.code-area}
-1feed.add_links("http://www.manning.com" => "Manning Publications")
+feed.add_links("http://www.manning.com" => "Manning Publications")
 ```
 
 [copy **](javascript:void(0))
@@ -895,7 +895,7 @@ script.
 ##### Listing 10.13. Creating a new feed
 
 ``` {.code-area}
-1f = RubyInPractice::Feeds::Feed.new(:id =>  "http://rubyinpractice.manning.com", :title => "Ruby in Practice Feed",  :description => "A sample feed for the Ruby in Practice lab on Data  parsing") f.set_author "Yehuda Katz", "wycats@gmail.com" f.add_entry(:title => "NEW!", :abstract => "This is a new feed",  :summary => "This is a new feed for testing", :id =>  "http://rubyinpractice.manning.com/new", :content => "There might  normally be some long content here")
+f = RubyInPractice::Feeds::Feed.new(:id =>  "http://rubyinpractice.manning.com", :title => "Ruby in Practice Feed",  :description => "A sample feed for the Ruby in Practice lab on Data  parsing") f.set_author "Yehuda Katz", "wycats@gmail.com" f.add_entry(:title => "NEW!", :abstract => "This is a new feed",  :summary => "This is a new feed for testing", :id =>  "http://rubyinpractice.manning.com/new", :content => "There might  normally be some long content here")
 ```
 
 [copy **](javascript:void(0))
@@ -911,7 +911,7 @@ show markup generated by our code.
 ##### Listing 10.14. Generating RSS 2.0
 
 ``` {.code-area}
-1<?xml version="1.0" encoding="utf-8"?> <rss xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:rdf="http://      www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:itunes="http://      www.itunes.com/dtds/podcast-1.0.dtd" version="2.0" xmlns:media="http://      search.yahoo.com/mrss" xmlns:dc="http://purl.org/dc/elements/1.1/"      xmlns:content="http://purl.org/rss/1.0/modules/content/"      xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">   <channel>    <title>Ruby in Practice Feed</title>    <link>http://rubyinpractice.manning.com/</link>    <description>A sample feed for the Ruby in Practice lab on  Data parsing</description>    <managingEditor>wycats@gmail.com</managingEditor>    <ttl>60</ttl>    <generator>http://www.sporkmonger.com/projects/feedtools/</generator>    <item>      <title>NEW!</title>      <link>http://rubyinpractice.manning.com/new</link>      <description>This is a new feed for testing</description>      <content:encoded>        <![CDATA[There might normally be some long content here]]>      </content:encoded>      <pubDate>Tue, 28 Aug 2007 13:37:55 -0000</pubDate>      <guid isPermaLink="true">http://rubyinpractice.manning.com/new</guid>    </item>   </channel> </rss>
+<?xml version="1.0" encoding="utf-8"?> <rss xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:rdf="http://      www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:itunes="http://      www.itunes.com/dtds/podcast-1.0.dtd" version="2.0" xmlns:media="http://      search.yahoo.com/mrss" xmlns:dc="http://purl.org/dc/elements/1.1/"      xmlns:content="http://purl.org/rss/1.0/modules/content/"      xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">   <channel>    <title>Ruby in Practice Feed</title>    <link>http://rubyinpractice.manning.com/</link>    <description>A sample feed for the Ruby in Practice lab on  Data parsing</description>    <managingEditor>wycats@gmail.com</managingEditor>    <ttl>60</ttl>    <generator>http://www.sporkmonger.com/projects/feedtools/</generator>    <item>      <title>NEW!</title>      <link>http://rubyinpractice.manning.com/new</link>      <description>This is a new feed for testing</description>      <content:encoded>        <![CDATA[There might normally be some long content here]]>      </content:encoded>      <pubDate>Tue, 28 Aug 2007 13:37:55 -0000</pubDate>      <guid isPermaLink="true">http://rubyinpractice.manning.com/new</guid>    </item>   </channel> </rss>
 ```
 
 [copy **](javascript:void(0))
@@ -919,7 +919,7 @@ show markup generated by our code.
 ##### Listing 10.15. Generating ATOM 1.0
 
 ``` {.code-area}
-1<?xml version="1.0" encoding="utf-8"?> <feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom">  <title type="html">Ruby in Practice Feed</title>  <author>   <name>Yehuda Katz</name>   <email>wycats@gmail.com</email>  </author>  <link href="http://rubyinpractice.manning.com/" rel="alternate"/>  <subtitle type="html">A sample feed for the Ruby in Practice lab  on Data parsing</subtitle>  <updated>2007-08-28T13:38:09Z</updated>  <generator>FeedTools/0.2.26 -  http://www.sporkmonger.com/projects/feedtools/</generator>  <id>http://rubyinpractice.manning.com</id>  <entry xmlns="http://www.w3.org/2005/Atom">   <title type="html">NEW!</title>   <author>     <name>n/a</name>   </author>   <link href="http://rubyinpractice.manning.com/new" rel="alternate"/>   <content type="html">There might normally be some long content  here</content>   <summary type="html">This is a new feed for testing</summary>   <updated>2007-08-28T13:37:55Z</updated>   <id>http://rubyinpractice.manning.com/new</id>  </entry> </feed>
+<?xml version="1.0" encoding="utf-8"?> <feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom">  <title type="html">Ruby in Practice Feed</title>  <author>   <name>Yehuda Katz</name>   <email>wycats@gmail.com</email>  </author>  <link href="http://rubyinpractice.manning.com/" rel="alternate"/>  <subtitle type="html">A sample feed for the Ruby in Practice lab  on Data parsing</subtitle>  <updated>2007-08-28T13:38:09Z</updated>  <generator>FeedTools/0.2.26 -  http://www.sporkmonger.com/projects/feedtools/</generator>  <id>http://rubyinpractice.manning.com</id>  <entry xmlns="http://www.w3.org/2005/Atom">   <title type="html">NEW!</title>   <author>     <name>n/a</name>   </author>   <link href="http://rubyinpractice.manning.com/new" rel="alternate"/>   <content type="html">There might normally be some long content  here</content>   <summary type="html">This is a new feed for testing</summary>   <updated>2007-08-28T13:37:55Z</updated>   <id>http://rubyinpractice.manning.com/new</id>  </entry> </feed>
 ```
 
 [copy **](javascript:void(0))
@@ -977,7 +977,7 @@ show our implementation.
 ##### Listing 10.16. Using YAML to solve the calculator config problem
 
 ``` {.code-area}
-1require 'yaml' module Calculator  class Config   attr_accessor :memory, :startup, :keyboard   def initialize(memory, startup, keyboard)    @memory, @startup, @keyboard = memory, startup, keyboard   end   def save_to(file)    f = File.open(file, "w")    f.puts(self.to_yaml)       end   def self.get_from(file)    YAML.load(File.read(file))      end  end  class Keyboard   attr_accessor :type, :numeric_keypad, :max_fkey   def initialize(type, numeric_keypad, max_fkey)    @type, @numeric_keypad, @max_fkey = type, numeric_keypad, max_fkey   end  end end
+require 'yaml' module Calculator  class Config   attr_accessor :memory, :startup, :keyboard   def initialize(memory, startup, keyboard)    @memory, @startup, @keyboard = memory, startup, keyboard   end   def save_to(file)    f = File.open(file, "w")    f.puts(self.to_yaml)       end   def self.get_from(file)    YAML.load(File.read(file))      end  end  class Keyboard   attr_accessor :type, :numeric_keypad, :max_fkey   def initialize(type, numeric_keypad, max_fkey)    @type, @numeric_keypad, @max_fkey = type, numeric_keypad, max_fkey   end  end end
 ```
 
 [copy **](javascript:void(0))
@@ -1004,7 +1004,7 @@ shows a short script that does that.
 ##### Listing 10.17. Using the YAML solution in an equivalent manner to our XML solution
 
 ``` {.code-area}
-1k = Calculator::Keyboard.new("Macintosh", {"enter" => "=",   "clear" => "C"}, "F16") c = Calculator::Config.new(16.24, {"mode" => "standard",   "precision" => 2}, k) c.save_to("config.yml") Calculator::Config.get_from("config.yml")
+k = Calculator::Keyboard.new("Macintosh", {"enter" => "=",   "clear" => "C"}, "F16") c = Calculator::Config.new(16.24, {"mode" => "standard",   "precision" => 2}, k) c.save_to("config.yml") Calculator::Config.get_from("config.yml")
 ```
 
 [copy **](javascript:void(0))

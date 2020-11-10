@@ -95,7 +95,7 @@ We’re going to need two Ruby gems for that, so let’s start by installing
 them:
 
 ``` {.code-area}
-1$ gem install aws-s3$ gem install twitter
+$ gem install aws-s3$ gem install twitter
 ```
 
 [copy **](javascript:void(0))
@@ -130,7 +130,7 @@ sharing our account information. You’ll need a file called .amazonws in
 your home directory that looks like this:
 
 ``` {.code-area}
-1key_id: <your AWS access key id>key_secret: <your AWS secret access key>
+key_id: <your AWS access key id>key_secret: <your AWS secret access key>
 ```
 
 [copy **](javascript:void(0))
@@ -138,7 +138,7 @@ your home directory that looks like this:
 This is the command to run the script and tell it which bucket to use:
 
 ``` {.code-area}
-1$ ruby upload_images.rb ruby_in_practice
+$ ruby upload_images.rb ruby_in_practice
 ```
 
 [copy **](javascript:void(0))
@@ -163,7 +163,7 @@ As before, we’re going to use a configuration file that lives in the
 home directory. The .twitter file looks like this:
 
 ``` {.code-area}
-1email: <email>password: <password>
+email: <email>password: <password>
 ```
 
 [copy **](javascript:void(0))
@@ -172,7 +172,7 @@ We’re not going to run this script from the command line. Instead, we’ll
 schedule it to run once an hour using cron:
 
 ``` {.code-area}
-1$ echo "0 * * * * $(pwd)/twitter_image.rb \"Check out this photo \"" > jobs$ crontab jobs
+$ echo "0 * * * * $(pwd)/twitter_image.rb \"Check out this photo \"" > jobs$ crontab jobs
 ```
 
 [copy **](javascript:void(0))
@@ -347,7 +347,7 @@ arguments provided by the right-side expression. So, for example, the
 expression
 
 ``` {.code-area}
-1"%s: %s" % match
+"%s: %s" % match
 ```
 
 [copy **](javascript:void(0))
@@ -355,7 +355,7 @@ expression
 is shorthand for
 
 ``` {.code-area}
-1sprintf("%s: %s", match[0], match[1])
+sprintf("%s: %s", match[0], match[1])
 ```
 
 [copy **](javascript:void(0))
@@ -395,7 +395,7 @@ information we get, the better. You’ll notice we added a snippet of the
 source code surrounding the comment to the body of each task:
 
 ``` {.code-area}
-1sel = [num - 5, 0].max .. [num + 5, lines.size].mindetails.push sel.map  { |i| "%5d: %s" % [i + 1, lines[i]] }task.Body = details.join("\n")task.Save
+sel = [num - 5, 0].max .. [num + 5, lines.size].mindetails.push sel.map  { |i| "%5d: %s" % [i + 1, lines[i]] }task.Body = details.join("\n")task.Save
 ```
 
 [copy **](javascript:void(0))
@@ -427,7 +427,7 @@ the Appscript library. We explain why in the discussion, so for now,
 let’s get Appscript installed. The gem name is actually rb-appscript:
 
 ``` {.code-area}
-1$ sudo gem install rb-appscript
+$ sudo gem install rb-appscript
 ```
 
 [copy **](javascript:void(0))
@@ -468,7 +468,7 @@ in [listing
 ##### Listing 3.5. AppleScript example for adding a To Do item to iCal
 
 ``` {.code-area}
-1tell application "iCal" to  make new todo at end of calendar "Work"   with properties  {summary:"FIXME now"}
+tell application "iCal" to  make new todo at end of calendar "Work"   with properties  {summary:"FIXME now"}
 ```
 
 [copy **](javascript:void(0))
@@ -531,7 +531,7 @@ and the script will show a Growl notification when it completes.
 ##### Listing 3.8. Growl notification using Cocoa API
 
 ``` {.code-area}
-1require 'osx/cocoa' dnc = OSX::NSDistributedNotificationCenter.defaultCenter dnc.postNotificationName_object_userInfo_deliverImmediately(  :GrowlApplicationRegistrationNotification, nil,  { :ApplicationName=>'TODO/FIXME', :AllNotifications=>['Completed'] },  true) dnc.postNotificationName_object_userInfo_deliverImmediately(  :GrowlNotification, nil,  { :ApplicationName=>'TODO/FIXME', :NotificationName=>'Completed',    :NotificationTitle=>'TODO/FIXME comments added to iCal' }, true)
+require 'osx/cocoa' dnc = OSX::NSDistributedNotificationCenter.defaultCenter dnc.postNotificationName_object_userInfo_deliverImmediately(  :GrowlApplicationRegistrationNotification, nil,  { :ApplicationName=>'TODO/FIXME', :AllNotifications=>['Completed'] },  true) dnc.postNotificationName_object_userInfo_deliverImmediately(  :GrowlNotification, nil,  { :ApplicationName=>'TODO/FIXME', :NotificationName=>'Completed',    :NotificationTitle=>'TODO/FIXME comments added to iCal' }, true)
 ```
 
 [copy **](javascript:void(0))
@@ -566,7 +566,7 @@ Rakefile that you can easily apply to your own applications.
 If you don’t already have Rake installed, start by installing it:
 
 ``` {.code-area}
-1$ gem install rake
+$ gem install rake
 ```
 
 [copy **](javascript:void(0))
@@ -623,7 +623,7 @@ created by the other tasks.
 Let’s start by finding out which tasks we just defined:
 
 ``` {.code-area}
-1$ rake --tasksrake clobber     # Clean temporary directories and filesrake clobber_rdoc  # Remove rdoc productsrake failing     # Run all failing examplesrake rdoc       # Build the rdoc HTML Filesrake rerdoc      # Force a rebuild of the RDOC filesrake spec       # Run all specs
+$ rake --tasksrake clobber     # Clean temporary directories and filesrake clobber_rdoc  # Remove rdoc productsrake failing     # Run all failing examplesrake rdoc       # Build the rdoc HTML Filesrake rerdoc      # Force a rebuild of the RDOC filesrake spec       # Run all specs
 ```
 
 [copy **](javascript:void(0))
@@ -702,7 +702,7 @@ running rake rdoc --trace twice in [listing
 ##### Listing 3.10. Running rake rdoc twice with --trace
 
 ``` {.code-area}
-1$ rake rdoc --trace (in /Users/assaf/Ruby In Practice/CH3/3.3) ** Invoke rdoc (first_time) ** Invoke html/index.html (first_time) ** Invoke README (first_time, not_needed) ** Invoke LICENSE (first_time, not_needed) ** Invoke Rakefile (first_time, not_needed) ** Execute html/index.html                      README:                     LICENSE: Generating HTML... Files:  2 Classes: 0 Modules: 0 Methods: 0 Elapsed: 0.148s ** Execute rdoc $ rake rdoc --trace (in /Users/assaf/Ruby In Practice/CH3/3.3) ** Invoke rdoc (first_time) ** Invoke html/index.html (first_time, not_needed) ** Invoke README (first_time, not_needed) ** Invoke LICENSE (first_time, not_needed) ** Invoke Rakefile (first_time, not_needed) ** Execute rdoc
+$ rake rdoc --trace (in /Users/assaf/Ruby In Practice/CH3/3.3) ** Invoke rdoc (first_time) ** Invoke html/index.html (first_time) ** Invoke README (first_time, not_needed) ** Invoke LICENSE (first_time, not_needed) ** Invoke Rakefile (first_time, not_needed) ** Execute html/index.html                      README:                     LICENSE: Generating HTML... Files:  2 Classes: 0 Modules: 0 Methods: 0 Elapsed: 0.148s ** Execute rdoc $ rake rdoc --trace (in /Users/assaf/Ruby In Practice/CH3/3.3) ** Invoke rdoc (first_time) ** Invoke html/index.html (first_time, not_needed) ** Invoke README (first_time, not_needed) ** Invoke LICENSE (first_time, not_needed) ** Invoke Rakefile (first_time, not_needed) ** Execute rdoc
 ```
 
 [copy **](javascript:void(0))
@@ -778,7 +778,7 @@ in [listing
 ##### Listing 3.11. Listing all the tasks and their prerequisites
 
 ``` {.code-area}
-1$ rake --prereqs (in /Users/assaf/Ruby In Practice/CH3/3.3.1) rake clobber    clobber_rdoc rake clobber_rdoc rake default    spec rake failed rake html rake html/index.html    README    LICENSE    Rakefile rake rdoc    html/index.html rake rerdoc    clobber_rdoc    rdoc rake spec
+$ rake --prereqs (in /Users/assaf/Ruby In Practice/CH3/3.3.1) rake clobber    clobber_rdoc rake clobber_rdoc rake default    spec rake failed rake html rake html/index.html    README    LICENSE    Rakefile rake rdoc    html/index.html rake rerdoc    clobber_rdoc    rdoc rake spec
 ```
 
 [copy **](javascript:void(0))
@@ -846,7 +846,7 @@ To run this Rakefile, first install the RedCloth gem (gem install
 redcloth) and invoke the prepare task:
 
 ``` {.code-area}
-1$ rake prepare
+$ rake prepare
 ```
 
 [copy **](javascript:void(0))
@@ -859,7 +859,7 @@ contents of each one, merge them, and create a file from the result. We
 could write it like this:
 
 ``` {.code-area}
-1file 'js/all.js' do |task| combined = ['js/utils.js', 'js/effects.js'].  map { |prereq| File.read(prereq.to_s) }.join("\n") File.open task.name, 'w' do |file|  file.write combined endend
+file 'js/all.js' do |task| combined = ['js/utils.js', 'js/effects.js'].  map { |prereq| File.read(prereq.to_s) }.join("\n") File.open task.name, 'w' do |file|  file.write combined endend
 ```
 
 [copy **](javascript:void(0))
@@ -879,7 +879,7 @@ prerequisites once, we’re going to use the prerequisite list from within
 the task definition. Our revised task looks like this:
 
 ``` {.code-area}
-1file 'scripts/all.js'=>['js/utils.js', 'js/effects.js'] do |task| combined = task.prerequisites.  map { |prereq| File.read(prereq.to_s) }.join("\n") File.open task.name, 'w' do |file|  file.write combined endend
+file 'scripts/all.js'=>['js/utils.js', 'js/effects.js'] do |task| combined = task.prerequisites.  map { |prereq| File.read(prereq.to_s) }.join("\n") File.open task.name, 'w' do |file|  file.write combined endend
 ```
 
 [copy **](javascript:void(0))
@@ -917,7 +917,7 @@ document would look something like [listing
 ##### Listing 3.13. Example Textile document that we’ll convert to HTML
 
 ``` {.code-area}
-1h1. Welcome Myapp is *the best* something something. New features in Myapp 2.0: * Super fast * Never breaks * Saves kittens Hear what other people have to say: bq. Myapp has totally changed my life! -- Anonymous Developed for: "Ruby in Practice":http://www.manning.com/mcanally/
+h1. Welcome Myapp is *the best* something something. New features in Myapp 2.0: * Super fast * Never breaks * Saves kittens Hear what other people have to say: bq. Myapp has totally changed my life! -- Anonymous Developed for: "Ruby in Practice":http://www.manning.com/mcanally/
 ```
 
 [copy **](javascript:void(0))
@@ -953,7 +953,7 @@ and pathmap to convert that to a list of the HTML files we want to
 create:
 
 ``` {.code-area}
-1file 'html'=>FileList['docs/*.textile'].pathmap('html/%n.html')
+file 'html'=>FileList['docs/*.textile'].pathmap('html/%n.html')
 ```
 
 [copy **](javascript:void(0))
