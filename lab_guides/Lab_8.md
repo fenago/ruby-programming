@@ -356,17 +356,11 @@ of options that will allow you to customize how you expose your
 repository to the world. Those options are detailed in [table
 8.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_8.md).
 
-##### Table 8.1. The available options to the gem server command
+#####The available options to the gem server command
 
-  Option             Effect
-  ------------------ -------------------------------------------------------------------------------------------------------------------------------------------------------
-  --daemon           Runs the server in daemon (background) mode.
-  --p[ort]=PORT      Runs the server on the designated port; if you use port 80, your users will be able to access the gem server without supplying a port to gem –source.
-  --d[ir]=LOCATION   Specifies the location of the gem repository.
+![](./images/8.png)
 
-As indicated in [table
-8.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_8.md),
-you can specify a location for the gem server that you expose. Say, for
+You can specify a location for the gem server that you expose. Say, for
 instance, that the server you are using for gems also has its own set of
 gems that you do not wish to expose (to make for more readable gem list
 output, for instance). You could install the gems you wish to expose in

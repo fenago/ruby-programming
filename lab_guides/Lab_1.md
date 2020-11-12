@@ -788,23 +788,11 @@ the \*\_eval family of methods in your metaprogramming. Check out [table
 1.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_1.md)
 for a summary of their usage.
 
-##### Table 1.1. The eval family of methods
+##### The eval family of methods
 
-  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  Method                                    Usage
-  ----------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  eval(str)                                 Evaluates a string of code:
+![](./images/1.png)
 
-                                                eval("puts 'I love eval!'")
-
-      instance_eval(str)instance_eval { }   Evaluates a given string of code or a code block, changing the receiver of the call to self:
-                                            
-                                                class Hider  def initialize    @hidden = "Hello, world!"  endendmy_hidden = Hider.newmy_hidden.instance_eval { puts @hidden }# => Hello, world!
-
-      class_eval(str)class_eval { }         Evaluates a given string of code or a code block in the context of a class’s definition:
-                                            
-                                                def printable_attribute(attr)  class_eval %{        def p_#{attr}          puts attr.to_s        end  }endclass Printer  attr_accessor :name  printable_attribute :nameendmy_printer = Printer.newmy_printer.name = "LaserPrint 5000"my_printer.p_name # => LaserPrint 5000
-  ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+![](./images/1-2.png)
 
 Now that we have added our method to the class definition, every
 instance of a Module or Class object has this method available to it.

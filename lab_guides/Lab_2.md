@@ -290,23 +290,11 @@ the only assertion available; there are a number of assert methods,
 which are listed in [table
 2.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_2.md).
 
-##### Table 2.1. Ruby’s built-in testing library offers a large number of assertions baked right in.
+##### Ruby’s built-in testing library offers a large number of assertions baked right in.
 
-  Assertion                                                                           Description
-  ----------------------------------------------------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------
-      assert(boolean)                                                                 Passes if boolean (that is, a boolean expression) is true.
-      assert_equal(expected, actual)assert_not_equal(expected, actual)                Passes if expected == actual or expected != actual.
-      assert_nil(object)assert_not_nil(object)                                        Passes if object == nil or object != nil.
-      assert_match(pattern, string)assert_no_match(pattern, string)                   Passes if string matches or doesn’t match pattern (such as a regular expression).
-      assert_raise(exception...) {block}assert_nothing_raised(exception...) {block}   Passes if the block raises or doesn’t raise the provided Exception(s)
-      assert_same(expected, actual)assert_not_same(expected, actual)                  Passes if actual.equal?(expected) or if !actual.equal?(expected).
-      assert_respond_to(object, method)                                               Passes if object can respond to the given method.
-      assert_throws(expected_sym) {block}assert_nothing_thrown {block}                Passes if the block throws the provided symbol; assert\_nothing\_thrown passes if the provided block doesn’t throw any symbols.
-      assert_instance_of(class, object)                                               Passes if object.class == class.
-      assert_operator(first, operator, second)                                        Passes if the first object compared to the second object is true when using the provided operator.
-      assert_kind_of(class, object)                                                   Passes if object.kind\_of?(class).
-      assert_in_delta(expected, actual, delta)                                        Passes if actual - expected \<= delta.
-      assert_send(send_array)                                                         Passes if method sent to object returns true.
+![](./images/2_0.png)
+
+![](./images/2_1.png)
 
 Using these assertions, you can build sets of tests that check your code
 effectively, but, like your code, tests don’t run in a vacuum. Often you
@@ -580,23 +568,11 @@ can find more details on the RSpec website (rspec.info).
 
 ##### Table 2.2. RSpec has numerous specifications you can use to verify the behavior of your application.
 
-  Specification                                                                                                                       Description
-  ----------------------------------------------------------------------------------------------------------------------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-      should be_predicate [args]should_not be_predicate [args]                                                                        Uses the question mark form of the method provided as the predicate (e.g., simple\_object.should be\_empty calls empty? on the simple\_object).
-      should be_close(val, tolerance)should_not be_close(val, tolerance)                                                              Allows a value tolerance for floating-point specifications.
-      should have_something [args]                                                                                                    Calls has\_something? on the receiver (e.g., should\_have\_key calls has\_key?).
-      should <operator> valueshould_not <operator> value                                                                              Uses Ruby’s operators to test (e.g., should\_be \< 3 or should\_be =\~ /hi/).
-      should include(item)should_not include(item)                                                                                    Specifies that a collection should or should not include item.
-      should match(regex)should_not match(regex)                                                                                      Specifies that the receiver should or should not match the provided regular expression.
-      should be_an_instance_of(class)should_not be_an_instance_of(class)                                                              Uses instance\_of? to test the receiver’s class.
-      should be_a_kind_of(class)should_not be_a_kind_of(class)                                                                        Uses kind\_of? to test the receiver’s class ancestry.
-      should respond_to(symbol)should_not respond_to(symbol)                                                                          Tests whether the receiver responds to the given symbol using respond\_to?.
-      should raise_error([ex], [mesg])should_not raise_error([ex], [mesg])                                                            When called on a Proc, specifies that a given exception should or should not be raised; if no exception is given, checks for any exception thrown. The parameter for mesg is a string or regular expression that is matched against the exception’s message.
-      should throw_symbol [:symbol]should_not throw_symbol [:symbol]                                                                  When called on a Proc, tests whether a given symbol was thrown; if no symbol is given, tests for any symbol.
-      should change(receiver, :method)should change { block }                                                                         When called on a Proc, tests whether the value of receiver.method has changed after the Proc has executed; this method has a number of forms (check the latest documentation to see them all).
-      should have(number).thingsshould_not have(number).thingsshould have_at_least(number).thingsshould have_at_most(number).things   Tests the receiver’s count (should\_have), lower limit (should\_have\_at\_least), and upper limit (should\_have\_at\_most) of the collection named for things (e.g., my\_array.should have(3).items).
-      should eql(arg)should_not eql(arg)should equal(arg)should_not equal(arg)                                                        Specifies that the receiver should or should not be equal to arg in object identity (eql) or merely value (equal).
-      should satisfy {|arg| block }should_not satisfy {|arg| block }                                                                  Tests whether the block evaluates to true when the receiver is passed as the only argument.
+![](./images/3_0.png)
+
+![](./images/3_1.png)
+
+![](./images/3_2.png)
 
 Getting back to our example, you can run the specs and make sure they
 pass (which they should!).

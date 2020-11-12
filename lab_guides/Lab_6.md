@@ -431,13 +431,9 @@ received to a user becoming available. See [table
 6.1](https://github.com/fenago/ruby-programming/blob/master/lab_guides/Lab_6.md)
 for a full listing.
 
-##### Table 6.1. A full listing of the Net::TOC callbacks
+##### A full listing of the Net::TOC callbacks
 
-  Callback                                      Description
-  --------------------------------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-      on_error {|err| }                         Called when an error occurs. Use this to provide your own error-handling logic.
-      on_im {|message, buddy,auto_response| }   Called when an IM is received; parameters include IM message and sender. Use this to receive and respond to messages.
-      friend.on_status(status) { }              Called when the given friend’s status changes; the status parameter should be one of the following: :available, :online, :idle, :away. Use this to track when friends go online or offline and to see changes in their status message.
+![](./images/6.png)
 
 These callbacks make interactions with users much cleaner than if you
 tried to shoehorn them into the sequential method. Let’s say you wanted
